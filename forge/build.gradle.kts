@@ -18,6 +18,7 @@ architectury {
 }
 
 loom {
+    accessWidenerPath.set(project(":common").loom.accessWidenerPath)
     forge {
         mixinConfig("cerium-common.mixins.json")
         mixinConfig("cerium-forge.mixins.json")
@@ -59,6 +60,7 @@ tasks.withType<RemapJarTask> {
     input.set(shadowTask.archiveFile)
     dependsOn(shadowTask)
     archiveClassifier.set("")
+    atAccessWideners.add("cerium.accesswidener")
 }
 
 tasks.jar {

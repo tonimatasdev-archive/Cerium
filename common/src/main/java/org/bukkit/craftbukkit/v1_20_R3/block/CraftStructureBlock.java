@@ -1,12 +1,8 @@
 package org.bukkit.craftbukkit.v1_20_R3.block;
 
 import com.google.common.base.Preconditions;
-import net.minecraft.world.level.block.EnumBlockMirror;
-import net.minecraft.world.level.block.EnumBlockRotation;
 import net.minecraft.world.level.block.Rotation;
-import net.minecraft.world.level.block.entity.BlockEntityStructure;
 import net.minecraft.world.level.block.entity.StructureBlockEntity;
-import net.minecraft.world.level.block.state.properties.BlockPropertyStructureMode;
 import net.minecraft.world.level.block.state.properties.StructureMode;
 import org.bukkit.World;
 import org.bukkit.block.Structure;

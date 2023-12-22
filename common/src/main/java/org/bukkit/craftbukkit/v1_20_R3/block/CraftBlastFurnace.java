@@ -1,7 +1,6 @@
 package org.bukkit.craftbukkit.v1_20_R3.block;
 
 import net.minecraft.world.level.block.entity.BlastFurnaceBlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityBlastFurnace;
 import org.bukkit.World;
 import org.bukkit.block.BlastFurnace;
 

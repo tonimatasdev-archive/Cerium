@@ -1,3 +1,5 @@
+import net.fabricmc.loom.task.RemapJarTask
+
 val fabricLoaderVersion: String by extra
 
 repositories {
@@ -36,4 +38,12 @@ dependencies {
 
 architectury {
     common("fabric", "forge", "neoforge")
+}
+
+loom {
+    accessWidenerPath.set(file("src/main/resources/cerium.accesswidener"))
+}
+
+tasks.withType<RemapJarTask> {
+    enabled = false
 }

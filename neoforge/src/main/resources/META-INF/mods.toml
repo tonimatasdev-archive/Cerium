@@ -18,7 +18,7 @@ displayName="Cerium"
 authors="TonimatasDEV"
 
 description='''
-Load Bukkit/Spigot plugins in Forge
+Load Bukkit/Spigot plugins in NeoForge
 '''
 
 [[dependencies.cerium]]

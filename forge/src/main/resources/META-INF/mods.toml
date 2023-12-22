@@ -4,25 +4,25 @@ license="MIT"
 issueTrackerURL="https://github.com/TonimatasDEV/Cerium/issues"
 
 [[mods]]
-modId="example"
+modId="cerium"
 version="${modVersion}"
 displayName="Cerium"
 #updateJSONURL="http://myurl.me/"
 #logoFile="icon.png"
-authors="${modAuthor}"
+authors="TonimatasDEV"
 
 description='''
-${modDescription}
+Load Bukkit/Spigot plugins in Forge
 '''
 
-[[dependencies.example]]
+[[dependencies.cerium]]
    modId="forge"
    mandatory=true
    versionRange="${forgeLoaderRange}"
    ordering="NONE"
    side="BOTH"
 
-[[dependencies.example]]
+[[dependencies.cerium]]
    modId="minecraft"
    mandatory=true
    versionRange="[${minecraftVersion}]"

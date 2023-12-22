@@ -1,9 +1,7 @@
 package org.bukkit.craftbukkit.v1_20_R3.block;
 
-import net.minecraft.world.ChestLock;
 import net.minecraft.world.LockCode;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityContainer;
 import org.bukkit.World;
 import org.bukkit.block.Container;
 import org.bukkit.craftbukkit.v1_20_R3.util.CraftChatMessage;

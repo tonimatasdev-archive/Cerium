@@ -1,8 +1,6 @@
 package org.bukkit.craftbukkit.v1_20_R3.block;
 
-import net.minecraft.world.level.block.BlockLectern;
 import net.minecraft.world.level.block.LecternBlock;
-import net.minecraft.world.level.block.entity.BlockEntityLectern;
 import net.minecraft.world.level.block.entity.LecternBlockEntity;
 import org.bukkit.Material;
 import org.bukkit.World;

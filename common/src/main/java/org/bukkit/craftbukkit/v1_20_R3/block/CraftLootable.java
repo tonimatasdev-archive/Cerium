@@ -1,7 +1,6 @@
 package org.bukkit.craftbukkit.v1_20_R3.block;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.entity.BlockEntityLootable;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import org.bukkit.Bukkit;
 import org.bukkit.Nameable;

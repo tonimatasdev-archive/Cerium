@@ -13,6 +13,10 @@ architectury {
     fabric()
 }
 
+loom {
+    accessWidenerPath.set(project(":common").loom.accessWidenerPath)
+}
+
 val minecraftVersion: String by extra
 val fabricApiVersion: String by extra
 val fabricLoaderVersion: String by extra
@@ -53,6 +57,7 @@ tasks.withType<ShadowJar> {
 
 tasks.withType<RemapJarTask> {
     val shadowTask = tasks.shadowJar.get()
+    injectAccessWidener = true
     input.set(shadowTask.archiveFile)
     dependsOn(shadowTask)
     archiveClassifier.set("")

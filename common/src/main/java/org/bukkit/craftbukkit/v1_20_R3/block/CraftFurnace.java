@@ -1,12 +1,9 @@
 package org.bukkit.craftbukkit.v1_20_R3.block;
 
 import com.google.common.collect.ImmutableMap;
-import java.util.Map;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.BlockFurnace;
 import net.minecraft.world.level.block.FurnaceBlock;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityFurnace;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.block.Furnace;
@@ -15,6 +12,8 @@ import org.bukkit.craftbukkit.v1_20_R3.util.CraftNamespacedKey;
 import org.bukkit.inventory.CookingRecipe;
 import org.bukkit.inventory.FurnaceInventory;
 import org.bukkit.inventory.Recipe;
+
+import java.util.Map;
 
 public abstract class CraftFurnace<T extends AbstractFurnaceBlockEntity> extends CraftContainer<T> implements Furnace {
 

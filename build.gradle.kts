@@ -14,12 +14,10 @@ architectury {
     minecraft = minecraftVersion
 }
 
+base.archivesName.set("Cerium")
+
 subprojects {
     apply(plugin = "dev.architectury.loom")
-
-    base {
-        archivesName.set("Cerium" + project.name)
-    }
 
     configure<LoomGradleExtensionAPI> {
         silentMojangMappingsLicense()

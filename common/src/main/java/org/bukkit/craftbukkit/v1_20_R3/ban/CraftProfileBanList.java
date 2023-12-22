@@ -132,7 +132,7 @@ public class CraftProfileBanList implements ProfileBanList {
             return null;
         }
 
-        UserBanListEntry entry = new GameProfileBanEntry(profile, new Date(),
+        UserBanListEntry entry = new UserBanListEntry(profile, new Date(),
                 (source == null || source.isBlank()) ? null : source, expires,
                 (reason == null || reason.isBlank()) ? null : reason);
 
