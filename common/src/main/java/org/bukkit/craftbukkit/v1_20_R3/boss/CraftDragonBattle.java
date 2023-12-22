@@ -1,14 +1,10 @@
 package org.bukkit.craftbukkit.v1_20_R3.boss;
 
 import com.google.common.base.Preconditions;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.stream.Collectors;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.block.state.pattern.ShapeDetector;
-import net.minecraft.world.level.dimension.end.EnderDragonBattle;
-import net.minecraft.world.level.dimension.end.EnumDragonRespawn;
+import net.minecraft.world.level.block.state.pattern.BlockPattern;
+import net.minecraft.world.level.dimension.end.DragonRespawnAnimation;
+import net.minecraft.world.level.dimension.end.EndDragonFight;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.boss.BossBar;
@@ -19,11 +15,16 @@ import org.bukkit.craftbukkit.v1_20_R3.util.CraftLocation;
 import org.bukkit.entity.EnderCrystal;
 import org.bukkit.entity.EnderDragon;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.stream.Collectors;
+
 public class CraftDragonBattle implements DragonBattle {
 
-    private final EnderDragonBattle handle;
+    private final EndDragonFight handle;
 
-    public CraftDragonBattle(EnderDragonBattle handle) {
+    public CraftDragonBattle(EndDragonFight handle) {
         this.handle = handle;
     }
 
@@ -72,7 +73,7 @@ public class CraftDragonBattle implements DragonBattle {
         if (hasBeenPreviouslyKilled() && getRespawnPhase() == RespawnPhase.NONE) {
             // Copy from EnderDragonBattle#tryRespawn for generate exit portal if not exists
             if (this.handle.portalLocation == null) {
-                ShapeDetector.ShapeDetectorCollection shapedetector_shapedetectorcollection = this.handle.findExitPortal();
+                BlockPattern.BlockPatternMatch shapedetector_shapedetectorcollection = this.handle.findExitPortal();
                 if (shapedetector_shapedetectorcollection == null) {
                     this.handle.spawnExitPortal(true);
                 }
@@ -125,11 +126,11 @@ public class CraftDragonBattle implements DragonBattle {
         return obj instanceof CraftDragonBattle && ((CraftDragonBattle) obj).handle == this.handle;
     }
 
-    private RespawnPhase toBukkitRespawnPhase(EnumDragonRespawn phase) {
+    private RespawnPhase toBukkitRespawnPhase(DragonRespawnAnimation phase) {
         return (phase != null) ? RespawnPhase.values()[phase.ordinal()] : RespawnPhase.NONE;
     }
 
-    private EnumDragonRespawn toNMSRespawnPhase(RespawnPhase phase) {
-        return (phase != RespawnPhase.NONE) ? EnumDragonRespawn.values()[phase.ordinal()] : null;
+    private DragonRespawnAnimation toNMSRespawnPhase(RespawnPhase phase) {
+        return (phase != RespawnPhase.NONE) ? DragonRespawnAnimation.values()[phase.ordinal()] : null;
     }
 }
