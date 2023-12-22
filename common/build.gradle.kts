@@ -30,6 +30,8 @@ dependencies {
     include("org.xerial:sqlite-jdbc:3.42.0.1")
     implementation("com.mysql:mysql-connector-j:8.2.0")
     include("com.mysql:mysql-connector-j:8.2.0")
+    implementation("com.google.code.findbugs:jsr305:3.0.2")
+    include("com.google.code.findbugs:jsr305:3.0.2")
 }
 
 architectury {

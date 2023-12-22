@@ -2,7 +2,7 @@ package org.bukkit.craftbukkit.v1_20_R3.advancement;
 
 import net.minecraft.advancements.DisplayInfo;
 import org.bukkit.advancement.AdvancementDisplayType;
-import org.bukkit.craftbukkit.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_20_R3.inventory.CraftItemStack;
 import org.bukkit.craftbukkit.v1_20_R3.util.CraftChatMessage;
 import org.bukkit.inventory.ItemStack;
 
