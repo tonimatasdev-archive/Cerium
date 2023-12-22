@@ -1,7 +1,7 @@
 package org.bukkit.craftbukkit.v1_20_R3.command;
 
 import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.network.chat.IChatBaseComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import org.bukkit.block.Block;
 import org.bukkit.command.BlockCommandSender;
@@ -28,7 +28,7 @@ public class CraftBlockCommandSender extends ServerCommandSender implements Bloc
 
     @Override
     public void sendMessage(String message) {
-        for (IChatBaseComponent component : CraftChatMessage.fromString(message)) {
+        for (Component component : CraftChatMessage.fromString(message)) {
             block.source.sendSystemMessage(component);
         }
     }
