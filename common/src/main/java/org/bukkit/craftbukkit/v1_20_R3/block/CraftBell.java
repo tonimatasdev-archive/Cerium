@@ -2,19 +2,19 @@ package org.bukkit.craftbukkit.v1_20_R3.block;
 
 import com.google.common.base.Preconditions;
 import net.minecraft.core.Direction;
-import net.minecraft.world.level.block.BlockBell;
+import net.minecraft.world.level.block.BellBlock;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BellBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityBell;
 import org.bukkit.World;
 import org.bukkit.block.Bell;
 import org.bukkit.block.BlockFace;
 import org.bukkit.craftbukkit.v1_20_R3.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 
-public class CraftBell extends CraftBlockEntityState<BlockEntityBell> implements Bell {
+public class CraftBell extends CraftBlockEntityState<BellBlockEntity> implements Bell {
 
-    public CraftBell(World world, BlockEntityBell tileEntity) {
+    public CraftBell(World world, BellBlockEntity tileEntity) {
         super(world, tileEntity);
     }
 
@@ -34,7 +34,7 @@ public class CraftBell extends CraftBlockEntityState<BlockEntityBell> implements
         net.minecraft.world.entity.Entity nmsEntity = (entity != null) ? ((CraftEntity) entity).getHandle() : null;
         Direction enumDirection = CraftBlock.blockFaceToNotch(direction);
 
-        return ((BlockBell) Blocks.BELL).attemptToRing(nmsEntity, world.getHandle(), getPosition(), enumDirection);
+        return ((BellBlock) Blocks.BELL).attemptToRing(nmsEntity, world.getHandle(), getPosition(), enumDirection);
     }
 
     @Override

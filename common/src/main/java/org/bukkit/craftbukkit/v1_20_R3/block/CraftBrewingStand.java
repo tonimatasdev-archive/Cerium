@@ -1,14 +1,15 @@
 package org.bukkit.craftbukkit.v1_20_R3.block;
 
 import net.minecraft.world.level.block.entity.BlockEntityBrewingStand;
+import net.minecraft.world.level.block.entity.BrewingStandBlockEntity;
 import org.bukkit.World;
 import org.bukkit.block.BrewingStand;
 import org.bukkit.craftbukkit.v1_20_R3.inventory.CraftInventoryBrewer;
 import org.bukkit.inventory.BrewerInventory;
 
-public class CraftBrewingStand extends CraftContainer<BlockEntityBrewingStand> implements BrewingStand {
+public class CraftBrewingStand extends CraftContainer<BrewingStandBlockEntity> implements BrewingStand {
 
-    public CraftBrewingStand(World world, BlockEntityBrewingStand tileEntity) {
+    public CraftBrewingStand(World world, BrewingStandBlockEntity tileEntity) {
         super(world, tileEntity);
     }
 

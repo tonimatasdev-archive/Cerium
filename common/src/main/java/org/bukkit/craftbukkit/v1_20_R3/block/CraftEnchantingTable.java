@@ -1,13 +1,13 @@
 package org.bukkit.craftbukkit.v1_20_R3.block;
 
-import net.minecraft.world.level.block.entity.BlockEntityEnchantTable;
+import net.minecraft.world.level.block.entity.EnchantmentTableBlockEntity;
 import org.bukkit.World;
 import org.bukkit.block.EnchantingTable;
 import org.bukkit.craftbukkit.v1_20_R3.util.CraftChatMessage;
 
-public class CraftEnchantingTable extends CraftBlockEntityState<BlockEntityEnchantTable> implements EnchantingTable {
+public class CraftEnchantingTable extends CraftBlockEntityState<EnchantmentTableBlockEntity> implements EnchantingTable {
 
-    public CraftEnchantingTable(World world, BlockEntityEnchantTable tileEntity) {
+    public CraftEnchantingTable(World world, EnchantmentTableBlockEntity tileEntity) {
         super(world, tileEntity);
     }
 
@@ -17,7 +17,7 @@ public class CraftEnchantingTable extends CraftBlockEntityState<BlockEntityEncha
 
     @Override
     public String getCustomName() {
-        BlockEntityEnchantTable enchant = this.getSnapshot();
+        EnchantmentTableBlockEntity enchant = this.getSnapshot();
         return enchant.hasCustomName() ? CraftChatMessage.fromComponent(enchant.getCustomName()) : null;
     }
 
@@ -27,7 +27,7 @@ public class CraftEnchantingTable extends CraftBlockEntityState<BlockEntityEncha
     }
 
     @Override
-    public void applyTo(BlockEntityEnchantTable enchantingTable) {
+    public void applyTo(EnchantmentTableBlockEntity enchantingTable) {
         super.applyTo(enchantingTable);
 
         if (!this.getSnapshot().hasCustomName()) {

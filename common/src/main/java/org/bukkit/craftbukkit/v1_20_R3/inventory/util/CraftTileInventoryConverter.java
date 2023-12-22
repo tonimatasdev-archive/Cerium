@@ -1,6 +1,7 @@
 package org.bukkit.craftbukkit.v1_20_R3.inventory.util;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.Container;
 import net.minecraft.world.IInventory;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.CrafterBlockEntity;
@@ -84,7 +85,7 @@ public abstract class CraftTileInventoryConverter implements CraftInventoryCreat
         }
 
         @Override
-        public Inventory getInventory(IInventory tileEntity) {
+        public Inventory getInventory(Container tileEntity) {
             return new CraftInventoryBrewer(tileEntity);
         }
     }

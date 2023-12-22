@@ -2,6 +2,7 @@ package org.bukkit.craftbukkit.v1_20_R3.block;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntityLootable;
+import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import org.bukkit.Bukkit;
 import org.bukkit.Nameable;
 import org.bukkit.World;
@@ -9,7 +10,7 @@ import org.bukkit.craftbukkit.v1_20_R3.util.CraftNamespacedKey;
 import org.bukkit.loot.LootTable;
 import org.bukkit.loot.Lootable;
 
-public abstract class CraftLootable<T extends BlockEntityLootable> extends CraftContainer<T> implements Nameable, Lootable {
+public abstract class CraftLootable<T extends RandomizableContainerBlockEntity> extends CraftContainer<T> implements Nameable, Lootable {
 
     public CraftLootable(World world, T tileEntity) {
         super(world, tileEntity);

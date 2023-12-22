@@ -15,7 +15,7 @@ public final class CraftWeatheringCopperGrate extends org.bukkit.craftbukkit.v1_
 
     // org.bukkit.craftbukkit.v1_20_R3.block.data.CraftWaterlogged
 
-    private static final net.minecraft.world.level.block.state.properties.BlockStateBoolean WATERLOGGED = getBoolean(net.minecraft.world.level.block.WeatheringCopperGrateBlock.class, "waterlogged");
+    private static final net.minecraft.world.level.block.state.properties.BooleanProperty WATERLOGGED = getBoolean(net.minecraft.world.level.block.WeatheringCopperGrateBlock.class, "waterlogged");
 
     @Override
     public boolean isWaterlogged() {

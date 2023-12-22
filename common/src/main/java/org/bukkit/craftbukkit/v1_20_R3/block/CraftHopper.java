@@ -1,14 +1,14 @@
 package org.bukkit.craftbukkit.v1_20_R3.block;
 
-import net.minecraft.world.level.block.entity.BlockEntityHopper;
+import net.minecraft.world.level.block.entity.HopperBlockEntity;
 import org.bukkit.World;
 import org.bukkit.block.Hopper;
 import org.bukkit.craftbukkit.v1_20_R3.inventory.CraftInventory;
 import org.bukkit.inventory.Inventory;
 
-public class CraftHopper extends CraftLootable<BlockEntityHopper> implements Hopper {
+public class CraftHopper extends CraftLootable<HopperBlockEntity> implements Hopper {
 
-    public CraftHopper(World world, BlockEntityHopper tileEntity) {
+    public CraftHopper(World world, HopperBlockEntity tileEntity) {
         super(world, tileEntity);
     }
 

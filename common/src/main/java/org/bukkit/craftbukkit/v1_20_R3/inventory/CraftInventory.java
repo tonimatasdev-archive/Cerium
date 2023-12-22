@@ -1,28 +1,12 @@
 package org.bukkit.craftbukkit.v1_20_R3.inventory;
 
 import com.google.common.base.Preconditions;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ListIterator;
-import net.minecraft.world.IInventory;
-import net.minecraft.world.entity.player.PlayerInventory;
-import net.minecraft.world.inventory.InventoryCrafting;
-import net.minecraft.world.inventory.InventoryEnderChest;
-import net.minecraft.world.inventory.InventoryMerchant;
-import net.minecraft.world.level.block.BlockComposter;
-import net.minecraft.world.level.block.entity.ChiseledBookShelfBlockEntity;
-import net.minecraft.world.level.block.entity.CrafterBlockEntity;
-import net.minecraft.world.level.block.entity.IHopper;
-import net.minecraft.world.level.block.entity.BlockEntityBarrel;
-import net.minecraft.world.level.block.entity.BlockEntityBlastFurnace;
-import net.minecraft.world.level.block.entity.BlockEntityBrewingStand;
-import net.minecraft.world.level.block.entity.BlockEntityDispenser;
-import net.minecraft.world.level.block.entity.BlockEntityDropper;
-import net.minecraft.world.level.block.entity.BlockEntityFurnace;
-import net.minecraft.world.level.block.entity.BlockEntityJukeBox;
-import net.minecraft.world.level.block.entity.BlockEntityLectern;
-import net.minecraft.world.level.block.entity.BlockEntityShulkerBox;
-import net.minecraft.world.level.block.entity.BlockEntitySmoker;
+import net.minecraft.world.Container;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.inventory.MerchantContainer;
+import net.minecraft.world.inventory.PlayerEnderChestContainer;
+import net.minecraft.world.level.block.ComposterBlock;
+import net.minecraft.world.level.block.entity.*;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_20_R3.util.CraftLegacy;
@@ -32,14 +16,18 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
-public class CraftInventory implements Inventory {
-    protected final IInventory inventory;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ListIterator;
 
-    public CraftInventory(IInventory inventory) {
+public class CraftInventory implements Inventory {
+    protected final Container inventory;
+
+    public CraftInventory(Container inventory) {
         this.inventory = inventory;
     }
 
-    public IInventory getInventory() {
+    public Container getInventory() {
         return inventory;
     }
 
@@ -454,33 +442,33 @@ public class CraftInventory implements Inventory {
     @Override
     public InventoryType getType() {
         // Thanks to Droppers extending Dispensers, Blast Furnaces & Smokers extending Furnace, order is important.
-        if (inventory instanceof InventoryCrafting) {
+        if (inventory instanceof CraftingContainer) {
             if (inventory instanceof CrafterBlockEntity) {
                 return InventoryType.CRAFTER;
             } else {
                 return inventory.getContainerSize() >= 9 ? InventoryType.WORKBENCH : InventoryType.CRAFTING;
             }
-        } else if (inventory instanceof PlayerInventory) {
+        } else if (inventory instanceof net.minecraft.world.entity.player.Inventory) {
             return InventoryType.PLAYER;
-        } else if (inventory instanceof BlockEntityDropper) {
+        } else if (inventory instanceof DropperBlockEntity) {
             return InventoryType.DROPPER;
-        } else if (inventory instanceof BlockEntityDispenser) {
+        } else if (inventory instanceof DispenserBlockEntity) {
             return InventoryType.DISPENSER;
-        } else if (inventory instanceof BlockEntityBlastFurnace) {
+        } else if (inventory instanceof BlastFurnaceBlockEntity) {
             return InventoryType.BLAST_FURNACE;
-        } else if (inventory instanceof BlockEntitySmoker) {
+        } else if (inventory instanceof SmokerBlockEntity) {
             return InventoryType.SMOKER;
-        } else if (inventory instanceof BlockEntityFurnace) {
+        } else if (inventory instanceof AbstractFurnaceBlockEntity) {
             return InventoryType.FURNACE;
         } else if (this instanceof CraftInventoryEnchanting) {
             return InventoryType.ENCHANTING;
-        } else if (inventory instanceof BlockEntityBrewingStand) {
+        } else if (inventory instanceof BrewingStandBlockEntity) {
             return InventoryType.BREWING;
         } else if (inventory instanceof CraftInventoryCustom.MinecraftInventory) {
             return ((CraftInventoryCustom.MinecraftInventory) inventory).getType();
-        } else if (inventory instanceof InventoryEnderChest) {
+        } else if (inventory instanceof PlayerEnderChestContainer) {
             return InventoryType.ENDER_CHEST;
-        } else if (inventory instanceof InventoryMerchant) {
+        } else if (inventory instanceof MerchantContainer) {
             return InventoryType.MERCHANT;
         } else if (this instanceof CraftInventoryBeacon) {
             return InventoryType.BEACON;
@@ -488,13 +476,13 @@ public class CraftInventory implements Inventory {
             return InventoryType.ANVIL;
         } else if (this instanceof CraftInventorySmithing) {
             return InventoryType.SMITHING;
-        } else if (inventory instanceof IHopper) {
+        } else if (inventory instanceof net.minecraft.world.level.block.entity.Hopper) {
             return InventoryType.HOPPER;
-        } else if (inventory instanceof BlockEntityShulkerBox) {
+        } else if (inventory instanceof ShulkerBoxBlockEntity) {
             return InventoryType.SHULKER_BOX;
-        } else if (inventory instanceof BlockEntityBarrel) {
+        } else if (inventory instanceof BarrelBlockEntity) {
             return InventoryType.BARREL;
-        } else if (inventory instanceof BlockEntityLectern.LecternInventory) {
+        } else if (inventory instanceof LecternBlockEntity.LecternInventory) {
             return InventoryType.LECTERN;
         } else if (inventory instanceof ChiseledBookShelfBlockEntity) {
             return InventoryType.CHISELED_BOOKSHELF;
@@ -506,9 +494,9 @@ public class CraftInventory implements Inventory {
             return InventoryType.GRINDSTONE;
         } else if (this instanceof CraftInventoryStonecutter) {
             return InventoryType.STONECUTTER;
-        } else if (inventory instanceof BlockComposter.ContainerEmpty || inventory instanceof BlockComposter.ContainerInput || inventory instanceof BlockComposter.ContainerOutput) {
+        } else if (inventory instanceof ComposterBlock.EmptyContainer || inventory instanceof ComposterBlock.InputContainer || inventory instanceof ComposterBlock.OutputContainer) {
             return InventoryType.COMPOSTER;
-        } else if (inventory instanceof BlockEntityJukeBox) {
+        } else if (inventory instanceof JukeboxBlockEntity) {
             return InventoryType.JUKEBOX;
         } else {
             return InventoryType.CHEST;

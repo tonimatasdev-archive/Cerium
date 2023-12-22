@@ -15,7 +15,7 @@ public final class CraftTrialSpawner extends org.bukkit.craftbukkit.v1_20_R3.blo
 
     // org.bukkit.craftbukkit.v1_20_R3.block.data.type.CraftTrialSpawner
 
-    private static final net.minecraft.world.level.block.state.properties.BlockStateEnum<?> TRIAL_SPAWNER_STATE = getEnum(net.minecraft.world.level.block.TrialSpawnerBlock.class, "trial_spawner_state");
+    private static final net.minecraft.world.level.block.state.properties.EnumProperty<?> TRIAL_SPAWNER_STATE = getEnum(net.minecraft.world.level.block.TrialSpawnerBlock.class, "trial_spawner_state");
 
     @Override
     public org.bukkit.block.data.type.TrialSpawner.State getTrialSpawnerState() {

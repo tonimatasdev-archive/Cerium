@@ -2,15 +2,11 @@ package org.bukkit.craftbukkit.v1_20_R3.block;
 
 import com.google.common.base.Preconditions;
 import com.mojang.authlib.GameProfile;
-import net.minecraft.SystemUtils;
+import net.minecraft.Util;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.level.block.entity.BlockEntitySkull;
-import org.bukkit.Bukkit;
-import org.bukkit.NamespacedKey;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.SkullType;
-import org.bukkit.World;
+import net.minecraft.world.level.block.entity.SkullBlockEntity;
+import org.bukkit.*;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Skull;
 import org.bukkit.block.data.BlockData;
@@ -22,12 +18,12 @@ import org.bukkit.craftbukkit.v1_20_R3.util.CraftNamespacedKey;
 import org.bukkit.profile.PlayerProfile;
 import org.jetbrains.annotations.Nullable;
 
-public class CraftSkull extends CraftBlockEntityState<BlockEntitySkull> implements Skull {
+public class CraftSkull extends CraftBlockEntityState<SkullBlockEntity> implements Skull {
 
     private static final int MAX_OWNER_LENGTH = 16;
     private GameProfile profile;
 
-    public CraftSkull(World world, BlockEntitySkull tileEntity) {
+    public CraftSkull(World world, SkullBlockEntity tileEntity) {
         super(world, tileEntity);
     }
 
@@ -36,7 +32,7 @@ public class CraftSkull extends CraftBlockEntityState<BlockEntitySkull> implemen
     }
 
     @Override
-    public void load(BlockEntitySkull skull) {
+    public void load(SkullBlockEntity skull) {
         super.load(skull);
 
         profile = skull.owner;
@@ -88,7 +84,7 @@ public class CraftSkull extends CraftBlockEntityState<BlockEntitySkull> implemen
     @Override
     public OfflinePlayer getOwningPlayer() {
         if (profile != null) {
-            if (!profile.getId().equals(SystemUtils.NIL_UUID)) {
+            if (!profile.getId().equals(Util.NIL_UUID)) {
                 return Bukkit.getOfflinePlayer(profile.getId());
             }
 
@@ -196,7 +192,7 @@ public class CraftSkull extends CraftBlockEntityState<BlockEntitySkull> implemen
     }
 
     @Override
-    public void applyTo(BlockEntitySkull skull) {
+    public void applyTo(SkullBlockEntity skull) {
         super.applyTo(skull);
 
         if (getSkullType() == SkullType.PLAYER) {

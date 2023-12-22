@@ -3,9 +3,9 @@ package org.bukkit.craftbukkit.v1_20_R3.block;
 import com.google.common.base.Preconditions;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.level.GeneratorAccess;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.entity.*;
-import net.minecraft.world.level.block.piston.BlockEntityPiston;
+import net.minecraft.world.level.block.piston.PistonMovingBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -105,7 +105,7 @@ public final class CraftBlockStates {
                         Material.SPRUCE_WALL_SIGN,
                         Material.WARPED_SIGN,
                         Material.WARPED_WALL_SIGN
-                ), CraftSign.class, CraftSign::new, BlockEntitySign::new
+                ), CraftSign.class, CraftSign::new, SignBlockEntity::new
         );
 
         register(
@@ -196,7 +196,7 @@ public final class CraftBlockStates {
                         Material.WHITE_WALL_BANNER,
                         Material.YELLOW_BANNER,
                         Material.YELLOW_WALL_BANNER
-                ), CraftBanner.class, CraftBanner::new, BlockEntityBanner::new
+                ), CraftBanner.class, CraftBanner::new, BannerBlockEntity::new
         );
 
         register(
@@ -218,7 +218,7 @@ public final class CraftBlockStates {
                         Material.GREEN_SHULKER_BOX,
                         Material.RED_SHULKER_BOX,
                         Material.BLACK_SHULKER_BOX
-                ), CraftShulkerBox.class, CraftShulkerBox::new, BlockEntityShulkerBox::new
+                ), CraftShulkerBox.class, CraftShulkerBox::new, ShulkerBoxBlockEntity::new
         );
 
         register(
@@ -239,56 +239,56 @@ public final class CraftBlockStates {
                         Material.RED_BED,
                         Material.WHITE_BED,
                         Material.YELLOW_BED
-                ), CraftBed.class, CraftBed::new, BlockEntityBed::new
+                ), CraftBed.class, CraftBed::new, BedBlockEntity::new
         );
 
         register(
                 Arrays.asList(
                         Material.BEEHIVE,
                         Material.BEE_NEST
-                ), CraftBeehive.class, CraftBeehive::new, BlockEntityBeehive::new
+                ), CraftBeehive.class, CraftBeehive::new, BeehiveBlockEntity::new
         );
 
         register(
                 Arrays.asList(
                         Material.CAMPFIRE,
                         Material.SOUL_CAMPFIRE
-                ), CraftCampfire.class, CraftCampfire::new, BlockEntityCampfire::new
+                ), CraftCampfire.class, CraftCampfire::new, CampfireBlockEntity::new
         );
 
-        register(Material.BARREL, CraftBarrel.class, CraftBarrel::new, BlockEntityBarrel::new);
-        register(Material.BEACON, CraftBeacon.class, CraftBeacon::new, BlockEntityBeacon::new);
-        register(Material.BELL, CraftBell.class, CraftBell::new, BlockEntityBell::new);
-        register(Material.BLAST_FURNACE, CraftBlastFurnace.class, CraftBlastFurnace::new, BlockEntityBlastFurnace::new);
-        register(Material.BREWING_STAND, CraftBrewingStand.class, CraftBrewingStand::new, BlockEntityBrewingStand::new);
-        register(Material.CHEST, CraftChest.class, CraftChest::new, BlockEntityChest::new);
+        register(Material.BARREL, CraftBarrel.class, CraftBarrel::new, BarrelBlockEntity::new);
+        register(Material.BEACON, CraftBeacon.class, CraftBeacon::new, BeaconBlockEntity::new);
+        register(Material.BELL, CraftBell.class, CraftBell::new, BellBlockEntity::new);
+        register(Material.BLAST_FURNACE, CraftBlastFurnace.class, CraftBlastFurnace::new, BlastFurnaceBlockEntity::new);
+        register(Material.BREWING_STAND, CraftBrewingStand.class, CraftBrewingStand::new, BrewingStandBlockEntity::new);
+        register(Material.CHEST, CraftChest.class, CraftChest::new, ChestBlockEntity::new);
         register(Material.CHISELED_BOOKSHELF, CraftChiseledBookshelf.class, CraftChiseledBookshelf::new, ChiseledBookShelfBlockEntity::new);
-        register(Material.COMPARATOR, CraftComparator.class, CraftComparator::new, BlockEntityComparator::new);
-        register(Material.CONDUIT, CraftConduit.class, CraftConduit::new, BlockEntityConduit::new);
-        register(Material.DAYLIGHT_DETECTOR, CraftDaylightDetector.class, CraftDaylightDetector::new, BlockEntityLightDetector::new);
+        register(Material.COMPARATOR, CraftComparator.class, CraftComparator::new, ComparatorBlockEntity::new);
+        register(Material.CONDUIT, CraftConduit.class, CraftConduit::new, ConduitBlockEntity::new);
+        register(Material.DAYLIGHT_DETECTOR, CraftDaylightDetector.class, CraftDaylightDetector::new, DaylightDetectorBlockEntity::new);
         register(Material.DECORATED_POT, CraftDecoratedPot.class, CraftDecoratedPot::new, DecoratedPotBlockEntity::new);
-        register(Material.DISPENSER, CraftDispenser.class, CraftDispenser::new, BlockEntityDispenser::new);
-        register(Material.DROPPER, CraftDropper.class, CraftDropper::new, BlockEntityDropper::new);
-        register(Material.ENCHANTING_TABLE, CraftEnchantingTable.class, CraftEnchantingTable::new, BlockEntityEnchantTable::new);
-        register(Material.ENDER_CHEST, CraftEnderChest.class, CraftEnderChest::new, BlockEntityEnderChest::new);
-        register(Material.END_GATEWAY, CraftEndGateway.class, CraftEndGateway::new, BlockEntityEndGateway::new);
-        register(Material.END_PORTAL, CraftEndPortal.class, CraftEndPortal::new, BlockEntityEnderPortal::new);
-        register(Material.FURNACE, CraftFurnaceFurnace.class, CraftFurnaceFurnace::new, BlockEntityFurnaceFurnace::new);
-        register(Material.HOPPER, CraftHopper.class, CraftHopper::new, BlockEntityHopper::new);
-        register(Material.JIGSAW, CraftJigsaw.class, CraftJigsaw::new, BlockEntityJigsaw::new);
-        register(Material.JUKEBOX, CraftJukebox.class, CraftJukebox::new, BlockEntityJukeBox::new);
-        register(Material.LECTERN, CraftLectern.class, CraftLectern::new, BlockEntityLectern::new);
-        register(Material.MOVING_PISTON, CraftMovingPiston.class, CraftMovingPiston::new, BlockEntityPiston::new);
+        register(Material.DISPENSER, CraftDispenser.class, CraftDispenser::new, DispenserBlockEntity::new);
+        register(Material.DROPPER, CraftDropper.class, CraftDropper::new, DropperBlockEntity::new);
+        register(Material.ENCHANTING_TABLE, CraftEnchantingTable.class, CraftEnchantingTable::new, EnchantmentTableBlockEntity::new);
+        register(Material.ENDER_CHEST, CraftEnderChest.class, CraftEnderChest::new, EnderChestBlockEntity::new);
+        register(Material.END_GATEWAY, CraftEndGateway.class, CraftEndGateway::new, TheEndGatewayBlockEntity::new);
+        register(Material.END_PORTAL, CraftEndPortal.class, CraftEndPortal::new, TheEndPortalBlockEntity::new);
+        register(Material.FURNACE, CraftFurnaceFurnace.class, CraftFurnaceFurnace::new, FurnaceBlockEntity::new);
+        register(Material.HOPPER, CraftHopper.class, CraftHopper::new, HopperBlockEntity::new);
+        register(Material.JIGSAW, CraftJigsaw.class, CraftJigsaw::new, JigsawBlockEntity::new);
+        register(Material.JUKEBOX, CraftJukebox.class, CraftJukebox::new, JukeboxBlockEntity::new);
+        register(Material.LECTERN, CraftLectern.class, CraftLectern::new, LecternBlockEntity::new);
+        register(Material.MOVING_PISTON, CraftMovingPiston.class, CraftMovingPiston::new, PistonMovingBlockEntity::new);
         register(Material.SCULK_CATALYST, CraftSculkCatalyst.class, CraftSculkCatalyst::new, SculkCatalystBlockEntity::new);
         register(Material.CALIBRATED_SCULK_SENSOR, CraftCalibratedSculkSensor.class, CraftCalibratedSculkSensor::new, CalibratedSculkSensorBlockEntity::new);
         register(Material.SCULK_SENSOR, CraftSculkSensor.class, CraftSculkSensor::new, SculkSensorBlockEntity::new);
         register(Material.SCULK_SHRIEKER, CraftSculkShrieker.class, CraftSculkShrieker::new, SculkShriekerBlockEntity::new);
-        register(Material.SMOKER, CraftSmoker.class, CraftSmoker::new, BlockEntitySmoker::new);
-        register(Material.SPAWNER, CraftCreatureSpawner.class, CraftCreatureSpawner::new, BlockEntityMobSpawner::new);
-        register(Material.STRUCTURE_BLOCK, CraftStructureBlock.class, CraftStructureBlock::new, BlockEntityStructure::new);
+        register(Material.SMOKER, CraftSmoker.class, CraftSmoker::new, SmokerBlockEntity::new);
+        register(Material.SPAWNER, CraftCreatureSpawner.class, CraftCreatureSpawner::new, SpawnerBlockEntity::new);
+        register(Material.STRUCTURE_BLOCK, CraftStructureBlock.class, CraftStructureBlock::new, StructureBlockEntity::new);
         register(Material.SUSPICIOUS_SAND, CraftSuspiciousSand.class, CraftSuspiciousSand::new, BrushableBlockEntity::new);
         register(Material.SUSPICIOUS_GRAVEL, CraftBrushableBlock.class, CraftBrushableBlock::new, BrushableBlockEntity::new);
-        register(Material.TRAPPED_CHEST, CraftChest.class, CraftChest::new, BlockEntityChestTrapped::new);
+        register(Material.TRAPPED_CHEST, CraftChest.class, CraftChest::new, TrappedChestBlockEntity::new);
         register(Material.CRAFTER, CraftCrafter.class, CraftCrafter::new, CrafterBlockEntity::new);
         register(Material.TRIAL_SPAWNER, CraftTrialSpawner.class, CraftTrialSpawner::new, TrialSpawnerBlockEntity::new);
     }
@@ -301,7 +301,7 @@ public final class CraftBlockStates {
             Material blockType,
             Class<B> blockStateType,
             BiFunction<World, T, B> blockStateConstructor,
-            BiFunction<BlockPos, IBlockData, T> tileEntityConstructor
+            BiFunction<BlockPos, BlockState, T> tileEntityConstructor
     ) {
         register(Collections.singletonList(blockType), blockStateType, blockStateConstructor, tileEntityConstructor);
     }
@@ -310,7 +310,7 @@ public final class CraftBlockStates {
             List<Material> blockTypes,
             Class<B> blockStateType,
             BiFunction<World, T, B> blockStateConstructor,
-            BiFunction<BlockPos, IBlockData, T> tileEntityConstructor
+            BiFunction<BlockPos, BlockState, T> tileEntityConstructor
     ) {
         BlockStateFactory<B> factory = new BlockEntityStateFactory<>(blockStateType, blockStateConstructor, tileEntityConstructor);
         for (Material blockType : blockTypes) {
@@ -389,12 +389,12 @@ public final class CraftBlockStates {
     }
 
     // This ignores tile entity data.
-    public static CraftBlockState getBlockState(GeneratorAccess world, BlockPos pos) {
+    public static CraftBlockState getBlockState(LevelAccessor world, BlockPos pos) {
         return new CraftBlockState(CraftBlock.at(world, pos));
     }
 
     // This ignores tile entity data.
-    public static CraftBlockState getBlockState(GeneratorAccess world, BlockPos pos, int flag) {
+    public static CraftBlockState getBlockState(LevelAccessor world, BlockPos pos, int flag) {
         return new CraftBlockState(CraftBlock.at(world, pos), flag);
     }
 

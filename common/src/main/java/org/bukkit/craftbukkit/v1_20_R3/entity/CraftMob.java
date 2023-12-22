@@ -2,6 +2,7 @@ package org.bukkit.craftbukkit.v1_20_R3.entity;
 
 import com.google.common.base.Preconditions;
 import net.minecraft.sounds.SoundEffect;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EntityInsentient;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
@@ -14,7 +15,7 @@ import org.bukkit.entity.Mob;
 import org.bukkit.loot.LootTable;
 
 public abstract class CraftMob extends CraftLivingEntity implements Mob {
-    public CraftMob(CraftServer server, EntityInsentient entity) {
+    public CraftMob(CraftServer server, net.minecraft.world.entity.Mob entity) {
         super(server, entity);
     }
 
@@ -22,7 +23,7 @@ public abstract class CraftMob extends CraftLivingEntity implements Mob {
     public void setTarget(LivingEntity target) {
         Preconditions.checkState(!getHandle().generation, "Cannot set target during world generation");
 
-        EntityInsentient entity = getHandle();
+        net.minecraft.world.entity.Mob entity = getHandle();
         if (target == null) {
             entity.setTarget(null, null, false);
         } else if (target instanceof CraftLivingEntity) {
@@ -49,13 +50,13 @@ public abstract class CraftMob extends CraftLivingEntity implements Mob {
 
     @Override
     public Sound getAmbientSound() {
-        SoundEffect sound = getHandle().getAmbientSound0();
+        SoundEvents sound = getHandle().getAmbientSound0();
         return (sound != null) ? CraftSound.minecraftToBukkit(sound) : null;
     }
 
     @Override
-    public EntityInsentient getHandle() {
-        return (EntityInsentient) entity;
+    public net.minecraft.world.entity.Mob getHandle() {
+        return (net.minecraft.world.entity.Mob) entity;
     }
 
     @Override

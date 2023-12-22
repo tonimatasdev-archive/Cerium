@@ -15,7 +15,7 @@ public final class CraftSkull extends org.bukkit.craftbukkit.v1_20_R3.block.data
 
     // org.bukkit.craftbukkit.v1_20_R3.block.data.CraftRotatable
 
-    private static final net.minecraft.world.level.block.state.properties.BlockStateInteger ROTATION = getInteger(net.minecraft.world.level.block.BlockSkull.class, "rotation");
+    private static final net.minecraft.world.level.block.state.properties.IntegerProperty ROTATION = getInteger(net.minecraft.world.level.block.SkullBlock.class, "rotation");
 
     @Override
     public org.bukkit.block.BlockFace getRotation() {

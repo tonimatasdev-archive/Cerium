@@ -15,7 +15,7 @@ public final class CraftBarrier extends org.bukkit.craftbukkit.v1_20_R3.block.da
 
     // org.bukkit.craftbukkit.v1_20_R3.block.data.CraftWaterlogged
 
-    private static final net.minecraft.world.level.block.state.properties.BlockStateBoolean WATERLOGGED = getBoolean(net.minecraft.world.level.block.BlockBarrier.class, "waterlogged");
+    private static final net.minecraft.world.level.block.state.properties.BooleanProperty WATERLOGGED = getBoolean(net.minecraft.world.level.block.BarrierBlock.class, "waterlogged");
 
     @Override
     public boolean isWaterlogged() {

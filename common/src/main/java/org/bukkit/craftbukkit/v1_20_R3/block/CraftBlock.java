@@ -14,18 +14,27 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.BoneMealItem;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.ItemActionContext;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.EnumSkyBlock;
 import net.minecraft.world.level.GeneratorAccess;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.RayTrace;
 import net.minecraft.world.level.block.BlockRedstoneWire;
 import net.minecraft.world.level.block.BlockSapling;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.RedStoneWireBlock;
+import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.MovingObjectPosition;
 import net.minecraft.world.phys.MovingObjectPositionBlock;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.Vec3D;
+import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.phys.shapes.VoxelShapeCollision;
 import org.bukkit.Bukkit;
@@ -231,12 +240,12 @@ public class CraftBlock implements Block {
 
     @Override
     public byte getLightFromSky() {
-        return (byte) world.getBrightness(EnumSkyBlock.SKY, position);
+        return (byte) world.getBrightness(LightLayer.SKY, position);
     }
 
     @Override
     public byte getLightFromBlocks() {
-        return (byte) world.getBrightness(EnumSkyBlock.BLOCK, position);
+        return (byte) world.getBrightness(LightLayer.BLOCK, position);
     }
 
     public Block getFace(final BlockFace face) {
@@ -325,7 +334,7 @@ public class CraftBlock implements Block {
     }
 
     @Override
-    public BlockState getState() {
+    public org.bukkit.block.BlockState getState() {
         return CraftBlockStates.getBlockState(this);
     }
 
@@ -409,11 +418,11 @@ public class CraftBlock implements Block {
         return power > 0 ? power : (face == BlockFace.SELF ? isBlockIndirectlyPowered() : isBlockFaceIndirectlyPowered(face)) ? 15 : 0;
     }
 
-    private static int getPower(int i, IBlockData iblockdata) {
+    private static int getPower(int i, BlockState iblockdata) {
         if (!iblockdata.is(Blocks.REDSTONE_WIRE)) {
             return i;
         } else {
-            int j = iblockdata.getValue(BlockRedstoneWire.POWER);
+            int j = iblockdata.getValue(RedStoneWireBlock.POWER);
 
             return j > i ? j : i;
         }
@@ -467,7 +476,7 @@ public class CraftBlock implements Block {
         Direction direction = blockFaceToNotch(face);
         BlockFertilizeEvent event = null;
         ServerLevel world = getCraftWorld().getHandle();
-        ItemActionContext context = new ItemActionContext(world, null, InteractionHand.MAIN_HAND, Items.BONE_MEAL.getDefaultInstance(), new MovingObjectPositionBlock(Vec3D.ZERO, direction, getPosition(), false));
+        UseOnContext context = new UseOnContext(world, null, InteractionHand.MAIN_HAND, Items.BONE_MEAL.getDefaultInstance(), new BlockHitResult(Vec3.ZERO, direction, getPosition(), false));
 
         // SPIGOT-6895: Call StructureGrowEvent and BlockFertilizeEvent
         world.captureTreeGeneration = true;
@@ -475,8 +484,8 @@ public class CraftBlock implements Block {
         world.captureTreeGeneration = false;
 
         if (world.capturedBlockStates.size() > 0) {
-            TreeType treeType = BlockSapling.treeType;
-            BlockSapling.treeType = null;
+            TreeType treeType = SaplingBlock.treeType;
+            SaplingBlock.treeType = null;
             List<BlockState> blocks = new ArrayList<>(world.capturedBlockStates.values());
             world.capturedBlockStates.clear();
             StructureGrowEvent structureEvent = null;
@@ -578,10 +587,10 @@ public class CraftBlock implements Block {
         }
 
         Vector dir = direction.clone().normalize().multiply(maxDistance);
-        Vec3D startPos = CraftLocation.toVec3D(start);
-        Vec3D endPos = startPos.add(dir.getX(), dir.getY(), dir.getZ());
+        Vec3 startPos = CraftLocation.toVec3D(start);
+        Vec3 endPos = startPos.add(dir.getX(), dir.getY(), dir.getZ());
 
-        MovingObjectPosition nmsHitResult = world.clip(new RayTrace(startPos, endPos, RayTrace.BlockCollisionOption.OUTLINE, CraftFluidCollisionMode.toNMS(fluidCollisionMode), VoxelShapeCollision.empty()), position);
+        HitResult nmsHitResult = world.clip(new ClipContext(startPos, endPos, ClipContext.Block.OUTLINE, CraftFluidCollisionMode.toNMS(fluidCollisionMode), CollisionContext.empty()), position);
         return CraftRayTraceResult.fromNMS(this.getWorld(), nmsHitResult);
     }
 

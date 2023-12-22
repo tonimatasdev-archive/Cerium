@@ -1,11 +1,11 @@
 package org.bukkit.craftbukkit.v1_20_R3.block;
 
-import net.minecraft.world.level.block.entity.BlockEntityEnderPortal;
+import net.minecraft.world.level.block.entity.TheEndPortalBlockEntity;
 import org.bukkit.World;
 
-public class CraftEndPortal extends CraftBlockEntityState<BlockEntityEnderPortal> {
+public class CraftEndPortal extends CraftBlockEntityState<TheEndPortalBlockEntity> {
 
-    public CraftEndPortal(World world, BlockEntityEnderPortal tileEntity) {
+    public CraftEndPortal(World world, TheEndPortalBlockEntity tileEntity) {
         super(world, tileEntity);
     }
 

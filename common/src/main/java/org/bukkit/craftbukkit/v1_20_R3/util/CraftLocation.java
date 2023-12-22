@@ -1,7 +1,7 @@
 package org.bukkit.craftbukkit.v1_20_R3.util;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.phys.Vec3D;
+import net.minecraft.world.phys.Vec3;
 import org.bukkit.Location;
 import org.bukkit.World;
 
@@ -10,15 +10,15 @@ public final class CraftLocation {
     private CraftLocation() {
     }
 
-    public static Location toBukkit(Vec3D vec3D) {
+    public static Location toBukkit(Vec3 vec3D) {
         return toBukkit(vec3D, null);
     }
 
-    public static Location toBukkit(Vec3D vec3D, World world) {
+    public static Location toBukkit(Vec3 vec3D, World world) {
         return toBukkit(vec3D, world, 0.0F, 0.0F);
     }
 
-    public static Location toBukkit(Vec3D vec3D, World world, float yaw, float pitch) {
+    public static Location toBukkit(Vec3 vec3D, World world, float yaw, float pitch) {
         return new Location(world, vec3D.x(), vec3D.y(), vec3D.z(), yaw, pitch);
     }
 
@@ -40,7 +40,7 @@ public final class CraftLocation {
         return new BlockPos(location.getBlockX(), location.getBlockY(), location.getBlockZ());
     }
 
-    public static Vec3D toVec3D(Location location) {
-        return new Vec3D(location.getX(), location.getY(), location.getZ());
+    public static Vec3 toVec3D(Location location) {
+        return new Vec3(location.getX(), location.getY(), location.getZ());
     }
 }

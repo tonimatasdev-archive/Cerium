@@ -3,8 +3,11 @@ package org.bukkit.craftbukkit.v1_20_R3.block;
 import com.google.common.base.Preconditions;
 import net.minecraft.world.level.block.EnumBlockMirror;
 import net.minecraft.world.level.block.EnumBlockRotation;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntityStructure;
+import net.minecraft.world.level.block.entity.StructureBlockEntity;
 import net.minecraft.world.level.block.state.properties.BlockPropertyStructureMode;
+import net.minecraft.world.level.block.state.properties.StructureMode;
 import org.bukkit.World;
 import org.bukkit.block.Structure;
 import org.bukkit.block.structure.Mirror;
@@ -15,11 +18,11 @@ import org.bukkit.craftbukkit.v1_20_R3.util.CraftBlockVector;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.util.BlockVector;
 
-public class CraftStructureBlock extends CraftBlockEntityState<BlockEntityStructure> implements Structure {
+public class CraftStructureBlock extends CraftBlockEntityState<StructureBlockEntity> implements Structure {
 
     private static final int MAX_SIZE = 48;
 
-    public CraftStructureBlock(World world, BlockEntityStructure tileEntity) {
+    public CraftStructureBlock(World world, StructureBlockEntity tileEntity) {
         super(world, tileEntity);
     }
 
@@ -85,7 +88,7 @@ public class CraftStructureBlock extends CraftBlockEntityState<BlockEntityStruct
     @Override
     public void setMirror(Mirror mirror) {
         Preconditions.checkArgument(mirror != null, "Mirror cannot be null");
-        getSnapshot().mirror = EnumBlockMirror.valueOf(mirror.name());
+        getSnapshot().mirror = net.minecraft.world.level.block.Mirror.valueOf(mirror.name());
     }
 
     @Override
@@ -96,7 +99,7 @@ public class CraftStructureBlock extends CraftBlockEntityState<BlockEntityStruct
     @Override
     public void setRotation(StructureRotation rotation) {
         Preconditions.checkArgument(rotation != null, "StructureRotation cannot be null");
-        getSnapshot().rotation = EnumBlockRotation.valueOf(rotation.name());
+        getSnapshot().rotation = Rotation.valueOf(rotation.name());
     }
 
     @Override
@@ -107,7 +110,7 @@ public class CraftStructureBlock extends CraftBlockEntityState<BlockEntityStruct
     @Override
     public void setUsageMode(UsageMode mode) {
         Preconditions.checkArgument(mode != null, "UsageMode cannot be null");
-        getSnapshot().mode = BlockPropertyStructureMode.valueOf(mode.name());
+        getSnapshot().mode = StructureMode.valueOf(mode.name());
     }
 
     @Override
@@ -180,9 +183,9 @@ public class CraftStructureBlock extends CraftBlockEntityState<BlockEntityStruct
     }
 
     @Override
-    protected void applyTo(BlockEntityStructure tileEntity) {
+    protected void applyTo(StructureBlockEntity tileEntity) {
         super.applyTo(tileEntity);
-        net.minecraft.world.level.GeneratorAccess access = getWorldHandle();
+        net.minecraft.world.level.LevelAccessor access = getWorldHandle();
 
         // Ensure block type is correct
         if (access instanceof net.minecraft.world.level.Level) {
@@ -192,7 +195,7 @@ public class CraftStructureBlock extends CraftBlockEntityState<BlockEntityStruct
             // From BlockEntityStructure#setUsageMode(BlockPropertyStructureMode)
             net.minecraft.world.level.block.state.BlockState data = access.getBlockState(this.getPosition());
             if (data.is(net.minecraft.world.level.block.Blocks.STRUCTURE_BLOCK)) {
-                access.setBlock(this.getPosition(), data.setValue(net.minecraft.world.level.block.BlockStructure.MODE, tileEntity.getMode()), 2);
+                access.setBlock(this.getPosition(), data.setValue(net.minecraft.world.level.block.StructureBlock.MODE, tileEntity.getMode()), 2);
             }
         }
     }
