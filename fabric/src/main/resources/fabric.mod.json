@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "cerium",
+  "version": "${modVersion}",
+
+  "name": "Cerium",
+  "description": "Load Bukkit/Spigot plugins in Fabric",
+  "authors": ["TonimatasDEV"],
+  "contact": {
+    "homepage": "https://github.com/TonimatasDEV/Cerium/issues"
+  },
+
+  "license": "MIT",
+  "icon": "icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "dev.tonimatas.cerium.fabric.CeriumFabric"
+    ],
+    "client": [
+      "dev.tonimatas.cerium.fabric.CeriumClientFabric"
+    ],
+    "server": [
+      "dev.tonimatas.cerium.fabric.CeriumServerFabric"
+    ]
+  },
+  "mixins": [
+    "cerium-fabric.mixins.json",
+    "cerium-common.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.0.0",
+    "minecraft": "${minecraftVersion}"
+  }
+}

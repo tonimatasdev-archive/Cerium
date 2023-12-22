@@ -1,0 +1,30 @@
+modLoader="javafml"
+loaderVersion="${forgeLoaderRange}"
+license="MIT"
+issueTrackerURL="https://github.com/TonimatasDEV/Cerium/issues"
+
+[[mods]]
+modId="example"
+version="${modVersion}"
+displayName="Cerium"
+#updateJSONURL="http://myurl.me/"
+#logoFile="icon.png"
+authors="${modAuthor}"
+
+description='''
+${modDescription}
+'''
+
+[[dependencies.example]]
+   modId="forge"
+   mandatory=true
+   versionRange="${forgeLoaderRange}"
+   ordering="NONE"
+   side="BOTH"
+
+[[dependencies.example]]
+   modId="minecraft"
+   mandatory=true
+   versionRange="[${minecraftVersion}]"
+   ordering="NONE"
+   side="BOTH"

@@ -1,0 +1,36 @@
+modLoader="javafml"
+loaderVersion="[1.0.0,)"
+license="MIT"
+issueTrackerURL="https://github.com/TonimatasDEV/Cerium/issues"
+
+[[mixins]]
+config="cerium-common.mixins.json"
+
+[[mixins]]
+config="cerium-neoforge.mixins.json"
+
+[[mods]]
+modId="cerium"
+version="${modVersion}"
+displayName="Cerium"
+#updateJSONURL="http://myurl.me/"
+#logoFile="icon.png"
+authors="TonimatasDEV"
+
+description='''
+Load Bukkit/Spigot plugins in Forge
+'''
+
+[[dependencies.cerium]]
+   modId="neoforge"
+   mandatory=true
+   versionRange="${neoforgeLoaderRange}"
+   ordering="NONE"
+   side="BOTH"
+
+[[dependencies.cerium]]
+   modId="minecraft"
+   mandatory=true
+   versionRange="[$minecraftVersion]"
+   ordering="NONE"
+   side="BOTH"
