@@ -1,23 +1,21 @@
 package org.bukkit.craftbukkit.v1_20_R3.entity;
 
 import com.google.common.base.Preconditions;
-import net.minecraft.world.entity.animal.horse.EntityLlama;
 import org.bukkit.craftbukkit.v1_20_R3.CraftServer;
 import org.bukkit.craftbukkit.v1_20_R3.inventory.CraftInventoryLlama;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Llama;
-import org.bukkit.entity.Llama.Color;
 import org.bukkit.inventory.LlamaInventory;
 
 public class CraftLlama extends CraftChestedHorse implements Llama {
 
-    public CraftLlama(CraftServer server, EntityLlama entity) {
+    public CraftLlama(CraftServer server, net.minecraft.world.entity.animal.horse.Llama entity) {
         super(server, entity);
     }
 
     @Override
-    public EntityLlama getHandle() {
-        return (EntityLlama) super.getHandle();
+    public net.minecraft.world.entity.animal.horse.Llama getHandle() {
+        return (net.minecraft.world.entity.animal.horse.Llama) super.getHandle();
     }
 
     @Override
@@ -29,7 +27,7 @@ public class CraftLlama extends CraftChestedHorse implements Llama {
     public void setColor(Color color) {
         Preconditions.checkArgument(color != null, "color");
 
-        getHandle().setVariant(EntityLlama.Variant.byId(color.ordinal()));
+        getHandle().setVariant(net.minecraft.world.entity.animal.horse.Llama.Variant.byId(color.ordinal()));
     }
 
     @Override

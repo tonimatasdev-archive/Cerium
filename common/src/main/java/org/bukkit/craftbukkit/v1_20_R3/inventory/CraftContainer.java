@@ -25,6 +25,7 @@ import net.minecraft.world.inventory.ContainerStonecutter;
 import net.minecraft.world.inventory.ContainerWorkbench;
 import net.minecraft.world.inventory.Containers;
 import net.minecraft.world.inventory.CrafterMenu;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.bukkit.entity.HumanEntity;
@@ -98,7 +99,7 @@ public class CraftContainer extends Container {
         return view;
     }
 
-    public static Containers getNotchInventoryType(Inventory inventory) {
+    public static MenuType getNotchInventoryType(Inventory inventory) {
         switch (inventory.getType()) {
             case PLAYER:
             case CHEST:
@@ -106,67 +107,67 @@ public class CraftContainer extends Container {
             case BARREL:
                 switch (inventory.getSize()) {
                     case 9:
-                        return Containers.GENERIC_9x1;
+                        return MenuType.GENERIC_9x1;
                     case 18:
-                        return Containers.GENERIC_9x2;
+                        return MenuType.GENERIC_9x2;
                     case 27:
-                        return Containers.GENERIC_9x3;
+                        return MenuType.GENERIC_9x3;
                     case 36:
                     case 41: // PLAYER
-                        return Containers.GENERIC_9x4;
+                        return MenuType.GENERIC_9x4;
                     case 45:
-                        return Containers.GENERIC_9x5;
+                        return MenuType.GENERIC_9x5;
                     case 54:
-                        return Containers.GENERIC_9x6;
+                        return MenuType.GENERIC_9x6;
                     default:
                         throw new IllegalArgumentException("Unsupported custom inventory size " + inventory.getSize());
                 }
             case WORKBENCH:
-                return Containers.CRAFTING;
+                return MenuType.CRAFTING;
             case FURNACE:
-                return Containers.FURNACE;
+                return MenuType.FURNACE;
             case DISPENSER:
-                return Containers.GENERIC_3x3;
+                return MenuType.GENERIC_3x3;
             case ENCHANTING:
-                return Containers.ENCHANTMENT;
+                return MenuType.ENCHANTMENT;
             case BREWING:
-                return Containers.BREWING_STAND;
+                return MenuType.BREWING_STAND;
             case BEACON:
-                return Containers.BEACON;
+                return MenuType.BEACON;
             case ANVIL:
-                return Containers.ANVIL;
+                return MenuType.ANVIL;
             case HOPPER:
-                return Containers.HOPPER;
+                return MenuType.HOPPER;
             case DROPPER:
-                return Containers.GENERIC_3x3;
+                return MenuType.GENERIC_3x3;
             case SHULKER_BOX:
-                return Containers.SHULKER_BOX;
+                return MenuType.SHULKER_BOX;
             case BLAST_FURNACE:
-                return Containers.BLAST_FURNACE;
+                return MenuType.BLAST_FURNACE;
             case LECTERN:
-                return Containers.LECTERN;
+                return MenuType.LECTERN;
             case SMOKER:
-                return Containers.SMOKER;
+                return MenuType.SMOKER;
             case LOOM:
-                return Containers.LOOM;
+                return MenuType.LOOM;
             case CARTOGRAPHY:
-                return Containers.CARTOGRAPHY_TABLE;
+                return MenuType.CARTOGRAPHY_TABLE;
             case GRINDSTONE:
-                return Containers.GRINDSTONE;
+                return MenuType.GRINDSTONE;
             case STONECUTTER:
-                return Containers.STONECUTTER;
+                return MenuType.STONECUTTER;
             case SMITHING:
             case SMITHING_NEW:
-                return Containers.SMITHING;
+                return MenuType.SMITHING;
             case CREATIVE:
             case CRAFTING:
             case MERCHANT:
                 throw new IllegalArgumentException("Can't open a " + inventory.getType() + " inventory!");
             case CRAFTER:
-                return Containers.CRAFTER_3x3;
+                return MenuType.CRAFTER_3x3;
             default:
                 // TODO: If it reaches the default case, should we throw an error?
-                return Containers.GENERIC_9x3;
+                return MenuType.GENERIC_9x3;
         }
     }
 

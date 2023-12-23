@@ -1,8 +1,8 @@
 package org.bukkit.craftbukkit.v1_20_R3.entity;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.vehicle.EntityMinecartAbstract;
-import net.minecraft.world.entity.vehicle.EntityMinecartContainer;
+import net.minecraft.world.entity.vehicle.AbstractMinecart;
+import net.minecraft.world.entity.vehicle.AbstractMinecartContainer;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.craftbukkit.v1_20_R3.CraftServer;
@@ -12,13 +12,13 @@ import org.bukkit.loot.Lootable;
 
 public abstract class CraftMinecartContainer extends CraftMinecart implements Lootable {
 
-    public CraftMinecartContainer(CraftServer server, EntityMinecartAbstract entity) {
+    public CraftMinecartContainer(CraftServer server, AbstractMinecart entity) {
         super(server, entity);
     }
 
     @Override
-    public EntityMinecartContainer getHandle() {
-        return (EntityMinecartContainer) entity;
+    public AbstractMinecartContainer getHandle() {
+        return (AbstractMinecartContainer) entity;
     }
 
     @Override

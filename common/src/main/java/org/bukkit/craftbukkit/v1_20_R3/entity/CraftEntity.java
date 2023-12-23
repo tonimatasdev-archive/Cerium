@@ -5,28 +5,19 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Predicates;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.IChatBaseComponent;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.PlayerChunkMap;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerPlayerConnection;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityTypes;
-import net.minecraft.world.entity.boss.EntityComplexPart;
-import net.minecraft.world.entity.boss.enderdragon.EntityEnderDragon;
-import net.minecraft.world.entity.player.EntityHuman;
-import net.minecraft.world.entity.projectile.EntityArrow;
-import net.minecraft.world.phys.AxisAlignedBB;
-import org.bukkit.EntityEffect;
-import org.bukkit.Location;
-import org.bukkit.Server;
-import org.bukkit.Sound;
-import org.bukkit.World;
+import net.minecraft.world.entity.boss.EnderDragonPart;
+import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.phys.AABB;
+import org.bukkit.*;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.PistonMoveReaction;
 import org.bukkit.craftbukkit.v1_20_R3.CraftServer;
@@ -39,23 +30,19 @@ import org.bukkit.craftbukkit.v1_20_R3.util.CraftChatMessage;
 import org.bukkit.craftbukkit.v1_20_R3.util.CraftLocation;
 import org.bukkit.craftbukkit.v1_20_R3.util.CraftSpawnCategory;
 import org.bukkit.craftbukkit.v1_20_R3.util.CraftVector;
-import org.bukkit.entity.EntitySnapshot;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Pose;
-import org.bukkit.entity.SpawnCategory;
+import org.bukkit.entity.*;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.metadata.MetadataValue;
-import org.bukkit.permissions.PermissibleBase;
-import org.bukkit.permissions.Permission;
-import org.bukkit.permissions.PermissionAttachment;
-import org.bukkit.permissions.PermissionAttachmentInfo;
-import org.bukkit.permissions.ServerOperator;
+import org.bukkit.permissions.*;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.BoundingBox;
 import org.bukkit.util.NumberConversions;
 import org.bukkit.util.Vector;
+
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 public abstract class CraftEntity implements org.bukkit.entity.Entity {
     private static PermissibleBase perm;
@@ -77,13 +64,13 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
         Preconditions.checkArgument(entity != null, "Unknown entity");
 
         // Special case human, since bukkit use Player interface for ...
-        if (entity instanceof EntityHuman && !(entity instanceof ServerPlayer)) {
-            return new CraftHumanEntity(server, (EntityHuman) entity);
+        if (entity instanceof net.minecraft.world.entity.player.Player && !(entity instanceof ServerPlayer)) {
+            return new CraftHumanEntity(server, (net.minecraft.world.entity.player.Player) entity);
         }
 
         // Special case complex part, since there is no extra entity type for them
-        if (entity instanceof EntityComplexPart complexPart) {
-            if (complexPart.parentMob instanceof EntityEnderDragon) {
+        if (entity instanceof EnderDragonPart complexPart) {
+            if (complexPart.parentMob instanceof EnderDragon) {
                 return new CraftEnderDragonPart(server, complexPart);
             } else {
                 return new CraftComplexPart(server, complexPart);
@@ -143,14 +130,14 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
 
     @Override
     public BoundingBox getBoundingBox() {
-        AxisAlignedBB bb = getHandle().getBoundingBox();
+        AABB bb = getHandle().getBoundingBox();
         return new BoundingBox(bb.minX, bb.minY, bb.minZ, bb.maxX, bb.maxY, bb.maxZ);
     }
 
     @Override
     public boolean isOnGround() {
-        if (entity instanceof EntityArrow) {
-            return ((EntityArrow) entity).inGround;
+        if (entity instanceof AbstractArrow) {
+            return ((AbstractArrow) entity).inGround;
         }
         return entity.onGround();
     }
@@ -533,7 +520,7 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
 
     @Override
     public String getCustomName() {
-        IChatBaseComponent name = getHandle().getCustomName();
+        Component name = getHandle().getCustomName();
 
         if (name == null) {
             return null;
@@ -807,7 +794,7 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
         CompoundTag compoundTag = new CompoundTag();
         getHandle().saveAsPassenger(compoundTag, false);
 
-        return EntityTypes.loadEntityRecursive(compoundTag, level, java.util.function.Function.identity());
+        return net.minecraft.world.entity.EntityType.loadEntityRecursive(compoundTag, level, java.util.function.Function.identity());
     }
 
     public void storeBukkitValues(CompoundTag c) {
@@ -817,7 +804,7 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
     }
 
     public void readBukkitValues(CompoundTag c) {
-        NBTBase base = c.get("BukkitValues");
+        Tag base = c.get("BukkitValues");
         if (base instanceof CompoundTag) {
             this.persistentDataContainer.putAll((CompoundTag) base);
         }

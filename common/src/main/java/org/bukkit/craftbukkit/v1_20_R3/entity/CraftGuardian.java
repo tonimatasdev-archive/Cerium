@@ -10,13 +10,13 @@ public class CraftGuardian extends CraftMonster implements Guardian {
 
     private static final int MINIMUM_ATTACK_TICKS = -10;
 
-    public CraftGuardian(CraftServer server, EntityGuardian entity) {
+    public CraftGuardian(CraftServer server, net.minecraft.world.entity.monster.Guardian entity) {
         super(server, entity);
     }
 
     @Override
-    public EntityGuardian getHandle() {
-        return (EntityGuardian) super.getHandle();
+    public net.minecraft.world.entity.monster.Guardian getHandle() {
+        return (net.minecraft.world.entity.monster.Guardian) super.getHandle();
     }
 
     @Override

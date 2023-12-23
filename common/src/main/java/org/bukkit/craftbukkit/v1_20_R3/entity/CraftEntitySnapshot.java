@@ -1,15 +1,15 @@
 package org.bukkit.craftbukkit.v1_20_R3.entity;
 
 import com.google.common.base.Preconditions;
-import java.util.function.Function;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.entity.EntityTypes;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_20_R3.CraftWorld;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntitySnapshot;
 import org.bukkit.entity.EntityType;
+
+import java.util.function.Function;
 
 public class CraftEntitySnapshot implements EntitySnapshot {
     private final CompoundTag data;
@@ -44,7 +44,7 @@ public class CraftEntitySnapshot implements EntitySnapshot {
 
     private net.minecraft.world.entity.Entity createInternal(World world) {
         net.minecraft.world.level.Level nms = ((CraftWorld) world).getHandle();
-        net.minecraft.world.entity.Entity internal = EntityTypes.loadEntityRecursive(data, nms, Function.identity());
+        net.minecraft.world.entity.Entity internal = net.minecraft.world.entity.EntityType.loadEntityRecursive(data, nms, Function.identity());
         if (internal == null) { // Try creating by type
             internal = CraftEntityType.bukkitToMinecraft(type).create(nms);
         }
@@ -77,7 +77,7 @@ public class CraftEntitySnapshot implements EntitySnapshot {
     }
 
     public static CraftEntitySnapshot create(CompoundTag tag) {
-        EntityType type = EntityTypes.by(tag).map(CraftEntityType::minecraftToBukkit).orElse(null);
+        EntityType type = net.minecraft.world.entity.EntityType.by(tag).map(CraftEntityType::minecraftToBukkit).orElse(null);
         return create(tag, type);
     }
 }

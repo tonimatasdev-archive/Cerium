@@ -1,22 +1,21 @@
 package org.bukkit.craftbukkit.v1_20_R3.entity;
 
-import java.util.HashMap;
-import java.util.Map;
-import net.minecraft.world.entity.animal.EntityTropicalFish;
 import org.bukkit.DyeColor;
 import org.bukkit.craftbukkit.v1_20_R3.CraftServer;
 import org.bukkit.entity.TropicalFish;
-import org.bukkit.entity.TropicalFish.Pattern;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class CraftTropicalFish extends CraftFish implements TropicalFish {
 
-    public CraftTropicalFish(CraftServer server, EntityTropicalFish entity) {
+    public CraftTropicalFish(CraftServer server, net.minecraft.world.entity.animal.TropicalFish entity) {
         super(server, entity);
     }
 
     @Override
-    public EntityTropicalFish getHandle() {
-        return (EntityTropicalFish) entity;
+    public net.minecraft.world.entity.animal.TropicalFish getHandle() {
+        return (net.minecraft.world.entity.animal.TropicalFish) entity;
     }
 
     @Override

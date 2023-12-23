@@ -55,6 +55,7 @@ import net.minecraft.world.entity.projectile.EntityPotion;
 import net.minecraft.world.entity.projectile.IProjectile;
 import net.minecraft.world.entity.raid.EntityRaider;
 import net.minecraft.world.entity.raid.Raid;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Container;
 import net.minecraft.world.inventory.ContainerMerchant;
 import net.minecraft.world.inventory.RecipeBookType;
@@ -1199,7 +1200,7 @@ public class CraftEventFactory {
         return event;
     }
 
-    public static PlayerExpCooldownChangeEvent callPlayerXpCooldownEvent(EntityHuman entity, int newCooldown, PlayerExpCooldownChangeEvent.ChangeReason changeReason) {
+    public static PlayerExpCooldownChangeEvent callPlayerXpCooldownEvent(net.minecraft.world.entity.player.Player entity, int newCooldown, PlayerExpCooldownChangeEvent.ChangeReason changeReason) {
         Player player = (Player) entity.getBukkitEntity();
         PlayerExpCooldownChangeEvent event = new PlayerExpCooldownChangeEvent(player, newCooldown, changeReason);
         Bukkit.getPluginManager().callEvent(event);
@@ -1302,11 +1303,11 @@ public class CraftEventFactory {
         return event;
     }
 
-    public static Container callInventoryOpenEvent(ServerPlayer player, Container container) {
+    public static AbstractContainerMenu callInventoryOpenEvent(ServerPlayer player, AbstractContainerMenu container) {
         return callInventoryOpenEvent(player, container, false);
     }
 
-    public static Container callInventoryOpenEvent(ServerPlayer player, Container container, boolean cancelled) {
+    public static AbstractContainerMenu callInventoryOpenEvent(ServerPlayer player, AbstractContainerMenu container, boolean cancelled) {
         if (player.containerMenu != player.inventoryMenu) { // fire INVENTORY_CLOSE if one already open
             player.connection.handleContainerClose(new PacketPlayInCloseWindow(player.containerMenu.containerId));
         }

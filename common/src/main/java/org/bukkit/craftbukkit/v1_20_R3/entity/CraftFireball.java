@@ -1,14 +1,13 @@
 package org.bukkit.craftbukkit.v1_20_R3.entity;
 
 import com.google.common.base.Preconditions;
-import net.minecraft.world.entity.projectile.EntityFireball;
 import org.bukkit.craftbukkit.v1_20_R3.CraftServer;
 import org.bukkit.entity.Fireball;
 import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.util.Vector;
 
 public class CraftFireball extends AbstractProjectile implements Fireball {
-    public CraftFireball(CraftServer server, EntityFireball entity) {
+    public CraftFireball(CraftServer server, net.minecraft.world.entity.projectile.AbstractHurtingProjectile entity) {
         super(server, entity);
     }
 
@@ -60,8 +59,8 @@ public class CraftFireball extends AbstractProjectile implements Fireball {
     }
 
     @Override
-    public EntityFireball getHandle() {
-        return (EntityFireball) entity;
+    public net.minecraft.world.entity.projectile.AbstractHurtingProjectile getHandle() {
+        return (net.minecraft.world.entity.projectile.AbstractHurtingProjectile) entity;
     }
 
     @Override

@@ -2,14 +2,11 @@ package org.bukkit.craftbukkit.v1_20_R3.entity;
 
 import com.google.common.base.Preconditions;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.IRegistry;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.world.entity.monster.EntityZombie;
-import net.minecraft.world.entity.monster.EntityZombieVillager;
-import net.minecraft.world.entity.npc.EntityVillager;
+import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerType;
-import net.minecraft.world.level.block.BlockBed;
+import net.minecraft.world.level.block.BedBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import org.bukkit.Location;
 import org.bukkit.Registry;
@@ -23,13 +20,13 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 
 public class CraftVillager extends CraftAbstractVillager implements Villager {
 
-    public CraftVillager(CraftServer server, EntityVillager entity) {
+    public CraftVillager(CraftServer server, net.minecraft.world.entity.npc.Villager entity) {
         super(server, entity);
     }
 
     @Override
-    public EntityVillager getHandle() {
-        return (EntityVillager) entity;
+    public net.minecraft.world.entity.npc.Villager getHandle() {
+        return (net.minecraft.world.entity.npc.Villager) entity;
     }
 
     @Override
@@ -98,8 +95,8 @@ public class CraftVillager extends CraftAbstractVillager implements Villager {
         Preconditions.checkState(!getHandle().generation, "Cannot sleep during world generation");
 
         BlockPos position = CraftLocation.toBlockPos(location);
-        IBlockData iblockdata = getHandle().level().getBlockState(position);
-        if (!(iblockdata.getBlock() instanceof BlockBed)) {
+        BlockState iblockdata = getHandle().level().getBlockState(position);
+        if (!(iblockdata.getBlock() instanceof BedBlock)) {
             return false;
         }
 
@@ -122,7 +119,7 @@ public class CraftVillager extends CraftAbstractVillager implements Villager {
 
     @Override
     public ZombieVillager zombify() {
-        EntityZombieVillager entityzombievillager = EntityZombie.zombifyVillager(getHandle().level().getMinecraftWorld(), getHandle(), getHandle().blockPosition(), isSilent(), CreatureSpawnEvent.SpawnReason.CUSTOM);
+        net.minecraft.world.entity.monster.ZombieVillager entityzombievillager = Zombie.zombifyVillager(getHandle().level().getMinecraftWorld(), getHandle(), getHandle().blockPosition(), isSilent(), CreatureSpawnEvent.SpawnReason.CUSTOM);
         return (entityzombievillager != null) ? (ZombieVillager) entityzombievillager.getBukkitEntity() : null;
     }
 
@@ -131,7 +128,7 @@ public class CraftVillager extends CraftAbstractVillager implements Villager {
         public static Type minecraftToBukkit(VillagerType minecraft) {
             Preconditions.checkArgument(minecraft != null);
 
-            IRegistry<VillagerType> registry = CraftRegistry.getMinecraftRegistry(Registries.VILLAGER_TYPE);
+            net.minecraft.core.Registry<VillagerType> registry = CraftRegistry.getMinecraftRegistry(Registries.VILLAGER_TYPE);
             Type bukkit = Registry.VILLAGER_TYPE.get(CraftNamespacedKey.fromMinecraft(registry.getResourceKey(minecraft).orElseThrow().location()));
 
             Preconditions.checkArgument(bukkit != null);
@@ -152,7 +149,7 @@ public class CraftVillager extends CraftAbstractVillager implements Villager {
         public static Profession minecraftToBukkit(VillagerProfession minecraft) {
             Preconditions.checkArgument(minecraft != null);
 
-            IRegistry<VillagerProfession> registry = CraftRegistry.getMinecraftRegistry(Registries.VILLAGER_PROFESSION);
+            net.minecraft.core.Registry<VillagerProfession> registry = CraftRegistry.getMinecraftRegistry(Registries.VILLAGER_PROFESSION);
             Profession bukkit = Registry.VILLAGER_PROFESSION.get(CraftNamespacedKey.fromMinecraft(registry.getResourceKey(minecraft).orElseThrow().location()));
 
             Preconditions.checkArgument(bukkit != null);

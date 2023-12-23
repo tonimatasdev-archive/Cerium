@@ -1,11 +1,10 @@
 package org.bukkit.craftbukkit.v1_20_R3.enchantments;
 
 import com.google.common.base.Preconditions;
-import net.minecraft.core.IRegistry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.world.item.enchantment.EnchantmentBinding;
-import net.minecraft.world.item.enchantment.EnchantmentVanishing;
+import net.minecraft.world.item.enchantment.BindingCurseEnchantment;
+import net.minecraft.world.item.enchantment.VanishingCurseEnchantment;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
 import org.bukkit.craftbukkit.v1_20_R3.CraftRegistry;
@@ -21,7 +20,7 @@ public class CraftEnchantment extends Enchantment {
     public static Enchantment minecraftToBukkit(net.minecraft.world.item.enchantment.Enchantment minecraft) {
         Preconditions.checkArgument(minecraft != null);
 
-        IRegistry<net.minecraft.world.item.enchantment.Enchantment> registry = CraftRegistry.getMinecraftRegistry(Registries.ENCHANTMENT);
+        net.minecraft.core.Registry<net.minecraft.world.item.enchantment.Enchantment> registry = CraftRegistry.getMinecraftRegistry(Registries.ENCHANTMENT);
         Enchantment bukkit = Registry.ENCHANTMENT.get(CraftNamespacedKey.fromMinecraft(registry.getResourceKey(minecraft).orElseThrow().location()));
 
         Preconditions.checkArgument(bukkit != null);
@@ -91,7 +90,7 @@ public class CraftEnchantment extends Enchantment {
 
     @Override
     public boolean isCursed() {
-        return handle instanceof EnchantmentBinding || handle instanceof EnchantmentVanishing;
+        return handle instanceof BindingCurseEnchantment || handle instanceof VanishingCurseEnchantment;
     }
 
     @Override

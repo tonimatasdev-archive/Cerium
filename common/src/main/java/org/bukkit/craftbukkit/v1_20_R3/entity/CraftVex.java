@@ -2,7 +2,6 @@ package org.bukkit.craftbukkit.v1_20_R3.entity;
 
 import com.google.common.base.Preconditions;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.entity.monster.EntityVex;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_20_R3.CraftServer;
 import org.bukkit.craftbukkit.v1_20_R3.util.CraftLocation;
@@ -10,13 +9,13 @@ import org.bukkit.entity.Vex;
 
 public class CraftVex extends CraftMonster implements Vex {
 
-    public CraftVex(CraftServer server, EntityVex entity) {
+    public CraftVex(CraftServer server, net.minecraft.world.entity.monster.Vex entity) {
         super(server, entity);
     }
 
     @Override
-    public EntityVex getHandle() {
-        return (EntityVex) super.getHandle();
+    public net.minecraft.world.entity.monster.Vex getHandle() {
+        return (net.minecraft.world.entity.monster.Vex) super.getHandle();
     }
 
     @Override

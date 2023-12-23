@@ -3,6 +3,7 @@ package org.bukkit.craftbukkit.v1_20_R3.inventory;
 import com.google.common.base.Preconditions;
 import net.minecraft.world.ITileInventory;
 import net.minecraft.world.InventoryLargeChest;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.level.block.BlockChest;
 import org.bukkit.Location;
 import org.bukkit.block.DoubleChest;
@@ -11,7 +12,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class CraftInventoryDoubleChest extends CraftInventory implements DoubleChestInventory {
-    public ITileInventory tile;
+    public MenuProvider tile;
     private final CraftInventory left;
     private final CraftInventory right;
 

@@ -60,6 +60,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.ServerCommand;
 import net.minecraft.server.WorldLoader;
 import net.minecraft.server.bossevents.BossBattleCustom;
+import net.minecraft.server.bossevents.CustomBossEvent;
 import net.minecraft.server.commands.CommandReload;
 import net.minecraft.server.dedicated.DedicatedPlayerList;
 import net.minecraft.server.dedicated.DedicatedServer;
@@ -2232,7 +2233,7 @@ public final class CraftServer implements Server {
         Preconditions.checkArgument(barColor != null, "BarColor key cannot be null");
         Preconditions.checkArgument(barStyle != null, "BarStyle key cannot be null");
 
-        BossBattleCustom bossBattleCustom = getServer().getCustomBossEvents().create(CraftNamespacedKey.toMinecraft(key), CraftChatMessage.fromString(title, true)[0]);
+        CustomBossEvent bossBattleCustom = getServer().getCustomBossEvents().create(CraftNamespacedKey.toMinecraft(key), CraftChatMessage.fromString(title, true)[0]);
         CraftKeyedBossbar craftKeyedBossbar = new CraftKeyedBossbar(bossBattleCustom);
         craftKeyedBossbar.setColor(barColor);
         craftKeyedBossbar.setStyle(barStyle);
@@ -2248,9 +2249,9 @@ public final class CraftServer implements Server {
 
     @Override
     public Iterator<KeyedBossBar> getBossBars() {
-        return Iterators.unmodifiableIterator(Iterators.transform(getServer().getCustomBossEvents().getEvents().iterator(), new Function<BossBattleCustom, org.bukkit.boss.KeyedBossBar>() {
+        return Iterators.unmodifiableIterator(Iterators.transform(getServer().getCustomBossEvents().getEvents().iterator(), new Function<CustomBossEvent, org.bukkit.boss.KeyedBossBar>() {
             @Override
-            public org.bukkit.boss.KeyedBossBar apply(BossBattleCustom bossBattleCustom) {
+            public org.bukkit.boss.KeyedBossBar apply(CustomBossEvent bossBattleCustom) {
                 return bossBattleCustom.getBukkitEntity();
             }
         }));

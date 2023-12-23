@@ -1,7 +1,6 @@
 package org.bukkit.craftbukkit.v1_20_R3.entity;
 
 import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.EntityAgeable;
 import org.bukkit.craftbukkit.v1_20_R3.CraftServer;
 import org.bukkit.entity.Ageable;
 

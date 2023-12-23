@@ -1,9 +1,7 @@
 package org.bukkit.craftbukkit.v1_20_R3.entity;
 
 import com.google.common.base.Preconditions;
-import net.minecraft.sounds.SoundEffect;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.entity.EntityInsentient;
+import net.minecraft.sounds.SoundEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
@@ -50,7 +48,7 @@ public abstract class CraftMob extends CraftLivingEntity implements Mob {
 
     @Override
     public Sound getAmbientSound() {
-        SoundEvents sound = getHandle().getAmbientSound0();
+        SoundEvent sound = getHandle().getAmbientSound0();
         return (sound != null) ? CraftSound.minecraftToBukkit(sound) : null;
     }
 
