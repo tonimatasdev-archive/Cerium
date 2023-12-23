@@ -4,6 +4,7 @@
   "package": "dev.tonimatas.cerium.mixins",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "advancements.AdvancementHolderMixin"
   ],
   "client": [
   ],
