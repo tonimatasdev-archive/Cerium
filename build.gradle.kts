@@ -8,7 +8,6 @@ plugins {
 
 val minecraftVersion: String by extra
 val modVersion: String by extra
-val mavenGroup: String by extra
 
 architectury {
     minecraft = minecraftVersion
@@ -34,7 +33,7 @@ allprojects {
     apply(plugin = "architectury-plugin")
 
     version = modVersion
-    group = mavenGroup
+    group = "dev.tonimatas.cerium"
 
     repositories {
 

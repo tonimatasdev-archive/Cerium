@@ -4,7 +4,17 @@
   "package": "dev.tonimatas.cerium.mixins",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "advancements.AdvancementHolderMixin"
+    "advancements.AdvancementHolderMixin",
+    "brigadier.CommandNodeMixin",
+    "commands.CommandsMixin",
+    "commands.CommandSource1Mixin",
+    "commands.CommandSourceMixin",
+    "commands.CommandSourceStackMixin",
+    "commands.arguments.EntityArgumentMixin",
+    "commands.arguments.selector.EntitySelectorMixin",
+    "commands.arguments.selector.EntitySelectorParserMixin",
+    "stats.ServerRecipeBookMixin",
+    "stats.StatsCounterMixin"
   ],
   "client": [
   ],
