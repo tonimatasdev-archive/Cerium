@@ -1,6 +1,7 @@
 package org.bukkit.craftbukkit.v1_20_R3.inventory;
 
 import com.google.common.base.Preconditions;
+import dev.tonimatas.cerium.bridge.world.ContainerBridge;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.inventory.MerchantContainer;
@@ -66,7 +67,7 @@ public class CraftInventory implements Inventory {
 
     @Override
     public ItemStack[] getContents() {
-        List<net.minecraft.world.item.ItemStack> mcItems = getInventory().getContents();
+        List<net.minecraft.world.item.ItemStack> mcItems = ((ContainerBridge) getInventory()).getContents();
 
         return asCraftMirror(mcItems);
     }
@@ -436,7 +437,7 @@ public class CraftInventory implements Inventory {
 
     @Override
     public List<HumanEntity> getViewers() {
-        return this.inventory.getViewers();
+        return ((ContainerBridge) this.inventory).getViewers();
     }
 
     @Override
@@ -505,7 +506,7 @@ public class CraftInventory implements Inventory {
 
     @Override
     public InventoryHolder getHolder() {
-        return inventory.getOwner();
+        return ((ContainerBridge) inventory).getOwner();
     }
 
     @Override
@@ -515,7 +516,7 @@ public class CraftInventory implements Inventory {
 
     @Override
     public void setMaxStackSize(int size) {
-        inventory.setMaxStackSize(size);
+        ((ContainerBridge) inventory).setMaxStackSize(size);
     }
 
     @Override
@@ -530,6 +531,6 @@ public class CraftInventory implements Inventory {
 
     @Override
     public Location getLocation() {
-        return inventory.getLocation();
+        return ((ContainerBridge) inventory).getLocation();
     }
 }

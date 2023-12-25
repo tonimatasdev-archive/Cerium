@@ -20,8 +20,11 @@
     "network.syncher.SynchedEntityDataMixin",
     "stats.ServerRecipeBookMixin",
     "stats.StatsCounterMixin",
+    "world.CompoundContainerMixin",
+    "world.LockCodeMixin",
     "world.damagesource.DamageSourceMixin",
-    "world.damagesource.DamageSourcesMixin"
+    "world.damagesource.DamageSourcesMixin",
+    "world.level.ContainerMixin"
   ],
   "client": [
   ],

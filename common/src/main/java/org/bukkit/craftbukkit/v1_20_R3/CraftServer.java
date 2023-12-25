@@ -14,6 +14,7 @@ import com.mojang.brigadier.tree.CommandNode;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import com.mojang.serialization.Dynamic;
 import com.mojang.serialization.Lifecycle;
+import dev.tonimatas.cerium.bridge.world.ContainerBridge;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -84,8 +85,10 @@ import net.minecraft.world.entity.ai.village.VillageSiege;
 import net.minecraft.world.entity.npc.MobSpawnerCat;
 import net.minecraft.world.entity.npc.MobSpawnerTrader;
 import net.minecraft.world.entity.player.EntityHuman;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Container;
 import net.minecraft.world.inventory.ContainerWorkbench;
+import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.inventory.InventoryCraftResult;
 import net.minecraft.world.inventory.InventoryCrafting;
 import net.minecraft.world.inventory.TransientCraftingContainer;
@@ -1362,25 +1365,25 @@ public final class CraftServer implements Server {
         return getServer().getRecipeManager().byKey(CraftNamespacedKey.toMinecraft(recipeKey)).map(RecipeHolder::toBukkitRecipe).orElse(null);
     }
 
-    private InventoryCrafting createInventoryCrafting() {
+    private CraftingContainer createInventoryCrafting() {
         // Create a players Crafting Inventory
-        Container container = new Container(null, -1) {
+        AbstractContainerMenu container = new AbstractContainerMenu(null, -1) {
             @Override
             public InventoryView getBukkitView() {
                 return null;
             }
 
             @Override
-            public boolean stillValid(EntityHuman entityhuman) {
+            public boolean stillValid(net.minecraft.world.entity.player.Player entityhuman) {
                 return false;
             }
 
             @Override
-            public net.minecraft.world.item.ItemStack quickMoveStack(EntityHuman entityhuman, int i) {
+            public net.minecraft.world.item.ItemStack quickMoveStack(net.minecraft.world.entity.player.Player entityhuman, int i) {
                 return net.minecraft.world.item.ItemStack.EMPTY;
             }
         };
-        InventoryCrafting inventoryCrafting = new TransientCraftingContainer(container, 3, 3);
+        CraftingContainer inventoryCrafting = new TransientCraftingContainer(container, 3, 3);
         return inventoryCrafting;
     }
 
@@ -1437,7 +1440,7 @@ public final class CraftServer implements Server {
         CraftWorld craftWorld = (CraftWorld) world;
 
         // Create a players Crafting Inventory and get the recipe
-        InventoryCrafting inventoryCrafting = createInventoryCrafting();
+        CraftingContainer inventoryCrafting = createInventoryCrafting();
 
         Optional<RecipeHolder<RecipeCrafting>> recipe = getNMSRecipe(craftingMatrix, inventoryCrafting, craftWorld);
 
@@ -1451,7 +1454,7 @@ public final class CraftServer implements Server {
         return createItemCraftResult(CraftItemStack.asBukkitCopy(itemStack), inventoryCrafting, craftWorld.getHandle());
     }
 
-    private CraftItemCraftResult createItemCraftResult(ItemStack itemStack, InventoryCrafting inventoryCrafting, ServerLevel ServerLevel) {
+    private CraftItemCraftResult createItemCraftResult(ItemStack itemStack, CraftingContainer inventoryCrafting, ServerLevel ServerLevel) {
         CraftItemCraftResult craftItemResult = new CraftItemCraftResult(itemStack);
         NonNullList<net.minecraft.world.item.ItemStack> remainingItems = getServer().getRecipeManager().getRemainingItemsFor(Recipes.CRAFTING, inventoryCrafting, ServerLevel);
 
@@ -1477,7 +1480,7 @@ public final class CraftServer implements Server {
             }
         }
 
-        for (int i = 0; i < inventoryCrafting.getContents().size(); i++) {
+        for (int i = 0; i < ((ContainerBridge) inventoryCrafting).getContents().size(); i++) {
             craftItemResult.setResultMatrix(i, CraftItemStack.asBukkitCopy(inventoryCrafting.getItem(i)));
         }
 

@@ -1,18 +1,20 @@
 package org.bukkit.craftbukkit.v1_20_R3.inventory;
 
 import com.google.common.base.Preconditions;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import dev.tonimatas.cerium.mixins.world.level.ContainerMixin;
 import net.minecraft.core.NonNullList;
-import net.minecraft.world.IInventory;
-import net.minecraft.world.entity.player.EntityHuman;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_20_R3.entity.CraftHumanEntity;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.InventoryHolder;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class CraftInventoryCustom extends CraftInventory {
     public CraftInventoryCustom(InventoryHolder owner, InventoryType type) {
@@ -31,7 +33,7 @@ public class CraftInventoryCustom extends CraftInventory {
         super(new MinecraftInventory(owner, size, title));
     }
 
-    static class MinecraftInventory implements IInventory {
+    static class MinecraftInventory implements Container, ContainerMixin {
         private final NonNullList<ItemStack> items;
         private int maxStack = MAX_STACK;
         private final List<HumanEntity> viewers;
@@ -125,7 +127,7 @@ public class CraftInventoryCustom extends CraftInventory {
         public void setChanged() {}
 
         @Override
-        public boolean stillValid(EntityHuman entityhuman) {
+        public boolean stillValid(Player entityhuman) {
             return true;
         }
 
@@ -164,12 +166,12 @@ public class CraftInventoryCustom extends CraftInventory {
         }
 
         @Override
-        public void startOpen(EntityHuman entityHuman) {
+        public void startOpen(Player entityHuman) {
 
         }
 
         @Override
-        public void stopOpen(EntityHuman entityHuman) {
+        public void stopOpen(Player entityHuman) {
 
         }
 

@@ -1,27 +1,29 @@
 package org.bukkit.craftbukkit.v1_20_R3.inventory;
 
 import com.google.common.base.Preconditions;
-import java.util.Arrays;
-import java.util.List;
-import net.minecraft.world.IInventory;
+import dev.tonimatas.cerium.bridge.world.ContainerBridge;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 
-public class CraftInventoryCrafting extends CraftInventory implements CraftingInventory {
-    private final IInventory resultInventory;
+import java.util.Arrays;
+import java.util.List;
 
-    public CraftInventoryCrafting(IInventory inventory, IInventory resultInventory) {
+public class CraftInventoryCrafting extends CraftInventory implements CraftingInventory {
+    private final Container resultInventory;
+
+    public CraftInventoryCrafting(Container inventory, Container resultInventory) {
         super(inventory);
         this.resultInventory = resultInventory;
     }
 
-    public IInventory getResultInventory() {
+    public Container getResultInventory() {
         return resultInventory;
     }
 
-    public IInventory getMatrixInventory() {
+    public Container getMatrixInventory() {
         return inventory;
     }
 
@@ -39,14 +41,14 @@ public class CraftInventoryCrafting extends CraftInventory implements CraftingIn
     @Override
     public ItemStack[] getContents() {
         ItemStack[] items = new ItemStack[getSize()];
-        List<net.minecraft.world.item.ItemStack> mcResultItems = getResultInventory().getContents();
+        List<net.minecraft.world.item.ItemStack> mcResultItems = ((ContainerBridge) getResultInventory()).getContents();
 
         int i = 0;
         for (i = 0; i < mcResultItems.size(); i++) {
             items[i] = CraftItemStack.asCraftMirror(mcResultItems.get(i));
         }
 
-        List<net.minecraft.world.item.ItemStack> mcItems = getMatrixInventory().getContents();
+        List<net.minecraft.world.item.ItemStack> mcItems = ((ContainerBridge) getMatrixInventory()).getContents();
 
         for (int j = 0; j < mcItems.size(); j++) {
             items[i + j] = CraftItemStack.asCraftMirror(mcItems.get(j));
@@ -82,7 +84,7 @@ public class CraftInventoryCrafting extends CraftInventory implements CraftingIn
 
     @Override
     public ItemStack[] getMatrix() {
-        List<net.minecraft.world.item.ItemStack> matrix = getMatrixInventory().getContents();
+        List<net.minecraft.world.item.ItemStack> matrix = ((ContainerBridge) getMatrixInventory()).getContents();
 
         return asCraftMirror(matrix);
     }
@@ -109,13 +111,13 @@ public class CraftInventoryCrafting extends CraftInventory implements CraftingIn
 
     @Override
     public void setResult(ItemStack item) {
-        List<net.minecraft.world.item.ItemStack> contents = getResultInventory().getContents();
+        List<net.minecraft.world.item.ItemStack> contents = ((ContainerBridge) getResultInventory()).getContents();
         contents.set(0, CraftItemStack.asNMSCopy(item));
     }
 
     @Override
     public Recipe getRecipe() {
-        RecipeHolder<?> recipe = getInventory().getCurrentRecipe();
+        RecipeHolder<?> recipe = ((ContainerBridge) getInventory()).getCurrentRecipe();
         return recipe == null ? null : recipe.toBukkitRecipe();
     }
 }
