@@ -4,6 +4,7 @@
   "package": "dev.tonimatas.cerium.mixins",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "CrashReportMixin",
     "advancements.AdvancementHolderMixin",
     "brigadier.CommandNodeMixin",
     "commands.CommandsMixin",
@@ -13,8 +14,14 @@
     "commands.arguments.EntityArgumentMixin",
     "commands.arguments.selector.EntitySelectorMixin",
     "commands.arguments.selector.EntitySelectorParserMixin",
+    "network.chat.TextColorMixin",
+    "network.protocol.game.ClientboundInitializeBorderPacketMixin",
+    "network.protocol.game.ClientboundSetBorderCenterPacketMixin",
+    "network.syncher.SynchedEntityDataMixin",
     "stats.ServerRecipeBookMixin",
-    "stats.StatsCounterMixin"
+    "stats.StatsCounterMixin",
+    "world.damagesource.DamageSourceMixin",
+    "world.damagesource.DamageSourcesMixin"
   ],
   "client": [
   ],
