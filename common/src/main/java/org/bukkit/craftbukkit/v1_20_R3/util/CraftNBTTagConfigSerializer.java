@@ -80,6 +80,6 @@ public class CraftNBTTagConfigSerializer {
             }
         }
 
-        throw new RuntimeException("Could not deserialize NBTBase");
+        throw new RuntimeException("Could not deserialize Tag");
     }
 }

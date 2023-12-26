@@ -15,7 +15,7 @@ import net.minecraft.world.level.storage.loot.LootTableInfo;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParameter;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParameterSet;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParameters;
-import net.minecraft.world.phys.Vec3D;
+import net.minecraft.world.phys.Vec3;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.craftbukkit.v1_20_R3.entity.CraftEntity;
@@ -85,7 +85,7 @@ public class CraftLootTable implements org.bukkit.loot.LootTable {
         if (random != null) {
             // builder = builder.withRandom(new RandomSourceWrapper(random));
         }
-        setMaybe(builder, LootContextParameters.ORIGIN, CraftLocation.toVec3D(loc));
+        setMaybe(builder, LootContextParameters.ORIGIN, CraftLocation.toVec3(loc));
         if (getHandle() != LootTable.EMPTY) {
             // builder.luck(context.getLuck());
 
@@ -133,7 +133,7 @@ public class CraftLootTable implements org.bukkit.loot.LootTable {
     }
 
     public static LootContext convertContext(LootTableInfo info) {
-        Vec3D position = info.getParamOrNull(LootContextParameters.ORIGIN);
+        Vec3 position = info.getParamOrNull(LootContextParameters.ORIGIN);
         if (position == null) {
             position = info.getParamOrNull(LootContextParameters.THIS_ENTITY).position(); // Every vanilla context has origin or this_entity, see LootContextParameterSets
         }

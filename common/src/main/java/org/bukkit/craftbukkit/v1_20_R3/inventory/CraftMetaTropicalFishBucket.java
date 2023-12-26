@@ -2,7 +2,7 @@ package org.bukkit.craftbukkit.v1_20_R3.inventory;
 
 import com.google.common.collect.ImmutableMap;
 import java.util.Map;
-import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.Tag;
 import net.minecraft.nbt.CompoundTag;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -64,7 +64,7 @@ class CraftMetaTropicalFishBucket extends CraftMetaItem implements TropicalFishB
     }
 
     @Override
-    void serializeInternal(Map<String, NBTBase> internalTags) {
+    void serializeInternal(Map<String, Tag> internalTags) {
         if (entityTag != null && !entityTag.isEmpty()) {
             internalTags.put(ENTITY_TAG.NBT, entityTag);
         }

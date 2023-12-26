@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import net.minecraft.server.packs.IResourcePack;
 import net.minecraft.server.packs.metadata.pack.ResourcePackInfo;
+import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.server.packs.repository.ResourcePackLoader;
 import net.minecraft.util.InclusiveRange;
@@ -18,10 +19,10 @@ import org.bukkit.packs.DataPack;
 
 public class CraftDataPack implements DataPack {
 
-    private final ResourcePackLoader handle;
+    private final Pack handle;
     private final ResourcePackInfo resourcePackInfo;
 
-    public CraftDataPack(ResourcePackLoader handler) {
+    public CraftDataPack(Pack handler) {
         this.handle = handler;
         try (IResourcePack iresourcepack = this.handle.resources.openPrimary(this.handle.getId())) {
             this.resourcePackInfo = iresourcepack.getMetadataSection(ResourcePackInfo.TYPE);
@@ -30,7 +31,7 @@ public class CraftDataPack implements DataPack {
         }
     }
 
-    public ResourcePackLoader getHandle() {
+    public Pack getHandle() {
         return this.handle;
     }
 

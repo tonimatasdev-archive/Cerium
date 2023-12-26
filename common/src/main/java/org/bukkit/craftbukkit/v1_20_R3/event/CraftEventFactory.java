@@ -69,7 +69,7 @@ import net.minecraft.world.inventory.RecipeBookType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.ItemActionContext;
-import net.minecraft.world.level.ChunkCoordIntPair;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.GeneratorAccess;
 import net.minecraft.world.level.Level;
@@ -85,7 +85,7 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParameters;
 import net.minecraft.world.phys.MovingObjectPosition;
 import net.minecraft.world.phys.MovingObjectPositionBlock;
 import net.minecraft.world.phys.MovingObjectPositionEntity;
-import net.minecraft.world.phys.Vec3D;
+import net.minecraft.world.phys.Vec3;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -535,13 +535,13 @@ public class CraftEventFactory {
         return callPlayerInteractEvent(who, action, position, direction, itemstack, false, hand, null);
     }
 
-    public static PlayerInteractEvent callPlayerInteractEvent(net.minecraft.world.entity.player.Player who, Action action, BlockPos position, Direction direction, ItemStack itemstack, boolean cancelledBlock, EnumHand hand, Vec3D targetPos) {
+    public static PlayerInteractEvent callPlayerInteractEvent(net.minecraft.world.entity.player.Player who, Action action, BlockPos position, Direction direction, ItemStack itemstack, boolean cancelledBlock, EnumHand hand, Vec3 targetPos) {
         Player player = (who == null) ? null : (Player) who.getBukkitEntity();
         CraftItemStack itemInHand = CraftItemStack.asCraftMirror(itemstack);
 
         Vector clickedPos = null;
         if (position != null && targetPos != null) {
-            clickedPos = CraftVector.toBukkit(targetPos.subtract(Vec3D.atLowerCornerOf(position)));
+            clickedPos = CraftVector.toBukkit(targetPos.subtract(Vec3.atLowerCornerOf(position)));
         }
 
         CraftLevel craftLevel = (CraftLevel) player.getLevel();
@@ -1834,13 +1834,13 @@ public class CraftEventFactory {
         return event;
     }
 
-    public static void callEntitiesLoadEvent(Level world, ChunkCoordIntPair coords, List<Entity> entities) {
+    public static void callEntitiesLoadEvent(Level world, ChunkPos coords, List<Entity> entities) {
         List<org.bukkit.entity.Entity> bukkitEntities = Collections.unmodifiableList(entities.stream().map(Entity::getBukkitEntity).collect(Collectors.toList()));
         EntitiesLoadEvent event = new EntitiesLoadEvent(new CraftChunk((ServerLevel) world, coords.x, coords.z), bukkitEntities);
         Bukkit.getPluginManager().callEvent(event);
     }
 
-    public static void callEntitiesUnloadEvent(Level world, ChunkCoordIntPair coords, List<Entity> entities) {
+    public static void callEntitiesUnloadEvent(Level world, ChunkPos coords, List<Entity> entities) {
         List<org.bukkit.entity.Entity> bukkitEntities = Collections.unmodifiableList(entities.stream().map(Entity::getBukkitEntity).collect(Collectors.toList()));
         EntitiesUnloadEvent event = new EntitiesUnloadEvent(new CraftChunk((ServerLevel) world, coords.x, coords.z), bukkitEntities);
         Bukkit.getPluginManager().callEvent(event);

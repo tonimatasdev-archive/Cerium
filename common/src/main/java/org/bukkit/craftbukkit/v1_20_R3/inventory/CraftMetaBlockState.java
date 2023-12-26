@@ -6,7 +6,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
 import java.util.Map;
 import java.util.Set;
-import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.Tag;
 import net.minecraft.nbt.CompoundTag;
 import org.bukkit.Material;
 import org.bukkit.block.BlockState;
@@ -192,7 +192,7 @@ public class CraftMetaBlockState extends CraftMetaItem implements BlockStateMeta
     }
 
     @Override
-    void serializeInternal(final Map<String, NBTBase> internalTags) {
+    void serializeInternal(final Map<String, Tag> internalTags) {
         if (blockEntityTag != null) {
             internalTags.put(BLOCK_ENTITY_TAG.NBT, blockEntityTag);
         }

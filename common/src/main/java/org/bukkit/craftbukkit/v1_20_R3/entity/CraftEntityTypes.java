@@ -21,7 +21,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.BlockDiodeAbstract;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AxisAlignedBB;
+import net.minecraft.world.phys.AABB;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -339,7 +339,7 @@ public final class CraftEntityTypes {
                 BlockState nmsBlock = spawnData.world().getBlockState(pos.relative(CraftBlock.blockFaceToNotch(dir)));
                 if (nmsBlock.isSolid() || BlockDiodeAbstract.isDiode(nmsBlock)) {
                     boolean taken = false;
-                    AxisAlignedBB bb = (ItemFrame.class.isAssignableFrom(clazz))
+                    AABB bb = (ItemFrame.class.isAssignableFrom(clazz))
                             ? EntityItemFrame.calculateBoundingBox(null, pos, CraftBlock.blockFaceToNotch(dir).getOpposite(), width, height)
                             : EntityHanging.calculateBoundingBox(null, pos, CraftBlock.blockFaceToNotch(dir).getOpposite(), width, height);
                     List<net.minecraft.world.entity.Entity> list = spawnData.world().getEntities(null, bb);

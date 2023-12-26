@@ -37,7 +37,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.Tag;
 import net.minecraft.nbt.NBTCompressedStreamTools;
 import net.minecraft.nbt.NBTReadLimiter;
 import net.minecraft.nbt.CompoundTag;
@@ -284,7 +284,7 @@ class CraftMetaItem implements ItemMeta, Damageable, Repairable, BlockDataMeta {
     private static final CraftPersistentDataTypeRegistry DATA_TYPE_REGISTRY = new CraftPersistentDataTypeRegistry();
 
     private CompoundTag internalTag;
-    final Map<String, NBTBase> unhandledTags = new HashMap<String, NBTBase>(); // Visible for testing only
+    final Map<String, Tag> unhandledTags = new HashMap<String, Tag>(); // Visible for testing only
     private CraftPersistentDataContainer persistentDataContainer = new CraftPersistentDataContainer(DATA_TYPE_REGISTRY);
 
     private int version = CraftMagicNumbers.INSTANCE.getDataVersion(); // Internal use only
@@ -646,15 +646,15 @@ class CraftMetaItem implements ItemMeta, Damageable, Repairable, BlockDataMeta {
             itemTag.putInt(DAMAGE.NBT, damage);
         }
 
-        for (Map.Entry<String, NBTBase> e : unhandledTags.entrySet()) {
+        for (Map.Entry<String, Tag> e : unhandledTags.entrySet()) {
             itemTag.put(e.getKey(), e.getValue());
         }
 
         if (!persistentDataContainer.isEmpty()) {
             CompoundTag bukkitCustomCompound = new CompoundTag();
-            Map<String, NBTBase> rawPublicMap = persistentDataContainer.getRaw();
+            Map<String, Tag> rawPublicMap = persistentDataContainer.getRaw();
 
-            for (Map.Entry<String, NBTBase> nbtBaseEntry : rawPublicMap.entrySet()) {
+            for (Map.Entry<String, Tag> nbtBaseEntry : rawPublicMap.entrySet()) {
                 bukkitCustomCompound.put(nbtBaseEntry.getKey(), nbtBaseEntry.getValue());
             }
             itemTag.put(BUKKIT_CUSTOM_TAG.NBT, bukkitCustomCompound);
@@ -727,7 +727,7 @@ class CraftMetaItem implements ItemMeta, Damageable, Repairable, BlockDataMeta {
         tag.put(key.NBT, list);
     }
 
-    void setDisplayTag(CompoundTag tag, String key, NBTBase value) {
+    void setDisplayTag(CompoundTag tag, String key, Tag value) {
         final CompoundTag display = tag.getCompound(DISPLAY.NBT);
 
         if (!tag.contains(DISPLAY.NBT)) {
@@ -1261,11 +1261,11 @@ class CraftMetaItem implements ItemMeta, Damageable, Repairable, BlockDataMeta {
             builder.put(DAMAGE.BUKKIT, damage);
         }
 
-        final Map<String, NBTBase> internalTags = new HashMap<String, NBTBase>(unhandledTags);
+        final Map<String, Tag> internalTags = new HashMap<String, Tag>(unhandledTags);
         serializeInternal(internalTags);
         if (!internalTags.isEmpty()) {
             CompoundTag internal = new CompoundTag();
-            for (Map.Entry<String, NBTBase> e : internalTags.entrySet()) {
+            for (Map.Entry<String, Tag> e : internalTags.entrySet()) {
                 internal.put(e.getKey(), e.getValue());
             }
             try {
@@ -1284,7 +1284,7 @@ class CraftMetaItem implements ItemMeta, Damageable, Repairable, BlockDataMeta {
         return builder;
     }
 
-    void serializeInternal(final Map<String, NBTBase> unhandledTags) {
+    void serializeInternal(final Map<String, Tag> unhandledTags) {
     }
 
     Material updateMaterial(Material material) {

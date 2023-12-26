@@ -18,7 +18,7 @@ import net.minecraft.nbt.DynamicOpsNBT;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.thread.ThreadedMailbox;
-import net.minecraft.world.level.ChunkCoordIntPair;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.EnumSkyBlock;
 import net.minecraft.world.level.biome.BiomeBase;
 import net.minecraft.world.level.biome.Biomes;
@@ -59,7 +59,7 @@ public class CraftChunk implements Chunk {
     private static final byte[] FULL_LIGHT = new byte[2048];
     private static final byte[] EMPTY_LIGHT = new byte[2048];
 
-    public CraftChunk(net.minecraft.world.level.chunk.Chunk chunk) {
+    public CraftChunk(net.minecraft.world.level.chunk.LevelChunk chunk) {
         ServerLevel = chunk.level;
         x = chunk.getPos().x;
         z = chunk.getPos().z;
@@ -115,7 +115,7 @@ public class CraftChunk implements Chunk {
 
     @Override
     public boolean isEntitiesLoaded() {
-        return getCraftWorld().getHandle().entityManager.areEntitiesLoaded(ChunkCoordIntPair.asLong(x, z));
+        return getCraftWorld().getHandle().entityManager.areEntitiesLoaded(ChunkPos.asLong(x, z));
     }
 
     @Override
@@ -125,10 +125,10 @@ public class CraftChunk implements Chunk {
         }
 
         PersistentEntitySectionManager<net.minecraft.world.entity.Entity> entityManager = getCraftWorld().getHandle().entityManager;
-        long pair = ChunkCoordIntPair.asLong(x, z);
+        long pair = ChunkPos.asLong(x, z);
 
         if (entityManager.areEntitiesLoaded(pair)) {
-            return entityManager.getEntities(new ChunkCoordIntPair(x, z)).stream()
+            return entityManager.getEntities(new ChunkPos(x, z)).stream()
                     .map(net.minecraft.world.entity.Entity::getBukkitEntity)
                     .filter(Objects::nonNull).toArray(Entity[]::new);
         }
@@ -166,7 +166,7 @@ public class CraftChunk implements Chunk {
             }
         }
 
-        return entityManager.getEntities(new ChunkCoordIntPair(x, z)).stream()
+        return entityManager.getEntities(new ChunkPos(x, z)).stream()
                 .map(net.minecraft.world.entity.Entity::getBukkitEntity)
                 .filter(Objects::nonNull).toArray(Entity[]::new);
     }

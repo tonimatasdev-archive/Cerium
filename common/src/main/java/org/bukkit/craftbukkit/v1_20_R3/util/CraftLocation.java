@@ -40,7 +40,7 @@ public final class CraftLocation {
         return new BlockPos(location.getBlockX(), location.getBlockY(), location.getBlockZ());
     }
 
-    public static Vec3 toVec3D(Location location) {
+    public static Vec3 toVec3(Location location) {
         return new Vec3(location.getX(), location.getY(), location.getZ());
     }
 }

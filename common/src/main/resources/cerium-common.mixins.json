@@ -2,6 +2,13 @@
   "required": true,
   "minVersion": "0.8",
   "package": "dev.tonimatas.cerium.mixins",
+  "overwrites": {
+    "conformVisibility": true
+  },
+  "mixinPriority": 500,
+  "injectors": {
+    "defaultRequire": 1
+  },
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "CrashReportMixin",
@@ -29,6 +36,7 @@
     "world.level.BaseSpawnerMixin",
     "world.level.ContainerMixin",
     "world.level.LevelWriterMixin",
+    "world.level.block.AbstractCandleBlockMixin",
     "world.level.block.ChangeOverTimeBlockMixin",
     "world.level.block.CoralFanBlockMixin",
     "world.level.block.DirtPathBlockMixin",
@@ -46,11 +54,7 @@
     "world.level.block.SculkBlockMixin",
     "world.level.block.SculkSpreaderMixin",
     "world.level.block.SculkVeinBlockMixin",
-    "world.level.block.WallHangingSignBlockMixin"
-  ],
-  "client": [
-  ],
-  "injectors": {
-    "defaultRequire": 1
-  }
+    "world.level.block.WallHangingSignBlockMixin",
+    "world.level.border.WorldBorderMixin"
+  ]
 }

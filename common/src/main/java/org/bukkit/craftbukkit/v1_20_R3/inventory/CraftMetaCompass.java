@@ -6,7 +6,7 @@ import com.mojang.serialization.DataResult;
 import java.util.Map;
 import java.util.Optional;
 import net.minecraft.nbt.DynamicOpsNBT;
-import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.Tag;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.resources.ResourceKey;
@@ -142,7 +142,7 @@ public class CraftMetaCompass extends CraftMetaItem implements CompassMeta {
             this.lodestoneWorld = null;
         } else {
             ResourceKey<net.minecraft.world.level.Level> key = ((CraftWorld) lodestone.getWorld()).getHandle().dimension();
-            DataResult<NBTBase> dataresult = net.minecraft.world.level.Level.RESOURCE_KEY_CODEC.encodeStart(DynamicOpsNBT.INSTANCE, key);
+            DataResult<Tag> dataresult = net.minecraft.world.level.Level.RESOURCE_KEY_CODEC.encodeStart(DynamicOpsNBT.INSTANCE, key);
             this.lodestoneWorld = (NBTTagString) dataresult.get().orThrow();
             this.lodestoneX = lodestone.getBlockX();
             this.lodestoneY = lodestone.getBlockY();
