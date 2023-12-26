@@ -328,3 +328,6 @@ accessible method net/minecraft/nbt/TagParser readArrayTag ()Lnet/minecraft/nbt/
 accessible method net/minecraft/nbt/TagParser type (Ljava/lang/String;)Lnet/minecraft/nbt/Tag;
 accessible field net/minecraft/server/ServerAdvancementManager GSON Lcom/google/gson/Gson;
 accessible field net/minecraft/ChatFormatting code C
+accessible field net/minecraft/world/level/block/MultifaceBlock DIRECTIONS [Lnet/minecraft/core/Direction;
+accessible field net/minecraft/world/level/block/SculkSpreader$ChargeCursor pos Lnet/minecraft/core/BlockPos;
+accessible field net/minecraft/world/level/block/SculkSpreader$ChargeCursor charge I
