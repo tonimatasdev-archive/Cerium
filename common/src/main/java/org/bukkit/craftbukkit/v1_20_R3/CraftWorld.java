@@ -52,6 +52,7 @@ import net.minecraft.world.entity.EntityLightning;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.item.EntityFallingBlock;
 import net.minecraft.world.entity.item.EntityItem;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.EntityHuman;
 import net.minecraft.world.entity.projectile.EntityArrow;
 import net.minecraft.world.entity.raid.PersistentRaid;
@@ -492,7 +493,7 @@ public class CraftWorld extends CraftRegionAccessor implements World {
         Preconditions.checkArgument(loc != null, "Location cannot be null");
         Preconditions.checkArgument(item != null, "ItemStack cannot be null");
 
-        EntityItem entity = new EntityItem(world, loc.getX(), loc.getY(), loc.getZ(), CraftItemStack.asNMSCopy(item));
+        ItemEntity entity = new ItemEntity(world, loc.getX(), loc.getY(), loc.getZ(), CraftItemStack.asNMSCopy(item));
         org.bukkit.entity.Item itemEntity = (org.bukkit.entity.Item) entity.getBukkitEntity();
         entity.pickupDelay = 10;
         if (function != null) {

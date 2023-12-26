@@ -14,8 +14,10 @@
     "commands.arguments.EntityArgumentMixin",
     "commands.arguments.selector.EntitySelectorMixin",
     "commands.arguments.selector.EntitySelectorParserMixin",
+    "network.chat.ComponentMixin",
     "network.chat.TextColorMixin",
     "network.protocol.game.ClientboundInitializeBorderPacketMixin",
+    "network.protocol.game.ClientboundSectionBlocksUpdatePacketMixin",
     "network.protocol.game.ClientboundSetBorderCenterPacketMixin",
     "network.syncher.SynchedEntityDataMixin",
     "stats.ServerRecipeBookMixin",
@@ -24,7 +26,9 @@
     "world.LockCodeMixin",
     "world.damagesource.DamageSourceMixin",
     "world.damagesource.DamageSourcesMixin",
-    "world.level.ContainerMixin"
+    "world.level.BaseSpawnerMixin",
+    "world.level.ContainerMixin",
+    "world.level.LevelWriterMixin"
   ],
   "client": [
   ],

@@ -3,6 +3,7 @@ package org.bukkit.craftbukkit.v1_20_R3.util;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
 import com.google.gson.JsonParseException;
+import dev.tonimatas.cerium.bridge.network.chat.ComponentBridge;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.*;
 import net.minecraft.network.chat.contents.PlainTextContents;
@@ -289,7 +290,7 @@ public final class CraftChatMessage {
         StringBuilder out = new StringBuilder();
 
         boolean hadFormat = false;
-        for (Component c : component) {
+        for (Component c : ((ComponentBridge) component).bridge$stream().toList()) {
             Style modi = c.getStyle();
             TextColor color = modi.getColor();
             if (c.getContents() != PlainTextContents.LiteralContents.EMPTY || color != null) {
