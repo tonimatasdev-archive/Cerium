@@ -1,35 +1,25 @@
 package org.bukkit.craftbukkit.v1_20_R3;
 
 import com.google.common.base.Preconditions;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Random;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.features.TreeFeatures;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.EntityInsentient;
-import net.minecraft.world.entity.EnumMobSpawn;
-import net.minecraft.world.entity.GroupDataEntity;
-import net.minecraft.world.entity.projectile.EntityPotion;
-import net.minecraft.world.level.GeneratorAccessSeed;
-import net.minecraft.world.level.biome.BiomeBase;
-import net.minecraft.world.level.block.BlockChorusFlower;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.ChorusFlowerBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
-import net.minecraft.world.level.levelgen.feature.WorldGenFeatureConfigured;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.RegionAccessor;
 import org.bukkit.TreeType;
 import org.bukkit.block.Biome;
-import org.bukkit.block.BlockState;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.craftbukkit.v1_20_R3.block.CraftBiome;
 import org.bukkit.craftbukkit.v1_20_R3.block.CraftBlock;
@@ -41,29 +31,22 @@ import org.bukkit.craftbukkit.v1_20_R3.util.BlockStateListPopulator;
 import org.bukkit.craftbukkit.v1_20_R3.util.CraftLocation;
 import org.bukkit.craftbukkit.v1_20_R3.util.CraftMagicNumbers;
 import org.bukkit.craftbukkit.v1_20_R3.util.RandomSourceWrapper;
-import org.bukkit.entity.AbstractArrow;
-import org.bukkit.entity.AbstractHorse;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Fireball;
-import org.bukkit.entity.Horse;
-import org.bukkit.entity.LargeFireball;
-import org.bukkit.entity.LingeringPotion;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Minecart;
-import org.bukkit.entity.SizedFireball;
-import org.bukkit.entity.SplashPotion;
-import org.bukkit.entity.ThrownPotion;
-import org.bukkit.entity.TippedArrow;
+import org.bukkit.entity.*;
 import org.bukkit.entity.minecart.RideableMinecart;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionType;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Random;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+
 public abstract class CraftRegionAccessor implements RegionAccessor {
 
-    public abstract GeneratorAccessSeed getHandle();
+    public abstract WorldGenLevel getHandle();
 
     public boolean isNormalWorld() {
         return getHandle() instanceof net.minecraft.server.level.ServerLevel;
@@ -87,19 +70,19 @@ public abstract class CraftRegionAccessor implements RegionAccessor {
     @Override
     public void setBiome(int x, int y, int z, Biome biome) {
         Preconditions.checkArgument(biome != Biome.CUSTOM, "Cannot set the biome to %s", biome);
-        Holder<BiomeBase> biomeBase = CraftBiome.bukkitToMinecraftHolder(biome);
+        Holder<net.minecraft.world.level.biome.Biome> biomeBase = CraftBiome.bukkitToMinecraftHolder(biome);
         setBiome(x, y, z, biomeBase);
     }
 
-    public abstract void setBiome(int x, int y, int z, Holder<BiomeBase> biomeBase);
+    public abstract void setBiome(int x, int y, int z, Holder<net.minecraft.world.level.biome.Biome> biomeBase);
 
     @Override
-    public BlockState getBlockState(Location location) {
+    public org.bukkit.block.BlockState getBlockState(Location location) {
         return getBlockState(location.getBlockX(), location.getBlockY(), location.getBlockZ());
     }
 
     @Override
-    public BlockState getBlockState(int x, int y, int z) {
+    public org.bukkit.block.BlockState getBlockState(int x, int y, int z) {
         return CraftBlock.at(getHandle(), new BlockPos(x, y, z)).getState();
     }
 
@@ -123,7 +106,7 @@ public abstract class CraftRegionAccessor implements RegionAccessor {
         return CraftMagicNumbers.getMaterial(getData(x, y, z).getBlock());
     }
 
-    private IBlockData getData(int x, int y, int z) {
+    private BlockState getData(int x, int y, int z) {
         return getHandle().getBlockState(new BlockPos(x, y, z));
     }
 
@@ -134,9 +117,9 @@ public abstract class CraftRegionAccessor implements RegionAccessor {
 
     @Override
     public void setBlockData(int x, int y, int z, BlockData blockData) {
-        GeneratorAccessSeed world = getHandle();
+        WorldGenLevel world = getHandle();
         BlockPos pos = new BlockPos(x, y, z);
-        IBlockData old = getHandle().getBlockState(pos);
+        BlockState old = getHandle().getBlockState(pos);
 
         CraftBlock.setTypeAndData(world, pos, old, ((CraftBlockData) blockData).getState(), true);
     }
@@ -178,7 +161,7 @@ public abstract class CraftRegionAccessor implements RegionAccessor {
     }
 
     @Override
-    public boolean generateTree(Location location, Random random, TreeType treeType, Consumer<? super BlockState> consumer) {
+    public boolean generateTree(Location location, Random random, TreeType treeType, Consumer<? super org.bukkit.block.BlockState> consumer) {
         return generateTree(location, random, treeType, (consumer == null) ? null : (block) -> {
             consumer.accept(block);
             return true;
@@ -186,13 +169,13 @@ public abstract class CraftRegionAccessor implements RegionAccessor {
     }
 
     @Override
-    public boolean generateTree(Location location, Random random, TreeType treeType, Predicate<? super BlockState> predicate) {
+    public boolean generateTree(Location location, Random random, TreeType treeType, Predicate<? super org.bukkit.block.BlockState> predicate) {
         BlockPos pos = CraftLocation.toBlockPos(location);
         BlockStateListPopulator populator = new BlockStateListPopulator(getHandle());
         boolean result = generateTree(populator, getHandle().getMinecraftWorld().getChunkSource().getGenerator(), pos, new RandomSourceWrapper(random), treeType);
         populator.refreshTiles();
 
-        for (BlockState blockState : populator.getList()) {
+        for (org.bukkit.block.BlockState blockState : populator.getList()) {
             if (predicate == null || predicate.test(blockState)) {
                 blockState.update(true, true);
             }
@@ -201,8 +184,8 @@ public abstract class CraftRegionAccessor implements RegionAccessor {
         return result;
     }
 
-    public boolean generateTree(GeneratorAccessSeed access, ChunkGenerator chunkGenerator, BlockPos pos, RandomSource random, TreeType treeType) {
-        ResourceKey<WorldGenFeatureConfigured<?, ?>> gen;
+    public boolean generateTree(WorldGenLevel access, ChunkGenerator chunkGenerator, BlockPos pos, RandomSource random, TreeType treeType) {
+        ResourceKey<ConfiguredFeature<?, ?>> gen;
         switch (treeType) {
             case BIG_TREE:
                 gen = TreeFeatures.FANCY_OAK;
@@ -250,7 +233,7 @@ public abstract class CraftRegionAccessor implements RegionAccessor {
                 gen = TreeFeatures.SUPER_BIRCH_BEES_0002;
                 break;
             case CHORUS_PLANT:
-                ((BlockChorusFlower) Blocks.CHORUS_FLOWER).generatePlant(access, pos, random, 8);
+                ((ChorusFlowerBlock) Blocks.CHORUS_FLOWER).generatePlant(access, pos, random, 8);
                 return true;
             case CRIMSON_FUNGUS:
                 gen = TreeFeatures.CRIMSON_FUNGUS_PLANTED;
@@ -276,7 +259,7 @@ public abstract class CraftRegionAccessor implements RegionAccessor {
                 break;
         }
 
-        Holder<WorldGenFeatureConfigured<?, ?>> holder = access.registryAccess().registryOrThrow(Registries.CONFIGURED_FEATURE).getHolder(gen).orElse(null);
+        Holder<ConfiguredFeature<?, ?>> holder = access.registryAccess().registryOrThrow(Registries.CONFIGURED_FEATURE).getHolder(gen).orElse(null);
         return (holder != null) ? holder.value().place(access, chunkGenerator, random, pos) : false;
     }
 
@@ -431,8 +414,8 @@ public abstract class CraftRegionAccessor implements RegionAccessor {
     public <T extends Entity> T addEntity(net.minecraft.world.entity.Entity entity, CreatureSpawnEvent.SpawnReason reason, Consumer<? super T> function, boolean randomizeData) throws IllegalArgumentException {
         Preconditions.checkArgument(entity != null, "Cannot spawn null entity");
 
-        if (randomizeData && entity instanceof EntityInsentient) {
-            ((EntityInsentient) entity).finalizeSpawn(getHandle(), getHandle().getCurrentDifficultyAt(entity.blockPosition()), EnumMobSpawn.COMMAND, (GroupDataEntity) null, null);
+        if (randomizeData && entity instanceof  net.minecraft.world.entity.Mob) {
+            (( net.minecraft.world.entity.Mob) entity).finalizeSpawn(getHandle(), getHandle().getCurrentDifficultyAt(entity.blockPosition()), MobSpawnType.COMMAND, (SpawnGroupData) null, null);
         }
 
         if (!isNormalWorld()) {
@@ -471,7 +454,7 @@ public abstract class CraftRegionAccessor implements RegionAccessor {
             clazz = LargeFireball.class;
         } else if (clazz == LingeringPotion.class) {
             clazz = ThrownPotion.class;
-            runOld = other -> ((EntityPotion) other).setItem(CraftItemStack.asNMSCopy(new ItemStack(org.bukkit.Material.LINGERING_POTION, 1)));
+            runOld = other -> ((net.minecraft.world.entity.projectile.ThrownPotion) other).setItem(CraftItemStack.asNMSCopy(new ItemStack(org.bukkit.Material.LINGERING_POTION, 1)));
         } else if (clazz == Minecart.class) {
             clazz = RideableMinecart.class;
         } else if (clazz == SizedFireball.class) {

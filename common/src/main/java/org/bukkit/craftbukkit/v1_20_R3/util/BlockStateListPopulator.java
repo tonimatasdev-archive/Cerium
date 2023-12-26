@@ -1,51 +1,46 @@
 package org.bukkit.craftbukkit.v1_20_R3.util;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.function.Predicate;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.IRegistryCustom;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.GeneratorAccess;
-import net.minecraft.world.level.block.IBlockEntity;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.dimension.DimensionManager;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.storage.WorldData;
-import org.bukkit.block.BlockState;
+import net.minecraft.world.level.dimension.DimensionType;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.storage.LevelData;
 import org.bukkit.craftbukkit.v1_20_R3.block.CraftBlock;
 import org.bukkit.craftbukkit.v1_20_R3.block.CraftBlockEntityState;
 import org.bukkit.craftbukkit.v1_20_R3.block.CraftBlockState;
 
+import java.util.*;
+import java.util.function.Predicate;
+
 public class BlockStateListPopulator extends DummyGeneratorAccess {
-    private final GeneratorAccess world;
-    private final Map<BlockPos, IBlockData> dataMap = new HashMap<>();
+    private final LevelAccessor world;
+    private final Map<BlockPos, BlockState> dataMap = new HashMap<>();
     private final Map<BlockPos, BlockEntity> entityMap = new HashMap<>();
     private final LinkedHashMap<BlockPos, CraftBlockState> list;
 
-    public BlockStateListPopulator(GeneratorAccess world) {
+    public BlockStateListPopulator(LevelAccessor world) {
         this(world, new LinkedHashMap<>());
     }
 
-    private BlockStateListPopulator(GeneratorAccess world, LinkedHashMap<BlockPos, CraftBlockState> list) {
+    private BlockStateListPopulator(LevelAccessor world, LinkedHashMap<BlockPos, CraftBlockState> list) {
         this.world = world;
         this.list = list;
     }
 
     @Override
-    public IBlockData getBlockState(BlockPos bp) {
-        IBlockData blockData = dataMap.get(bp);
+    public BlockState getBlockState(BlockPos bp) {
+        BlockState blockData = dataMap.get(bp);
         return (blockData != null) ? blockData : world.getBlockState(bp);
     }
 
     @Override
-    public Fluid getFluidState(BlockPos bp) {
-        IBlockData blockData = dataMap.get(bp);
+    public FluidState getFluidState(BlockPos bp) {
+        BlockState blockData = dataMap.get(bp);
         return (blockData != null) ? blockData.getFluidState() : world.getFluidState(bp);
     }
 
@@ -60,14 +55,14 @@ public class BlockStateListPopulator extends DummyGeneratorAccess {
     }
 
     @Override
-    public boolean setBlock(BlockPos position, IBlockData data, int flag) {
+    public boolean setBlock(BlockPos position, BlockState data, int flag) {
         position = position.immutable();
         // remove first to keep insertion order
         list.remove(position);
 
         dataMap.put(position, data);
         if (data.hasBlockEntity()) {
-            entityMap.put(position, ((IBlockEntity) data.getBlock()).newBlockEntity(position, data));
+            entityMap.put(position, ((EntityBlock) data.getBlock()).newBlockEntity(position, data));
         } else {
             entityMap.put(position, null);
         }
@@ -95,7 +90,7 @@ public class BlockStateListPopulator extends DummyGeneratorAccess {
     }
 
     public void updateList() {
-        for (BlockState state : list.values()) {
+        for (org.bukkit.block.BlockState state : list.values()) {
             state.update(true);
         }
     }
@@ -108,7 +103,7 @@ public class BlockStateListPopulator extends DummyGeneratorAccess {
         return new ArrayList<>(list.values());
     }
 
-    public GeneratorAccess getWorld() {
+    public LevelAccessor getWorld() {
         return world;
     }
 
@@ -124,28 +119,28 @@ public class BlockStateListPopulator extends DummyGeneratorAccess {
     }
 
     @Override
-    public boolean isStateAtPosition(BlockPos blockposition, Predicate<IBlockData> predicate) {
+    public boolean isStateAtPosition(BlockPos blockposition, Predicate<BlockState> predicate) {
         return predicate.test(getBlockState(blockposition));
     }
 
     @Override
-    public boolean isFluidAtPosition(BlockPos bp, Predicate<Fluid> prdct) {
+    public boolean isFluidAtPosition(BlockPos bp, Predicate<FluidState> prdct) {
         return world.isFluidAtPosition(bp, prdct);
     }
 
     @Override
-    public DimensionManager dimensionType() {
+    public DimensionType dimensionType() {
         return world.dimensionType();
     }
 
     @Override
-    public IRegistryCustom registryAccess() {
+    public RegistryAccess registryAccess() {
         return world.registryAccess();
     }
 
     // Needed when a tree generates in water
     @Override
-    public WorldData getLevelData() {
+    public LevelData getLevelData() {
         return world.getLevelData();
     }
 

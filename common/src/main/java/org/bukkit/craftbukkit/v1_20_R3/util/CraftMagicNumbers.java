@@ -15,23 +15,18 @@ import net.minecraft.Util;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtOps;
-import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.*;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.AdvancementDataWorld;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.ServerAdvancementManager;
 import net.minecraft.util.datafix.DataFixers;
 import net.minecraft.util.datafix.fixes.References;
-import net.minecraft.world.entity.EntityTypes;
-import net.minecraft.world.entity.ai.attributes.AttributeBase;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.alchemy.Potion;
-import net.minecraft.world.item.alchemy.PotionRegistry;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.SavedFile;
+import net.minecraft.world.level.storage.LevelResource;
 import org.bukkit.*;
 import org.bukkit.advancement.Advancement;
 import org.bukkit.attribute.Attribute;
@@ -229,7 +224,7 @@ public final class CraftMagicNumbers implements UnsafeValues {
         net.minecraft.world.item.ItemStack nmsStack = CraftItemStack.asNMSCopy(stack);
 
         try {
-            nmsStack.setTag((CompoundTag) MojangsonParser.parseTag(arguments));
+            nmsStack.setTag((CompoundTag) TagParser.parseTag(arguments));
         } catch (CommandSyntaxException ex) {
             Logger.getLogger(CraftMagicNumbers.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -240,7 +235,7 @@ public final class CraftMagicNumbers implements UnsafeValues {
     }
 
     private static File getBukkitDataPackFolder() {
-        return new File(MinecraftServer.getServer().getWorldPath(SavedFile.DATAPACK_DIR).toFile(), "bukkit");
+        return new File(MinecraftServer.getServer().getWorldPath(LevelResource.DATAPACK_DIR).toFile(), "bukkit");
     }
 
     @Override
@@ -248,7 +243,7 @@ public final class CraftMagicNumbers implements UnsafeValues {
         Preconditions.checkArgument(Bukkit.getAdvancement(key) == null, "Advancement %s already exists", key);
         ResourceLocation ResourceLocation = CraftNamespacedKey.toMinecraft(key);
 
-        JsonElement jsonelement = AdvancementDataWorld.GSON.fromJson(advancement, JsonElement.class);
+        JsonElement jsonelement = ServerAdvancementManager.GSON.fromJson(advancement, JsonElement.class);
         net.minecraft.advancements.Advancement nms = Util.getOrThrow(net.minecraft.advancements.Advancement.CODEC.parse(JsonOps.INSTANCE, jsonelement), JsonParseException::new);
         if (nms != null) {
             MinecraftServer.getServer().getAdvancements().advancements.put(ResourceLocation, new AdvancementHolder(ResourceLocation, nms));
@@ -354,7 +349,7 @@ public final class CraftMagicNumbers implements UnsafeValues {
     @Override
     public String getTranslationKey(EntityType entityType) {
         Preconditions.checkArgument(entityType.getName() != null, "Invalid name of EntityType %s for translation key", entityType);
-        return EntityTypes.byString(entityType.getName()).map(EntityTypes::getDescriptionId).orElseThrow();
+        return net.minecraft.world.entity.EntityType.byString(entityType.getName()).map(net.minecraft.world.entity.EntityType::getDescriptionId).orElseThrow();
     }
 
     @Override

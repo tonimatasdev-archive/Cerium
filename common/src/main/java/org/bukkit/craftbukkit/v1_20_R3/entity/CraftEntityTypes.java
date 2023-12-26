@@ -18,6 +18,7 @@ import net.minecraft.world.entity.vehicle.*;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GeneratorAccessSeed;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.BlockDiodeAbstract;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AxisAlignedBB;
@@ -63,7 +64,7 @@ public final class CraftEntityTypes {
                                                                                                 Function<SpawnData, M> spawnFunction) {
     }
 
-    public record SpawnData(GeneratorAccessSeed world, Location location, boolean randomizeData, boolean normalWorld) {
+    public record SpawnData(WorldGenLevel world, Location location, boolean randomizeData, boolean normalWorld) {
         double x() {
             return location().getX();
         }

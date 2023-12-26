@@ -318,3 +318,13 @@ accessible field net/minecraft/server/level/ChunkMap$TrackedEntity seenBy Ljava/
 accessible field net/minecraft/world/entity/player/Abilities flyingSpeed F
 accessible field net/minecraft/world/entity/player/Abilities walkingSpeed F
 accessible field net/minecraft/world/entity/vehicle/MinecartCommandBlock DATA_ID_COMMAND_NAME Lnet/minecraft/network/syncher/EntityDataAccessor;
+accessible field net/minecraft/world/CompoundContainer container1 Lnet/minecraft/world/Container;
+accessible field net/minecraft/world/CompoundContainer container2 Lnet/minecraft/world/Container;
+accessible method net/minecraft/world/level/LevelAccessor createTick (Lnet/minecraft/core/BlockPos;Ljava/lang/Object;I)Lnet/minecraft/world/ticks/ScheduledTick;
+accessible method net/minecraft/world/level/LevelAccessor createTick (Lnet/minecraft/core/BlockPos;Ljava/lang/Object;ILnet/minecraft/world/ticks/TickPriority;)Lnet/minecraft/world/ticks/ScheduledTick;
+accessible field net/minecraft/world/level/levelgen/structure/StructurePiece SHAPE_CHECK_BLOCKS Ljava/util/Set;
+accessible field net/minecraft/world/level/StructureManager level Lnet/minecraft/world/level/LevelAccessor;
+accessible method net/minecraft/nbt/TagParser readArrayTag ()Lnet/minecraft/nbt/Tag;
+accessible method net/minecraft/nbt/TagParser type (Ljava/lang/String;)Lnet/minecraft/nbt/Tag;
+accessible field net/minecraft/server/ServerAdvancementManager GSON Lcom/google/gson/Gson;
+accessible field net/minecraft/ChatFormatting code C
