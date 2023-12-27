@@ -1,6 +1,7 @@
 package org.bukkit.craftbukkit.v1_20_R3;
 
 import com.google.common.base.Preconditions;
+import dev.tonimatas.cerium.bridge.world.entity.EntityBridge;
 import dev.tonimatas.cerium.bridge.world.level.LevelAccessorBridge;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -279,7 +280,7 @@ public abstract class CraftRegionAccessor implements RegionAccessor {
         List<Entity> list = new ArrayList<Entity>();
 
         getNMSEntities().forEach(entity -> {
-            Entity bukkitEntity = entity.getBukkitEntity();
+            Entity bukkitEntity = ((EntityBridge) entity).getBukkitEntity();
 
             // Assuming that bukkitEntity isn't null
             if (bukkitEntity != null && (!isNormalWorld() || bukkitEntity.isValid())) {
@@ -295,7 +296,7 @@ public abstract class CraftRegionAccessor implements RegionAccessor {
         List<LivingEntity> list = new ArrayList<LivingEntity>();
 
         getNMSEntities().forEach(entity -> {
-            Entity bukkitEntity = entity.getBukkitEntity();
+            Entity bukkitEntity = ((EntityBridge) entity).getBukkitEntity();
 
             // Assuming that bukkitEntity isn't null
             if (bukkitEntity != null && bukkitEntity instanceof LivingEntity && (!isNormalWorld() || bukkitEntity.isValid())) {
@@ -312,7 +313,7 @@ public abstract class CraftRegionAccessor implements RegionAccessor {
         Collection<T> list = new ArrayList<T>();
 
         getNMSEntities().forEach(entity -> {
-            Entity bukkitEntity = entity.getBukkitEntity();
+            Entity bukkitEntity = ((EntityBridge) entity).getBukkitEntity();
 
             if (bukkitEntity == null) {
                 return;
@@ -333,7 +334,7 @@ public abstract class CraftRegionAccessor implements RegionAccessor {
         Collection<Entity> list = new ArrayList<Entity>();
 
         getNMSEntities().forEach(entity -> {
-            Entity bukkitEntity = entity.getBukkitEntity();
+            Entity bukkitEntity = ((EntityBridge) entity).getBukkitEntity();
 
             if (bukkitEntity == null) {
                 return;
@@ -365,7 +366,7 @@ public abstract class CraftRegionAccessor implements RegionAccessor {
             entity.generation = true;
         }
 
-        return (T) entity.getBukkitEntity();
+        return (T) ((EntityBridge) entity).getBukkitEntity();
     }
 
     @Override
@@ -424,11 +425,11 @@ public abstract class CraftRegionAccessor implements RegionAccessor {
         }
 
         if (function != null) {
-            function.accept((T) entity.getBukkitEntity());
+            function.accept((T) ((EntityBridge) entity).getBukkitEntity());
         }
 
         addEntityToWorld(entity, reason);
-        return (T) entity.getBukkitEntity();
+        return (T) ((EntityBridge) entity).getBukkitEntity();
     }
 
     public abstract void addEntityToWorld(net.minecraft.world.entity.Entity entity, CreatureSpawnEvent.SpawnReason reason);
@@ -464,7 +465,7 @@ public abstract class CraftRegionAccessor implements RegionAccessor {
             clazz = ThrownPotion.class;
         } else if (clazz == TippedArrow.class) {
            clazz = Arrow.class;
-           runOld = other -> ((Arrow) other.getBukkitEntity()).setBasePotionType(PotionType.WATER);
+           runOld = other -> ((Arrow) ((EntityBridge) other).getBukkitEntity()).setBasePotionType(PotionType.WATER);
         }
 
         CraftEntityTypes.EntityTypeData<?, ?> entityTypeData = CraftEntityTypes.getEntityTypeData(clazz);

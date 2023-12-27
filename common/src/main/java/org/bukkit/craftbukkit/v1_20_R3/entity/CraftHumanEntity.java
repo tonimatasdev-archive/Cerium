@@ -2,6 +2,7 @@ package org.bukkit.craftbukkit.v1_20_R3.entity;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
+import dev.tonimatas.cerium.bridge.world.entity.EntityBridge;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -544,7 +545,7 @@ public class CraftHumanEntity extends CraftLivingEntity implements HumanEntity {
         if (!getHandle().getShoulderEntityLeft().isEmpty()) {
             Optional<Entity> shoulder = EntityType.create(getHandle().getShoulderEntityLeft(), getHandle().level());
 
-            return (!shoulder.isPresent()) ? null : shoulder.get().getBukkitEntity();
+            return (!shoulder.isPresent()) ? null : ((EntityBridge) shoulder.get()).getBukkitEntity();
         }
 
         return null;
@@ -563,7 +564,7 @@ public class CraftHumanEntity extends CraftLivingEntity implements HumanEntity {
         if (!getHandle().getShoulderEntityRight().isEmpty()) {
             Optional<Entity> shoulder = EntityType.create(getHandle().getShoulderEntityRight(), getHandle().level());
 
-            return (!shoulder.isPresent()) ? null : shoulder.get().getBukkitEntity();
+            return (!shoulder.isPresent()) ? null : ((EntityBridge) shoulder.get()).getBukkitEntity();
         }
 
         return null;
@@ -664,7 +665,7 @@ public class CraftHumanEntity extends CraftLivingEntity implements HumanEntity {
 
         FireworkRocketEntity fireworks = new FireworkRocketEntity(getHandle().level(), CraftItemStack.asNMSCopy(fireworkItemStack), getHandle());
         boolean success = getHandle().level().addFreshEntity(fireworks, SpawnReason.CUSTOM);
-        return success ? (Firework) fireworks.getBukkitEntity() : null;
+        return success ? (Firework) ((EntityBridge) fireworks).getBukkitEntity() : null;
     }
 
     @Override

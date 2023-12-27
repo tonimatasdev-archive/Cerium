@@ -129,7 +129,7 @@ public final class CraftItemStack extends ItemStack {
         } else if (handle == null) {
             handle = new net.minecraft.world.item.ItemStack(CraftMagicNumbers.getItem(type), 1);
         } else {
-            ((ItemStackBridge) (Object) handle).bridge$setItem(CraftMagicNumbers.getItem(type));
+            ((ItemStackBridge) (Object) handle).setItem(CraftMagicNumbers.getItem(type));
             if (hasItemMeta()) {
                 // This will create the appropriate item meta, which will contain all the data we intend to keep
                 setItemMeta(handle, getItemMeta(handle));
@@ -657,14 +657,14 @@ public final class CraftItemStack extends ItemStack {
         Item oldItem = item.getItem();
         Item newItem = CraftMagicNumbers.getItem(CraftItemFactory.instance().updateMaterial(itemMeta, CraftMagicNumbers.getMaterial(oldItem)));
         if (oldItem != newItem) {
-            ((ItemStackBridge) (Object) item).bridge$setItem(newItem);
+            ((ItemStackBridge) (Object) item).setItem(newItem);
         }
 
         CompoundTag tag = new CompoundTag();
         item.setTag(tag);
 
         ((CraftMetaItem) itemMeta).applyToItem(tag);
-        ((ItemStackBridge) (Object) item).bridge$convertStack(((CraftMetaItem) itemMeta).getVersion());
+        ((ItemStackBridge) (Object) item).convertStack(((CraftMetaItem) itemMeta).getVersion());
         // SpigotCraft#463 this is required now by the Vanilla client, so mimic ItemStack constructor in ensuring it
         if (item.getItem() != null && item.getItem().canBeDepleted()) {
             item.setDamageValue(item.getDamageValue());

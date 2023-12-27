@@ -1,6 +1,7 @@
 package org.bukkit.craftbukkit.v1_20_R3.entity;
 
 import com.google.common.base.Preconditions;
+import dev.tonimatas.cerium.bridge.world.entity.EntityBridge;
 import org.bukkit.craftbukkit.v1_20_R3.CraftServer;
 import org.bukkit.entity.Creeper;
 import org.bukkit.event.entity.CreeperPowerEvent;
@@ -27,7 +28,7 @@ public class CraftCreeper extends CraftMonster implements Creeper {
     }
 
     private boolean callPowerEvent(CreeperPowerEvent.PowerCause cause) {
-        CreeperPowerEvent event = new CreeperPowerEvent((Creeper) getHandle().getBukkitEntity(), cause);
+        CreeperPowerEvent event = new CreeperPowerEvent((Creeper) ((EntityBridge) getHandle()).getBukkitEntity(), cause);
         server.getPluginManager().callEvent(event);
         return event.isCancelled();
     }

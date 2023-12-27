@@ -1,6 +1,7 @@
 package org.bukkit.craftbukkit.v1_20_R3.entity;
 
 import com.google.common.base.Preconditions;
+import dev.tonimatas.cerium.bridge.world.entity.EntityBridge;
 import org.bukkit.craftbukkit.v1_20_R3.CraftServer;
 import org.bukkit.entity.Fireball;
 import org.bukkit.projectiles.ProjectileSource;
@@ -33,7 +34,7 @@ public class CraftFireball extends AbstractProjectile implements Fireball {
 
     @Override
     public ProjectileSource getShooter() {
-        return getHandle().projectileSource;
+        return ((EntityBridge) getHandle()).bridge$getProjectileSource();
     }
 
     @Override
@@ -43,7 +44,7 @@ public class CraftFireball extends AbstractProjectile implements Fireball {
         } else {
             getHandle().setOwner(null);
         }
-        getHandle().projectileSource = shooter;
+        ((EntityBridge) getHandle()).bridge$setProjectileSource(shooter);
     }
 
     @Override

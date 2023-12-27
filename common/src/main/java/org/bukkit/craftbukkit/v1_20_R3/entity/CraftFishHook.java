@@ -1,6 +1,7 @@
 package org.bukkit.craftbukkit.v1_20_R3.entity;
 
 import com.google.common.base.Preconditions;
+import dev.tonimatas.cerium.bridge.world.entity.EntityBridge;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.projectile.FishingHook;
 import org.bukkit.craftbukkit.v1_20_R3.CraftServer;
@@ -170,7 +171,7 @@ public class CraftFishHook extends CraftProjectile implements FishHook {
     @Override
     public Entity getHookedEntity() {
         net.minecraft.world.entity.Entity hooked = getHandle().hookedIn;
-        return (hooked != null) ? hooked.getBukkitEntity() : null;
+        return (hooked != null) ? ((EntityBridge) hooked).getBukkitEntity() : null;
     }
 
     @Override

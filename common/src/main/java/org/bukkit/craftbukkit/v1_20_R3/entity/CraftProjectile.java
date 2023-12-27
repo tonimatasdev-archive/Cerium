@@ -1,5 +1,6 @@
 package org.bukkit.craftbukkit.v1_20_R3.entity;
 
+import dev.tonimatas.cerium.bridge.world.entity.EntityBridge;
 import net.minecraft.world.entity.LivingEntity;
 import org.bukkit.craftbukkit.v1_20_R3.CraftServer;
 import org.bukkit.entity.Projectile;
@@ -12,7 +13,7 @@ public abstract class CraftProjectile extends AbstractProjectile implements Proj
 
     @Override
     public ProjectileSource getShooter() {
-        return getHandle().projectileSource;
+        return ((EntityBridge) getHandle()).bridge$getProjectileSource();
     }
 
     @Override
@@ -22,7 +23,7 @@ public abstract class CraftProjectile extends AbstractProjectile implements Proj
         } else {
             getHandle().setOwner(null);
         }
-        getHandle().projectileSource = shooter;
+        ((EntityBridge) getHandle()).bridge$setProjectileSource(shooter);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package org.bukkit.craftbukkit.v1_20_R3.entity;
 
 import com.google.common.base.Preconditions;
+import dev.tonimatas.cerium.bridge.world.entity.EntityBridge;
 import net.minecraft.sounds.SoundEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
@@ -33,7 +34,7 @@ public abstract class CraftMob extends CraftLivingEntity implements Mob {
     public CraftLivingEntity getTarget() {
         if (getHandle().getTarget() == null) return null;
 
-        return (CraftLivingEntity) getHandle().getTarget().getBukkitEntity();
+        return (CraftLivingEntity) ((EntityBridge) getHandle().getTarget()).getBukkitEntity();
     }
 
     @Override

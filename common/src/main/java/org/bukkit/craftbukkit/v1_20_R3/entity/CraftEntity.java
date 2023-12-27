@@ -5,10 +5,11 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Predicates;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
+import dev.tonimatas.cerium.bridge.world.entity.EntityBridge;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.PlayerChunkMap;
+import net.minecraft.server.level.ChunkMap;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerPlayerConnection;
@@ -88,7 +89,7 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
 
     @Override
     public Location getLocation() {
-        return CraftLocation.toBukkit(entity.position(), getWorld(), entity.getBukkitYaw(), entity.getXRot());
+        return CraftLocation.toBukkit(entity.position(), getWorld(), ((EntityBridge) entity).getBukkitYaw(), entity.getXRot());
     }
 
     @Override
@@ -98,7 +99,7 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
             loc.setX(entity.getX());
             loc.setY(entity.getY());
             loc.setZ(entity.getZ());
-            loc.setYaw(entity.getBukkitYaw());
+            loc.setYaw(((EntityBridge) entity).getBukkitYaw());
             loc.setPitch(entity.getXRot());
         }
 
@@ -218,7 +219,7 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
         List<org.bukkit.entity.Entity> bukkitEntityList = new java.util.ArrayList<org.bukkit.entity.Entity>(notchEntityList.size());
 
         for (Entity e : notchEntityList) {
-            bukkitEntityList.add(e.getBukkitEntity());
+            bukkitEntityList.add(((EntityBridge) e).getBukkitEntity());
         }
         return bukkitEntityList;
     }
@@ -277,7 +278,7 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
 
     @Override
     public void remove() {
-        entity.pluginRemoved = true;
+        ((EntityBridge) entity).bridge$setPluginRemoved(true);
         entity.discard();
     }
 
@@ -288,7 +289,7 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
 
     @Override
     public boolean isValid() {
-        return entity.isAlive() && entity.valid && entity.isChunkLoaded() && isInWorld();
+        return entity.isAlive() && ((EntityBridge) entity).bridge$getValid() && ((EntityBridge) entity).isChunkLoaded() && isInWorld();
     }
 
     @Override
@@ -298,12 +299,12 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
 
     @Override
     public boolean isPersistent() {
-        return entity.persist;
+        return ((EntityBridge) entity).bridge$getPersist();
     }
 
     @Override
     public void setPersistent(boolean persistent) {
-        entity.persist = persistent;
+        ((EntityBridge) entity).bridge$setPersist(persistent);
     }
 
     public Vector getMomentum() {
@@ -316,7 +317,7 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
 
     @Override
     public org.bukkit.entity.Entity getPassenger() {
-        return isEmpty() ? null : getHandle().passengers.get(0).getBukkitEntity();
+        return isEmpty() ? null : ((EntityBridge) getHandle().passengers.get(0)).getBukkitEntity();
     }
 
     @Override
@@ -332,7 +333,7 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
 
     @Override
     public List<org.bukkit.entity.Entity> getPassengers() {
-        return Lists.newArrayList(Lists.transform(getHandle().passengers, (Function<Entity, org.bukkit.entity.Entity>) input -> input.getBukkitEntity()));
+        return Lists.newArrayList(Lists.transform(getHandle().passengers, (Function<Entity, org.bukkit.entity.Entity>) input -> ((EntityBridge) input).getBukkitEntity()));
     }
 
     @Override
@@ -505,7 +506,7 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
             return null;
         }
 
-        return getHandle().getVehicle().getBukkitEntity();
+        return ((EntityBridge) getHandle().getVehicle()).getBukkitEntity();
     }
 
     @Override
@@ -541,7 +542,7 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
 
     @Override
     public void setVisibleByDefault(boolean visible) {
-        if (getHandle().visibleByDefault != visible) {
+        if (((EntityBridge) getHandle()).bridge$getVisibleByDefault() != visible) {
             if (visible) {
                 // Making visible by default, reset and show to all players
                 for (Player player : server.getOnlinePlayers()) {
@@ -554,13 +555,13 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
                 }
             }
 
-            getHandle().visibleByDefault = visible;
+            ((EntityBridge) getHandle()).bridge$setVisibleByDefault(visible);
         }
     }
 
     @Override
     public boolean isVisibleByDefault() {
-        return getHandle().visibleByDefault;
+        return ((EntityBridge) getHandle()).bridge$getVisibleByDefault();
     }
 
     @Override
@@ -569,7 +570,7 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
         ImmutableSet.Builder<Player> players = ImmutableSet.builder();
 
         ServerLevel world = ((CraftWorld) getWorld()).getHandle();
-        PlayerChunkMap.EntityTracker entityTracker = world.getChunkSource().chunkMap.entityMap.get(getEntityId());
+        ChunkMap.TrackedEntity entityTracker = world.getChunkSource().chunkMap.entityMap.get(getEntityId());
 
         if (entityTracker != null) {
             for (ServerPlayerConnection connection : entityTracker.seenBy) {
@@ -763,7 +764,7 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
 
     @Override
     public boolean isInWorld() {
-        return getHandle().inWorld;
+        return ((EntityBridge) getHandle()).bridge$getInWorld();
     }
 
     @Override
@@ -776,7 +777,7 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
         Entity copy = copy(getHandle().level());
         Preconditions.checkArgument(copy != null, "Error creating new entity.");
 
-        return copy.getBukkitEntity();
+        return ((EntityBridge) copy).getBukkitEntity();
     }
 
     @Override
@@ -787,7 +788,7 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
         Preconditions.checkArgument(copy != null, "Error creating new entity.");
 
         copy.setPos(location.getX(), location.getY(), location.getZ());
-        return location.getWorld().addEntity(copy.getBukkitEntity());
+        return location.getWorld().addEntity(((EntityBridge) copy).getBukkitEntity());
     }
 
     private Entity copy(net.minecraft.world.level.Level level) {
@@ -826,7 +827,7 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
         }
 
         ServerLevel world = ((CraftWorld) getWorld()).getHandle();
-        PlayerChunkMap.EntityTracker entityTracker = world.getChunkSource().chunkMap.entityMap.get(getEntityId());
+        ChunkMap.TrackedEntity entityTracker = world.getChunkSource().chunkMap.entityMap.get(getEntityId());
 
         if (entityTracker == null) {
             return;

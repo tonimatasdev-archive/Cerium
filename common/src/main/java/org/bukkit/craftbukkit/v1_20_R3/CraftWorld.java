@@ -5,6 +5,7 @@ import com.google.common.base.Predicates;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.mojang.datafixers.util.Pair;
+import dev.tonimatas.cerium.bridge.world.entity.EntityBridge;
 import it.unimi.dsi.fastutil.longs.Long2ObjectLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
@@ -429,7 +430,7 @@ public class CraftWorld extends CraftRegionAccessor implements World {
         Preconditions.checkArgument(item != null, "ItemStack cannot be null");
 
         ItemEntity entity = new ItemEntity(world, loc.getX(), loc.getY(), loc.getZ(), CraftItemStack.asNMSCopy(item));
-        org.bukkit.entity.Item itemEntity = (org.bukkit.entity.Item) entity.getBukkitEntity();
+        org.bukkit.entity.Item itemEntity = (org.bukkit.entity.Item) ((EntityBridge) entity).getBukkitEntity();
         entity.pickupDelay = 10;
         if (function != null) {
             function.accept(itemEntity);
@@ -469,7 +470,7 @@ public class CraftWorld extends CraftRegionAccessor implements World {
         net.minecraft.world.entity.projectile.AbstractArrow arrow;
         if (TippedArrow.class.isAssignableFrom(clazz)) {
             arrow = net.minecraft.world.entity.EntityType.ARROW.create(world);
-            ((Arrow) arrow.getBukkitEntity()).setBasePotionData(new PotionData(PotionType.WATER, false, false));
+            ((Arrow) ((EntityBridge) arrow).getBukkitEntity()).setBasePotionData(new PotionData(PotionType.WATER, false, false));
         } else if (SpectralArrow.class.isAssignableFrom(clazz)) {
             arrow = net.minecraft.world.entity.EntityType.SPECTRAL_ARROW.create(world);
         } else if (Trident.class.isAssignableFrom(clazz)) {
@@ -481,7 +482,7 @@ public class CraftWorld extends CraftRegionAccessor implements World {
         arrow.moveTo(loc.getX(), loc.getY(), loc.getZ(), loc.getYaw(), loc.getPitch());
         arrow.shoot(velocity.getX(), velocity.getY(), velocity.getZ(), speed, spread);
         world.addFreshEntity(arrow);
-        return (T) arrow.getBukkitEntity();
+        return (T) ((EntityBridge) arrow).getBukkitEntity();
     }
 
     @Override
@@ -501,7 +502,7 @@ public class CraftWorld extends CraftRegionAccessor implements World {
         lightning.moveTo(loc.getX(), loc.getY(), loc.getZ());
         lightning.setVisualOnly(isVisual);
         world.strikeLightning(lightning, LightningStrikeEvent.Cause.CUSTOM);
-        return (LightningStrike) lightning.getBukkitEntity();
+        return (LightningStrike) ((EntityBridge) lightning).getBukkitEntity();
     }
 
     @Override
@@ -793,7 +794,7 @@ public class CraftWorld extends CraftRegionAccessor implements World {
         List<Entity> bukkitEntityList = new ArrayList<org.bukkit.entity.Entity>(entityList.size());
 
         for (net.minecraft.world.entity.Entity entity : entityList) {
-            Entity bukkitEntity = entity.getBukkitEntity();
+            Entity bukkitEntity = ((EntityBridge) entity).getBukkitEntity();
             if (filter == null || filter.test(bukkitEntity)) {
                 bukkitEntityList.add(bukkitEntity);
             }
@@ -1109,7 +1110,7 @@ public class CraftWorld extends CraftRegionAccessor implements World {
         Preconditions.checkArgument(material.isBlock(), "Material.%s must be a block", material);
 
         FallingBlockEntity entity = FallingBlockEntity.fall(world, BlockPos.containing(location.getX(), location.getY(), location.getZ()), CraftMagicNumbers.getBlock(material).defaultBlockState(), SpawnReason.CUSTOM);
-        return (FallingBlock) entity.getBukkitEntity();
+        return (FallingBlock) ((EntityBridge) entity).getBukkitEntity();
     }
 
     @Override
@@ -1118,7 +1119,7 @@ public class CraftWorld extends CraftRegionAccessor implements World {
         Preconditions.checkArgument(data != null, "BlockData cannot be null");
 
         FallingBlockEntity entity = FallingBlockEntity.fall(world, BlockPos.containing(location.getX(), location.getY(), location.getZ()), ((CraftBlockData) data).getState(), SpawnReason.CUSTOM);
-        return (FallingBlock) entity.getBukkitEntity();
+        return (FallingBlock) ((EntityBridge) entity).getBukkitEntity();
     }
 
     @Override

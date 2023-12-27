@@ -1,6 +1,7 @@
 package org.bukkit.craftbukkit.v1_20_R3.boss;
 
 import com.google.common.base.Preconditions;
+import dev.tonimatas.cerium.bridge.world.entity.EntityBridge;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.state.pattern.BlockPattern;
 import net.minecraft.world.level.dimension.end.DragonRespawnAnimation;
@@ -31,7 +32,7 @@ public class CraftDragonBattle implements DragonBattle {
     @Override
     public EnderDragon getEnderDragon() {
         Entity entity = handle.level.getEntity(handle.dragonUUID);
-        return (entity != null) ? (EnderDragon) entity.getBukkitEntity() : null;
+        return (entity != null) ? (EnderDragon) ((EntityBridge) entity).getBukkitEntity() : null;
     }
 
     @Override

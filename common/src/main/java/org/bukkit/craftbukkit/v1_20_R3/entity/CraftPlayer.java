@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.io.BaseEncoding;
 import com.mojang.authlib.GameProfile;
 import com.mojang.datafixers.util.Pair;
+import dev.tonimatas.cerium.bridge.world.entity.EntityBridge;
 import it.unimi.dsi.fastutil.shorts.ShortArraySet;
 import it.unimi.dsi.fastutil.shorts.ShortSet;
 import net.minecraft.advancements.AdvancementProgress;
@@ -1937,7 +1938,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
     @Override
     public org.bukkit.entity.Entity getSpectatorTarget() {
         Entity followed = getHandle().getCamera();
-        return followed == getHandle() ? null : followed.getBukkitEntity();
+        return followed == getHandle() ? null : ((EntityBridge) followed).getBukkitEntity();
     }
 
     @Override

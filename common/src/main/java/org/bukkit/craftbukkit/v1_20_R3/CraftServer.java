@@ -16,6 +16,7 @@ import com.mojang.serialization.Dynamic;
 import com.mojang.serialization.Lifecycle;
 import dev.tonimatas.cerium.bridge.commands.arguments.EntityArgumentBridge;
 import dev.tonimatas.cerium.bridge.world.ContainerBridge;
+import dev.tonimatas.cerium.bridge.world.entity.EntityBridge;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import jline.console.ConsoleReader;
 import net.minecraft.advancements.AdvancementHolder;
@@ -2193,7 +2194,7 @@ public final class CraftServer implements Server {
         for (ServerLevel world : getServer().getAllLevels()) {
             net.minecraft.world.entity.Entity entity = world.getEntity(uuid);
             if (entity != null) {
-                return entity.getBukkitEntity();
+                return ((EntityBridge) entity).getBukkitEntity();
             }
         }
 
@@ -2347,7 +2348,7 @@ public final class CraftServer implements Server {
             throw new IllegalArgumentException("Could not parse selector: " + selector, ex);
         }
 
-        return new ArrayList<>(Lists.transform(nms, (entity) -> entity.getBukkitEntity()));
+        return new ArrayList<>(Lists.transform(nms, (entity) -> ((EntityBridge) entity).getBukkitEntity()));
     }
 
     @Override

@@ -2,6 +2,7 @@ package org.bukkit.craftbukkit.v1_20_R3.entity;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import dev.tonimatas.cerium.bridge.world.entity.EntityBridge;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import org.bukkit.Color;
@@ -234,7 +235,7 @@ public class CraftAreaEffectCloud extends CraftEntity implements AreaEffectCloud
     @Override
     public ProjectileSource getSource() {
         net.minecraft.world.entity.LivingEntity source = getHandle().getOwner();
-        return (source == null) ? null : (LivingEntity) source.getBukkitEntity();
+        return (source == null) ? null : (LivingEntity) ((EntityBridge) source).getBukkitEntity();
     }
 
     @Override

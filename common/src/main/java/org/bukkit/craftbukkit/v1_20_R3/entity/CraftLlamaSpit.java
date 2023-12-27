@@ -1,5 +1,6 @@
 package org.bukkit.craftbukkit.v1_20_R3.entity;
 
+import dev.tonimatas.cerium.bridge.world.entity.EntityBridge;
 import org.bukkit.craftbukkit.v1_20_R3.CraftServer;
 import org.bukkit.entity.LlamaSpit;
 import org.bukkit.projectiles.ProjectileSource;
@@ -22,7 +23,7 @@ public class CraftLlamaSpit extends AbstractProjectile implements LlamaSpit {
 
     @Override
     public ProjectileSource getShooter() {
-        return (getHandle().getOwner() != null) ? (ProjectileSource) getHandle().getOwner().getBukkitEntity() : null;
+        return (getHandle().getOwner() != null) ? (ProjectileSource) ((EntityBridge) getHandle().getOwner()).getBukkitEntity() : null;
     }
 
     @Override

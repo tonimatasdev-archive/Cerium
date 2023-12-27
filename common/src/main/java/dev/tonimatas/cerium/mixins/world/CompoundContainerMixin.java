@@ -21,7 +21,7 @@ import java.util.List;
 public abstract class CompoundContainerMixin implements ContainerBridge, Container {
     @Shadow @Final private Container container1;
     @Shadow @Final private Container container2;
-    @Unique private List<HumanEntity> cerium$transactions = new ArrayList<>();
+    @Unique private List<HumanEntity> transactions = new ArrayList<>();
 
     @Override
     public List<ItemStack> getContents() {
@@ -37,19 +37,19 @@ public abstract class CompoundContainerMixin implements ContainerBridge, Contain
     public void onOpen(CraftHumanEntity who) {
         ((ContainerBridge) this.container1).onOpen(who);
         ((ContainerBridge) this.container2).onOpen(who);
-        this.cerium$transactions.add(who);
+        this.transactions.add(who);
     }
 
     @Override
     public void onClose(CraftHumanEntity who) {
         ((ContainerBridge) this.container1).onClose(who);
         ((ContainerBridge) this.container2).onClose(who);
-        this.cerium$transactions.remove(who);
+        this.transactions.remove(who);
     }
 
     @Override
     public List<HumanEntity> getViewers() {
-        return cerium$transactions;
+        return transactions;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package org.bukkit.craftbukkit.v1_20_R3.structure;
 
 import com.google.common.base.Preconditions;
+import dev.tonimatas.cerium.bridge.world.entity.EntityBridge;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
@@ -106,7 +107,7 @@ public class CraftStructure implements Structure {
         for (StructureTemplate.StructureEntityInfo entity : structure.entityInfoList) {
             EntityType.create(entity.nbt, ((CraftWorld) Bukkit.getServer().getWorlds().get(0)).getHandle()).ifPresent(dummyEntity -> {
                 dummyEntity.setPos(entity.pos.x, entity.pos.y, entity.pos.z);
-                entities.add(dummyEntity.getBukkitEntity());
+                entities.add(((EntityBridge) dummyEntity).getBukkitEntity());
             });
         }
         return Collections.unmodifiableList(entities);

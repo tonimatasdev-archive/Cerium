@@ -2,21 +2,17 @@ package org.bukkit.util;
 
 import com.google.common.base.Preconditions;
 import com.google.common.primitives.Doubles;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Random;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.SerializableAs;
 import org.jetbrains.annotations.NotNull;
-import org.joml.RoundingMode;
-import org.joml.Vector3d;
-import org.joml.Vector3dc;
-import org.joml.Vector3f;
-import org.joml.Vector3fc;
-import org.joml.Vector3i;
-import org.joml.Vector3ic;
+import org.joml.*;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Random;
+import java.lang.Math;
 
 /**
  * Represents a mutable vector. Because the components of Vectors are mutable,

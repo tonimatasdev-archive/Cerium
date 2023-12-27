@@ -1,5 +1,6 @@
 package org.bukkit.craftbukkit.v1_20_R3.util;
 
+import dev.tonimatas.cerium.bridge.world.entity.EntityBridge;
 import dev.tonimatas.cerium.bridge.world.level.LevelAccessorBridge;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
@@ -7,7 +8,6 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.levelgen.structure.Structure;
-import net.minecraft.world.level.levelgen.structure.StructureBoundingBox;
 import org.bukkit.Bukkit;
 import org.bukkit.block.BlockState;
 import org.bukkit.craftbukkit.v1_20_R3.block.CraftBlockState;
@@ -64,7 +64,7 @@ public class CraftStructureTransformer {
     private BlockTransformer[] blockTransformers;
     private EntityTransformer[] entityTransformers;
 
-    public CraftStructureTransformer(Cause cause, WorldGenLevel generatoraccessseed, StructureManager structuremanager, Structure structure, StructureBoundingBox structureboundingbox, ChunkPos chunkcoordintpair) {
+    public CraftStructureTransformer(Cause cause, WorldGenLevel generatoraccessseed, StructureManager structuremanager, Structure structure, net.minecraft.world.level.levelgen.structure.BoundingBox structureboundingbox, ChunkPos chunkcoordintpair) {
         AsyncStructureGenerateEvent event = new AsyncStructureGenerateEvent(((LevelAccessorBridge) structuremanager.level).getMinecraftWorld().getWorld(), !Bukkit.isPrimaryThread(), cause, CraftStructure.minecraftToBukkit(structure, structuremanager.registryAccess()), new org.bukkit.util.BoundingBox(structureboundingbox.minX(), structureboundingbox.minY(), structureboundingbox.minZ(), structureboundingbox.maxX(), structureboundingbox.maxY(), structureboundingbox.maxZ()), chunkcoordintpair.x, chunkcoordintpair.z);
         Bukkit.getPluginManager().callEvent(event);
         this.blockTransformers = event.getBlockTransformers().values().toArray(BlockTransformer[]::new);
@@ -82,7 +82,7 @@ public class CraftStructureTransformer {
             return true;
         }
         entity.generation = true;
-        CraftEntity craftEntity = entity.getBukkitEntity();
+        CraftEntity craftEntity = ((EntityBridge) entity).getBukkitEntity();
         int x = entity.getBlockX();
         int y = entity.getBlockY();
         int z = entity.getBlockZ();

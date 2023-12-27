@@ -1,5 +1,6 @@
 package org.bukkit.craftbukkit.v1_20_R3.util;
 
+import dev.tonimatas.cerium.bridge.world.entity.EntityBridge;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
@@ -25,7 +26,7 @@ public final class CraftRayTraceResult {
         BlockFace hitBlockFace = null;
 
         if (nmsHitResult.getType() == HitResult.Type.ENTITY) {
-            Entity hitEntity = ((EntityHitResult) nmsHitResult).getEntity().getBukkitEntity();
+            Entity hitEntity = ((EntityBridge) ((EntityHitResult) nmsHitResult).getEntity()).getBukkitEntity();
             return new RayTraceResult(hitPosition, hitEntity, null);
         }
 

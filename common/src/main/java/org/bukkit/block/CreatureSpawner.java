@@ -1,13 +1,14 @@
 package org.bukkit.block;
 
-import java.util.Collection;
-import java.util.List;
 import org.bukkit.block.spawner.SpawnRule;
 import org.bukkit.block.spawner.SpawnerEntry;
 import org.bukkit.entity.EntitySnapshot;
 import org.bukkit.entity.EntityType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Represents a captured state of a creature spawner.

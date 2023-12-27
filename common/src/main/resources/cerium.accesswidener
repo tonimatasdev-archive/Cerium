@@ -12,6 +12,10 @@ accessible field net/minecraft/world/level/block/entity/BarrelBlockEntity opener
 accessible method net/minecraft/world/level/block/entity/BarrelBlockEntity updateBlockState (Lnet/minecraft/world/level/block/state/BlockState;Z)V
 accessible method net/minecraft/world/level/block/entity/BarrelBlockEntity playSound (Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/sounds/SoundEvent;)V
 accessible field net/minecraft/world/level/block/entity/BeaconBlockEntity levels I
+accessible field net/minecraft/world/level/block/entity/BeaconBlockEntity name Lnet/minecraft/network/chat/Component;
+accessible field net/minecraft/world/level/block/entity/BeaconBlockEntity lockKey Lnet/minecraft/world/LockCode;
+accessible field net/minecraft/world/level/block/entity/BeaconBlockEntity primaryPower Lnet/minecraft/world/effect/MobEffect;
+accessible field net/minecraft/world/level/block/entity/BeaconBlockEntity secondaryPower Lnet/minecraft/world/effect/MobEffect;
 accessible field net/minecraft/world/level/block/entity/BeehiveBlockEntity savedFlowerPos Lnet/minecraft/core/BlockPos;
 accessible field net/minecraft/world/level/block/entity/BellBlockEntity resonating Z
 accessible method net/minecraft/world/item/context/UseOnContext <init> (Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/InteractionHand;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/phys/BlockHitResult;)V
@@ -162,6 +166,7 @@ accessible field net/minecraft/world/entity/projectile/EyeOfEnder surviveAfterDe
 accessible field net/minecraft/world/entity/projectile/EyeOfEnder life I
 accessible field net/minecraft/world/entity/Entity hasVisualFire Z
 accessible field net/minecraft/world/entity/Entity passengers Lcom/google/common/collect/ImmutableList;
+accessible method net/minecraft/world/entity/Entity getFireImmuneTicks ()I
 accessible class net/minecraft/world/entity/monster/SpellcasterIllager$IllagerSpell
 accessible method net/minecraft/world/entity/monster/SpellcasterIllager getCurrentSpell ()Lnet/minecraft/world/entity/monster/SpellcasterIllager$IllagerSpell;
 accessible field net/minecraft/world/entity/projectile/EvokerFangs warmupDelayTicks I
@@ -376,3 +381,7 @@ accessible field net/minecraft/world/inventory/CraftingMenu craftSlots Lnet/mine
 accessible field net/minecraft/world/inventory/CraftingMenu resultSlots Lnet/minecraft/world/inventory/ResultContainer;
 accessible method net/minecraft/world/item/MapItem createNewSavedData (Lnet/minecraft/world/level/Level;IIIZZLnet/minecraft/resources/ResourceKey;)I
 accessible field net/minecraft/world/level/Explosion source Lnet/minecraft/world/entity/Entity;
+accessible field net/minecraft/world/entity/raid/Raid ticksActive J
+accessible field net/minecraft/world/entity/raid/Raid badOmenLevel I
+accessible field net/minecraft/world/entity/raid/Raid numGroups I
+accessible field net/minecraft/world/entity/raid/Raid heroesOfTheVillage Ljava/util/Set;

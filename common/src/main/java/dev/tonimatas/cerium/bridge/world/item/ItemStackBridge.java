@@ -5,13 +5,13 @@ import net.minecraft.world.item.Item;
 import org.jetbrains.annotations.Nullable;
 
 public interface ItemStackBridge {
-    void bridge$convertStack(int version);
+    void convertStack(int version);
 
-    void bridge$load(CompoundTag compoundTag);
+    void load(CompoundTag compoundTag);
 
-    CompoundTag bridge$getTagClone();
+    CompoundTag getTagClone();
 
-    void bridge$setTagClone(@Nullable CompoundTag compoundTag):
+    void setTagClone(@Nullable CompoundTag compoundTag);
 
-    void bridge$setItem(Item item);
+    void setItem(Item item);
 }

@@ -1,6 +1,7 @@
 package org.bukkit.craftbukkit.v1_20_R3.entity;
 
 import com.google.common.base.Preconditions;
+import dev.tonimatas.cerium.bridge.world.entity.EntityBridge;
 import dev.tonimatas.cerium.bridge.world.level.LevelAccessorBridge;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
@@ -121,7 +122,7 @@ public class CraftVillager extends CraftAbstractVillager implements Villager {
     @Override
     public ZombieVillager zombify() {
         net.minecraft.world.entity.monster.ZombieVillager entityzombievillager = Zombie.zombifyVillager(((LevelAccessorBridge) getHandle().level()).getMinecraftWorld(), getHandle(), getHandle().blockPosition(), isSilent(), CreatureSpawnEvent.SpawnReason.CUSTOM);
-        return (entityzombievillager != null) ? (ZombieVillager) entityzombievillager.getBukkitEntity() : null;
+        return (entityzombievillager != null) ? (ZombieVillager) ((EntityBridge) entityzombievillager).getBukkitEntity() : null;
     }
 
     public static class CraftType {

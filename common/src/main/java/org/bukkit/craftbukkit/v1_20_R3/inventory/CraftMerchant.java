@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import java.util.Collections;
 import java.util.List;
 import net.minecraft.world.entity.player.EntityHuman;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.trading.IMerchant;
 import net.minecraft.world.item.trading.MerchantRecipeList;
 import org.bukkit.entity.HumanEntity;
@@ -64,7 +65,7 @@ public class CraftMerchant implements Merchant {
 
     @Override
     public HumanEntity getTrader() {
-        EntityHuman eh = merchant.getTradingPlayer();
+        Player eh = merchant.getTradingPlayer();
         return eh == null ? null : eh.getBukkitEntity();
     }
 

@@ -1,6 +1,7 @@
 package org.bukkit.craftbukkit.v1_20_R3.entity;
 
 import com.google.common.base.Preconditions;
+import dev.tonimatas.cerium.bridge.world.entity.EntityBridge;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.animal.allay.Allay;
 import org.bukkit.Location;
@@ -84,7 +85,7 @@ public class CraftAllay extends CraftCreature implements org.bukkit.entity.Allay
     @Override
     public org.bukkit.entity.Allay duplicateAllay() {
         Allay nmsAllay = getHandle().duplicateAllay();
-        return (nmsAllay != null) ? (org.bukkit.entity.Allay) nmsAllay.getBukkitEntity() : null;
+        return (nmsAllay != null) ? (org.bukkit.entity.Allay) ((EntityBridge) nmsAllay).getBukkitEntity() : null;
     }
 
     public Location getJukebox() {

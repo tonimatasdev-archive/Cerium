@@ -33,6 +33,7 @@
     "world.LockCodeMixin",
     "world.damagesource.DamageSourceMixin",
     "world.damagesource.DamageSourcesMixin",
+    "world.entity.EntityMixin",
     "world.item.ArmorStandItemMixin",
     "world.item.BowItemMixin",
     "world.item.ChorusFruitItemMixin",

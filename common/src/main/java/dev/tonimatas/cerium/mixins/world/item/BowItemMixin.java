@@ -1,5 +1,6 @@
 package dev.tonimatas.cerium.mixins.world.item;
 
+import dev.tonimatas.cerium.bridge.world.entity.EntityBridge;
 import dev.tonimatas.cerium.util.CeriumEventFactory;
 import dev.tonimatas.cerium.util.Hooks;
 import net.minecraft.sounds.SoundEvents;
@@ -91,7 +92,7 @@ public abstract class BowItemMixin {
                             abstractArrow.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
                         }
 
-                        if (event.getProjectile() == abstractArrow.getBukkitEntity()) {
+                        if (event.getProjectile() == ((EntityBridge) abstractArrow).getBukkitEntity()) {
                             if (!level.addFreshEntity(abstractArrow)) {
                                 if (player instanceof net.minecraft.server.level.ServerPlayer) {
                                     ((net.minecraft.server.level.ServerPlayer) player).getBukkitEntity().updateInventory();
@@ -109,7 +110,7 @@ public abstract class BowItemMixin {
                         }
                     }
 
-                    player.awardStat(Stats.ITEM_USED.get(this));
+                    player.awardStat(Stats.ITEM_USED.get((BowItem) (Object) this));
                 }
             }
         }

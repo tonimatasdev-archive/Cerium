@@ -1,5 +1,6 @@
 package org.bukkit.craftbukkit.v1_20_R3.entity;
 
+import dev.tonimatas.cerium.bridge.world.entity.EntityBridge;
 import net.minecraft.world.entity.item.PrimedTnt;
 import org.bukkit.craftbukkit.v1_20_R3.CraftServer;
 import org.bukkit.entity.Entity;
@@ -56,7 +57,7 @@ public class CraftTNTPrimed extends CraftEntity implements TNTPrimed {
     public Entity getSource() {
         net.minecraft.world.entity.LivingEntity source = getHandle().getOwner();
 
-        return (source != null) ? source.getBukkitEntity() : null;
+        return (source != null) ? ((EntityBridge) source).getBukkitEntity() : null;
     }
 
     @Override

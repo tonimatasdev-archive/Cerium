@@ -2,6 +2,7 @@ package org.bukkit.craftbukkit.v1_20_R3;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import dev.tonimatas.cerium.bridge.world.entity.EntityBridge;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import org.bukkit.Location;
@@ -95,7 +96,7 @@ public final class CraftRaid implements Raid {
         return handle.getAllRaiders().stream().map(new Function<net.minecraft.world.entity.raid.Raider, Raider>() {
             @Override
             public Raider apply(net.minecraft.world.entity.raid.Raider entityRaider) {
-                return (Raider) entityRaider.getBukkitEntity();
+                return (Raider) ((EntityBridge) entityRaider).getBukkitEntity();
             }
         }).collect(ImmutableList.toImmutableList());
     }

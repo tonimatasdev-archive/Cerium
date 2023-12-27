@@ -1,6 +1,7 @@
 package org.bukkit.craftbukkit.v1_20_R3.entity;
 
 import com.google.common.base.Preconditions;
+import dev.tonimatas.cerium.bridge.world.entity.EntityBridge;
 import net.minecraft.nbt.CompoundTag;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -29,7 +30,7 @@ public class CraftEntitySnapshot implements EntitySnapshot {
     public Entity createEntity(World world) {
         net.minecraft.world.entity.Entity internal = createInternal(world);
 
-        return internal.getBukkitEntity();
+        return ((EntityBridge) internal).getBukkitEntity();
     }
 
     @Override
@@ -39,7 +40,7 @@ public class CraftEntitySnapshot implements EntitySnapshot {
         net.minecraft.world.entity.Entity internal = createInternal(location.getWorld());
 
         internal.setPos(location.getX(), location.getY(), location.getZ());
-        return location.getWorld().addEntity(internal.getBukkitEntity());
+        return location.getWorld().addEntity(((EntityBridge) internal).getBukkitEntity());
     }
 
     private net.minecraft.world.entity.Entity createInternal(World world) {

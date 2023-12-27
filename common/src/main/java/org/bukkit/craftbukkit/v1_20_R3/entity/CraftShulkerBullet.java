@@ -1,6 +1,7 @@
 package org.bukkit.craftbukkit.v1_20_R3.entity;
 
 import com.google.common.base.Preconditions;
+import dev.tonimatas.cerium.bridge.world.entity.EntityBridge;
 import org.bukkit.craftbukkit.v1_20_R3.CraftServer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.ShulkerBullet;
@@ -14,7 +15,7 @@ public class CraftShulkerBullet extends AbstractProjectile implements ShulkerBul
 
     @Override
     public ProjectileSource getShooter() {
-        return getHandle().projectileSource;
+        return ((EntityBridge) getHandle()).bridge$getProjectileSource();
     }
 
     @Override
@@ -24,12 +25,12 @@ public class CraftShulkerBullet extends AbstractProjectile implements ShulkerBul
         } else {
             getHandle().setOwner(null);
         }
-        getHandle().projectileSource = shooter;
+        ((EntityBridge) getHandle()).bridge$setProjectileSource(shooter);
     }
 
     @Override
     public org.bukkit.entity.Entity getTarget() {
-        return getHandle().getTarget() != null ? getHandle().getTarget().getBukkitEntity() : null;
+        return getHandle().getTarget() != null ? ((EntityBridge) getHandle().getTarget()).getBukkitEntity() : null;
     }
 
     @Override

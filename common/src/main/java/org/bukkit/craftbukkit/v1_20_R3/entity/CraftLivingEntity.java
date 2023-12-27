@@ -2,6 +2,7 @@ package org.bukkit.craftbukkit.v1_20_R3.entity;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
+import dev.tonimatas.cerium.bridge.world.entity.EntityBridge;
 import net.minecraft.network.protocol.game.ClientboundHurtAnimationPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -13,12 +14,9 @@ import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.boss.wither.WitherBoss;
 import net.minecraft.world.entity.decoration.ArmorStand;
-import net.minecraft.world.entity.player.EntityHuman;
 import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.entity.projectile.DragonFireball;
 import net.minecraft.world.entity.projectile.LargeFireball;
-import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.SmallFireball;
 import net.minecraft.world.entity.projectile.Snowball;
 import net.minecraft.world.entity.projectile.SpectralArrow;
@@ -215,12 +213,12 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
 
     @Override
     public int getMaximumAir() {
-        return getHandle().maxAirTicks;
+        return ((EntityBridge) getHandle()).bridge$getMaxAirTicks();
     }
 
     @Override
     public void setMaximumAir(int ticks) {
-        getHandle().maxAirTicks = ticks;
+        ((EntityBridge) getHandle()).bridge$setMaxAirTicks(ticks);
     }
 
     @Override
@@ -377,13 +375,12 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
     }
 
     @Override
-    public <T extends Projectile> T launchProjectile(Class<? extends T> projectile) {
+    public <T extends org.bukkit.entity.Projectile> T launchProjectile(Class<? extends T> projectile) {
         return launchProjectile(projectile, null);
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public <T extends Projectile> T launchProjectile(Class<? extends T> projectile, Vector velocity) {
+    public <T extends org.bukkit.entity.Projectile> T launchProjectile(Class<? extends T> projectile, Vector velocity) {
         Preconditions.checkState(!getHandle().generation, "Cannot launch projectile during world generation");
 
         net.minecraft.world.level.Level world = ((CraftWorld) getWorld()).getHandle();
@@ -401,7 +398,7 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
         } else if (AbstractArrow.class.isAssignableFrom(projectile)) {
             if (TippedArrow.class.isAssignableFrom(projectile)) {
                 launch = new net.minecraft.world.entity.projectile.Arrow(world, getHandle(), new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.ARROW));
-                ((Arrow) launch.getBukkitEntity()).setBasePotionData(new PotionData(PotionType.WATER, false, false));
+                ((org.bukkit.entity.Arrow) ((EntityBridge) launch).getBukkitEntity()).setBasePotionData(new PotionData(PotionType.WATER, false, false));
             } else if (SpectralArrow.class.isAssignableFrom(projectile)) {
                 launch = new net.minecraft.world.entity.projectile.SpectralArrow(world, getHandle(), new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.SPECTRAL_ARROW));
             } else if (Trident.class.isAssignableFrom(projectile)) {
@@ -422,7 +419,7 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
         } else if (ThrownExpBottle.class.isAssignableFrom(projectile)) {
             launch = new ThrownExperienceBottle(world, getHandle());
             ((net.minecraft.world.entity.projectile.Projectile) launch).shootFromRotation(getHandle(), getHandle().getXRot(), getHandle().getYRot(), -20.0F, 0.7F, 1.0F); // ItemExpBottle
-        } else if (FishHook.class.isAssignableFrom(projectile) && getHandle() instanceof EntityHuman) {
+        } else if (FishHook.class.isAssignableFrom(projectile) && getHandle() instanceof net.minecraft.world.entity.player.Player) {
             launch = new FishingHook((net.minecraft.world.entity.player.Player) getHandle(), world, 0, 0);
         } else if (Fireball.class.isAssignableFrom(projectile)) {
             Location location = getEyeLocation();
@@ -442,7 +439,7 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
                 launch = new LargeFireball(world, getHandle(), direction.getX(), direction.getY(), direction.getZ(), 1);
             }
 
-            ((AbstractHurtingProjectile) launch).projectileSource = this;
+            ((EntityBridge) (AbstractHurtingProjectile) launch).bridge$setProjectileSource(this);
             launch.moveTo(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
         } else if (LlamaSpit.class.isAssignableFrom(projectile)) {
             Location location = getEyeLocation();
@@ -468,11 +465,11 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
         Preconditions.checkArgument(launch != null, "Projectile (%s) not supported", projectile.getName());
 
         if (velocity != null) {
-            ((T) launch.getBukkitEntity()).setVelocity(velocity);
+            ((T) ((EntityBridge) launch).getBukkitEntity()).setVelocity(velocity);
         }
 
         world.addFreshEntity(launch);
-        return (T) launch.getBukkitEntity();
+        return (T) ((EntityBridge) launch).getBukkitEntity();
     }
 
     @Override
@@ -537,7 +534,7 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
     @Override
     public Entity getLeashHolder() throws IllegalStateException {
         Preconditions.checkState(isLeashed(), "Entity not leashed");
-        return ((Mob) getHandle()).getLeashHolder().getBukkitEntity();
+        return ((EntityBridge) ((Mob) getHandle()).getLeashHolder()).getBukkitEntity();
     }
 
     private boolean unleash() {
@@ -756,7 +753,7 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
 
     @Override
     public void setInvisible(boolean invisible) {
-        getHandle().persistentInvisibility = invisible;
+        ((EntityBridge) getHandle()).bridge$setPersistentInvisibility(invisible);
         getHandle().setSharedFlag(5, invisible);
     }
 }

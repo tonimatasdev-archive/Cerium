@@ -2,6 +2,7 @@ package org.bukkit.craftbukkit.v1_20_R3.entity;
 
 import com.google.common.base.Preconditions;
 import dev.tonimatas.cerium.bridge.network.syncher.SynchedEntityDataBridge;
+import dev.tonimatas.cerium.bridge.world.entity.EntityBridge;
 import net.minecraft.world.entity.projectile.FireworkRocketEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -75,7 +76,7 @@ public class CraftFirework extends CraftProjectile implements Firework {
     @Override
     public LivingEntity getAttachedTo() {
         net.minecraft.world.entity.LivingEntity entity = getHandle().attachedToEntity;
-        return (entity != null) ? (LivingEntity) entity.getBukkitEntity() : null;
+        return (entity != null) ? (LivingEntity) ((EntityBridge) entity).getBukkitEntity() : null;
     }
 
     @Override

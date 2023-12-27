@@ -3,6 +3,8 @@ package org.bukkit.craftbukkit.v1_20_R3.block;
 import com.google.common.base.Preconditions;
 import java.util.ArrayList;
 import java.util.List;
+
+import dev.tonimatas.cerium.bridge.world.entity.EntityBridge;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
@@ -73,7 +75,7 @@ public class CraftBeehive extends CraftBlockEntityState<BeehiveBlockEntity> impl
         if (isPlaced()) {
             BeehiveBlockEntity beehive = ((BeehiveBlockEntity) this.getBlockEntityFromWorld());
             for (Entity bee : beehive.releaseBees(this.getHandle(), BeehiveBlockEntity.BeeReleaseStatus.BEE_RELEASED, true)) {
-                bees.add((Bee) bee.getBukkitEntity());
+                bees.add((Bee) ((EntityBridge) bee).getBukkitEntity());
             }
         }
 

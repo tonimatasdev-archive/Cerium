@@ -84,17 +84,17 @@ public abstract class ItemStackMixin implements ItemStackBridge {
     @Shadow public abstract void shrink(int i);
 
     @Override
-    public void bridge$convertStack(int version) {
+    public void convertStack(int version) {
         if (0 < version && version < CraftMagicNumbers.INSTANCE.getDataVersion()) {
             CompoundTag savedStack = new CompoundTag();
             this.save(savedStack);
             savedStack = (CompoundTag) MinecraftServer.getServer().fixerUpper.update(References.ITEM_STACK, new Dynamic(NbtOps.INSTANCE, savedStack), version, CraftMagicNumbers.INSTANCE.getDataVersion()).getValue();
-            this.bridge$load(savedStack);
+            this.load(savedStack);
         }
     }
 
     @Override
-    public void bridge$load(CompoundTag compoundTag) {
+    public void load(CompoundTag compoundTag) {
         this.item = (Item) BuiltInRegistries.ITEM.get(new ResourceLocation(compoundTag.getString("id")));
         this.count = compoundTag.getByte("Count");
         if (compoundTag.contains("tag", 10)) {
@@ -120,7 +120,7 @@ public abstract class ItemStackMixin implements ItemStackBridge {
             return InteractionResult.PASS;
         } else {
             Item item = this.getItem();
-            CompoundTag oldData = this.bridge$getTagClone();
+            CompoundTag oldData = this.getTagClone();
             int oldCount = this.getCount();
             ServerLevel world = (ServerLevel) useOnContext.getLevel();
 
@@ -137,10 +137,10 @@ public abstract class ItemStackMixin implements ItemStackBridge {
             } finally {
                 world.captureBlockStates = false;
             }
-            CompoundTag newData = this.bridge$getTagClone();
+            CompoundTag newData = this.getTagClone();
             int newCount = this.getCount();
             this.setCount(oldCount);
-            this.bridge$setTagClone(oldData);
+            this.setTagClone(oldData);
             if (enuminteractionresult.consumesAction() && world.captureTreeGeneration && world.capturedBlockStates.size() > 0) {
                 world.captureTreeGeneration = false;
                 Location location = CraftLocation.toBukkit(blockPos, world.getWorld());
@@ -365,17 +365,17 @@ public abstract class ItemStackMixin implements ItemStackBridge {
     }
 
     @Override
-    public CompoundTag bridge$getTagClone() {
+    public CompoundTag getTagClone() {
         return this.tag == null ? null : this.tag.copy();
     }
 
     @Override
-    public void bridge$setTagClone(@Nullable CompoundTag compoundTag) {
+    public void setTagClone(@Nullable CompoundTag compoundTag) {
         this.setTag(compoundTag == null ? null : compoundTag.copy());
     }
 
     @Override
-    public void bridge$setItem(Item item) {
+    public void setItem(Item item) {
         this.item = item;
     }
 }
