@@ -4,12 +4,8 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.ListTag;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.block.banner.Pattern;
@@ -17,6 +13,11 @@ import org.bukkit.block.banner.PatternType;
 import org.bukkit.configuration.serialization.DelegateDeserialization;
 import org.bukkit.craftbukkit.v1_20_R3.util.CraftMagicNumbers;
 import org.bukkit.inventory.meta.BannerMeta;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @DelegateDeserialization(CraftMetaItem.SerializableMeta.class)
 public class CraftMetaBanner extends CraftMetaItem implements BannerMeta {
@@ -88,7 +89,7 @@ public class CraftMetaBanner extends CraftMetaItem implements BannerMeta {
         base = entityTag.contains(BASE.NBT) ? DyeColor.getByWoolData((byte) entityTag.getInt(BASE.NBT)) : null;
 
         if (entityTag.contains(PATTERNS.NBT)) {
-            NBTTagList patterns = entityTag.getList(PATTERNS.NBT, CraftMagicNumbers.NBT.TAG_COMPOUND);
+            ListTag patterns = entityTag.getList(PATTERNS.NBT, CraftMagicNumbers.NBT.TAG_COMPOUND);
             for (int i = 0; i < Math.min(patterns.size(), 20); i++) {
                 CompoundTag p = patterns.getCompound(i);
                 DyeColor color = DyeColor.getByWoolData((byte) p.getInt(COLOR.NBT));
@@ -128,7 +129,7 @@ public class CraftMetaBanner extends CraftMetaItem implements BannerMeta {
             entityTag.putInt(BASE.NBT, base.getWoolData());
         }
 
-        NBTTagList newPatterns = new NBTTagList();
+        ListTag newPatterns = new ListTag();
 
         for (Pattern p : patterns) {
             CompoundTag compound = new CompoundTag();

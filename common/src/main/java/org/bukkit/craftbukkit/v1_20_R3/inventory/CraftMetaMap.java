@@ -2,10 +2,9 @@ package org.bukkit.craftbukkit.v1_20_R3.inventory;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
-import java.util.Map;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NBTTagInt;
-import net.minecraft.nbt.NBTTagString;
+import net.minecraft.nbt.IntTag;
+import net.minecraft.nbt.StringTag;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -14,6 +13,8 @@ import org.bukkit.craftbukkit.v1_20_R3.inventory.CraftMetaItem.SerializableMeta;
 import org.bukkit.craftbukkit.v1_20_R3.util.CraftMagicNumbers;
 import org.bukkit.inventory.meta.MapMeta;
 import org.bukkit.map.MapView;
+
+import java.util.Map;
 
 @DelegateDeserialization(SerializableMeta.class)
 class CraftMetaMap extends CraftMetaItem implements MapMeta {
@@ -104,11 +105,11 @@ class CraftMetaMap extends CraftMetaItem implements MapMeta {
         }
 
         if (hasLocationName()) {
-            setDisplayTag(tag, MAP_LOC_NAME.NBT, NBTTagString.valueOf(getLocationName()));
+            setDisplayTag(tag, MAP_LOC_NAME.NBT, StringTag.valueOf(getLocationName()));
         }
 
         if (hasColor()) {
-            setDisplayTag(tag, MAP_COLOR.NBT, NBTTagInt.valueOf(color.asRGB()));
+            setDisplayTag(tag, MAP_COLOR.NBT, IntTag.valueOf(color.asRGB()));
         }
     }
 

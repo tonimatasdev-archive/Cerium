@@ -2,26 +2,21 @@ package org.bukkit.craftbukkit.v1_20_R3.scoreboard;
 
 import com.google.common.base.Preconditions;
 import net.minecraft.world.scores.Scoreboard;
-import net.minecraft.world.scores.ScoreboardObjective;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.craftbukkit.v1_20_R3.util.CraftChatMessage;
-import org.bukkit.scoreboard.Criteria;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.RenderType;
-import org.bukkit.scoreboard.Score;
+import org.bukkit.scoreboard.*;
 
 final class CraftObjective extends CraftScoreboardComponent implements Objective {
-    private final ScoreboardObjective objective;
+    private final net.minecraft.world.scores.Objective objective;
     private final CraftCriteria criteria;
 
-    CraftObjective(CraftScoreboard scoreboard, ScoreboardObjective objective) {
+    CraftObjective(CraftScoreboard scoreboard, net.minecraft.world.scores.Objective objective) {
         super(scoreboard);
         this.objective = objective;
         this.criteria = CraftCriteria.getFromNMS(objective);
     }
 
-    ScoreboardObjective getHandle() {
+    net.minecraft.world.scores.Objective getHandle() {
         return objective;
     }
 
@@ -72,7 +67,7 @@ final class CraftObjective extends CraftScoreboardComponent implements Objective
     public void setDisplaySlot(DisplaySlot slot) {
         CraftScoreboard scoreboard = checkState();
         Scoreboard board = scoreboard.board;
-        ScoreboardObjective objective = this.objective;
+        net.minecraft.world.scores.Objective objective = this.objective;
 
         for (net.minecraft.world.scores.DisplaySlot i : net.minecraft.world.scores.DisplaySlot.values()) {
             if (board.getDisplayObjective(i) == objective) {
@@ -89,7 +84,7 @@ final class CraftObjective extends CraftScoreboardComponent implements Objective
     public DisplaySlot getDisplaySlot() {
         CraftScoreboard scoreboard = checkState();
         Scoreboard board = scoreboard.board;
-        ScoreboardObjective objective = this.objective;
+        net.minecraft.world.scores.Objective objective = this.objective;
 
         for (net.minecraft.world.scores.DisplaySlot i : net.minecraft.world.scores.DisplaySlot.values()) {
             if (board.getDisplayObjective(i) == objective) {

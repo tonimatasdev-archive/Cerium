@@ -1,26 +1,19 @@
 package org.bukkit.craftbukkit.v1_20_R3.scoreboard;
 
 import com.google.common.base.Preconditions;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.function.Consumer;
-import net.minecraft.network.protocol.game.PacketPlayOutScoreboardObjective;
-import net.minecraft.network.protocol.game.PacketPlayOutScoreboardTeam;
+import net.minecraft.network.protocol.game.ClientboundSetObjectivePacket;
+import net.minecraft.network.protocol.game.ClientboundSetPlayerTeamPacket;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.ScoreboardServer;
+import net.minecraft.server.ServerScoreboard;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.scores.ScoreAccess;
-import net.minecraft.world.scores.ScoreHolder;
-import net.minecraft.world.scores.Scoreboard;
-import net.minecraft.world.scores.ScoreboardObjective;
-import net.minecraft.world.scores.ScoreboardTeam;
-import net.minecraft.world.scores.criteria.IScoreboardCriteria;
+import net.minecraft.world.scores.*;
+import net.minecraft.world.scores.criteria.ObjectiveCriteria;
 import org.bukkit.craftbukkit.v1_20_R3.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_20_R3.util.WeakCollection;
 import org.bukkit.scoreboard.ScoreboardManager;
+
+import java.util.*;
+import java.util.function.Consumer;
 
 public final class CraftScoreboardManager implements ScoreboardManager {
     private final CraftScoreboard mainScoreboard;
@@ -41,7 +34,7 @@ public final class CraftScoreboardManager implements ScoreboardManager {
 
     @Override
     public CraftScoreboard getNewScoreboard() {
-        CraftScoreboard scoreboard = new CraftScoreboard(new ScoreboardServer(server));
+        CraftScoreboard scoreboard = new CraftScoreboard(new ServerScoreboard(server));
         scoreboards.add(scoreboard);
         return scoreboard;
     }
@@ -72,11 +65,12 @@ public final class CraftScoreboardManager implements ScoreboardManager {
         }
 
         // Old objective tracking
-        HashSet<ScoreboardObjective> removed = new HashSet<>();
+        HashSet<Objective> removed = new HashSet<>();
         for (int i = 0; i < 3; ++i) {
-            ScoreboardObjective scoreboardobjective = oldboard.getDisplayObjective(net.minecraft.world.scores.DisplaySlot.BY_ID.apply(i));
+            Objective scoreboardobjective = oldboard.getDisplayObjective(net.minecraft.world.scores.DisplaySlot.BY_ID.apply(i));
             if (scoreboardobjective != null && !removed.contains(scoreboardobjective)) {
-                entityplayer.connection.send(new PacketPlayOutScoreboardObjective(scoreboardobjective, 1));
+                entityplayer.connection.send(new ClientboundSetObjectivePacket(scoreboardobjective, 1));
+
                 removed.add(scoreboardobjective);
             }
         }
@@ -84,12 +78,12 @@ public final class CraftScoreboardManager implements ScoreboardManager {
         // Old team tracking
         Iterator<?> iterator = oldboard.getPlayerTeams().iterator();
         while (iterator.hasNext()) {
-            ScoreboardTeam scoreboardteam = (ScoreboardTeam) iterator.next();
-            entityplayer.connection.send(PacketPlayOutScoreboardTeam.createRemovePacket(scoreboardteam));
+            PlayerTeam  scoreboardteam = (PlayerTeam) iterator.next();
+            entityplayer.connection.send(ClientboundSetPlayerTeamPacket.createRemovePacket(scoreboardteam));
         }
 
         // The above is the reverse of the below method.
-        server.getPlayerList().updateEntireScoreboard((ScoreboardServer) newboard, player.getHandle());
+        server.getPlayerList().updateEntireScoreboard((ServerScoreboard) newboard, player.getHandle());
     }
 
     // CraftBukkit method
@@ -98,7 +92,7 @@ public final class CraftScoreboardManager implements ScoreboardManager {
     }
 
     // CraftBukkit method
-    public void forAllObjectives(IScoreboardCriteria criteria, ScoreHolder holder, Consumer<ScoreAccess> consumer) {
+    public void forAllObjectives(ObjectiveCriteria criteria, ScoreHolder holder, Consumer<ScoreAccess> consumer) {
         for (CraftScoreboard scoreboard : scoreboards) {
             Scoreboard board = scoreboard.board;
             board.forAllObjectives(criteria, holder, (score) -> consumer.accept(score));

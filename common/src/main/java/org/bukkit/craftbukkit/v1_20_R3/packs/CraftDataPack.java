@@ -1,13 +1,9 @@
 package org.bukkit.craftbukkit.v1_20_R3.packs;
 
-import java.io.IOException;
-import java.util.Set;
-import java.util.stream.Collectors;
-import net.minecraft.server.packs.IResourcePack;
-import net.minecraft.server.packs.metadata.pack.ResourcePackInfo;
+import net.minecraft.server.packs.PackResources;
+import net.minecraft.server.packs.metadata.pack.PackMetadataSection;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
-import net.minecraft.server.packs.repository.ResourcePackLoader;
 import net.minecraft.util.InclusiveRange;
 import org.bukkit.Bukkit;
 import org.bukkit.FeatureFlag;
@@ -17,15 +13,19 @@ import org.bukkit.craftbukkit.v1_20_R3.CraftServer;
 import org.bukkit.craftbukkit.v1_20_R3.util.CraftChatMessage;
 import org.bukkit.packs.DataPack;
 
+import java.io.IOException;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 public class CraftDataPack implements DataPack {
 
     private final Pack handle;
-    private final ResourcePackInfo resourcePackInfo;
+    private final PackMetadataSection resourcePackInfo;
 
     public CraftDataPack(Pack handler) {
         this.handle = handler;
-        try (IResourcePack iresourcepack = this.handle.resources.openPrimary(this.handle.getId())) {
-            this.resourcePackInfo = iresourcepack.getMetadataSection(ResourcePackInfo.TYPE);
+        try (PackResources iresourcepack = this.handle.resources.openPrimary(this.handle.getId())) {
+            this.resourcePackInfo = iresourcepack.getMetadataSection(PackMetadataSection.TYPE);
         } catch (IOException e) { // This is already called in NMS then if in NMS not happen is secure this not throw here
             throw new RuntimeException(e);
         }

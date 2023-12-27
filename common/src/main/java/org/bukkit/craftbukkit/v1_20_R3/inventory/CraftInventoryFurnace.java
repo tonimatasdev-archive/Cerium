@@ -1,5 +1,6 @@
 package org.bukkit.craftbukkit.v1_20_R3.inventory;
 
+import dev.tonimatas.cerium.bridge.world.ContainerBridge;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import org.bukkit.block.Furnace;
 import org.bukkit.inventory.FurnaceInventory;
@@ -42,6 +43,6 @@ public class CraftInventoryFurnace extends CraftInventory implements FurnaceInve
 
     @Override
     public Furnace getHolder() {
-        return (Furnace) inventory.getOwner();
+        return (Furnace) ((ContainerBridge) inventory).getOwner();
     }
 }

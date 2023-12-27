@@ -1,6 +1,5 @@
 package org.bukkit.craftbukkit.v1_20_R3.block;
 
-import net.minecraft.world.level.block.entity.BlockEntityCampfire;
 import net.minecraft.world.level.block.entity.CampfireBlockEntity;
 import org.bukkit.World;
 import org.bukkit.block.Campfire;

@@ -3,13 +3,9 @@ package org.bukkit.craftbukkit.v1_20_R3.inventory;
 import com.google.common.collect.ImmutableMap.Builder;
 import com.google.common.collect.Sets;
 import com.mojang.authlib.GameProfile;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
-import net.minecraft.SystemUtils;
-import net.minecraft.nbt.GameProfileSerializer;
+import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.resources.ResourceLocation;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -23,6 +19,11 @@ import org.bukkit.craftbukkit.v1_20_R3.util.CraftMagicNumbers;
 import org.bukkit.craftbukkit.v1_20_R3.util.CraftNamespacedKey;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.profile.PlayerProfile;
+
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.UUID;
 
 @DelegateDeserialization(SerializableMeta.class)
 class CraftMetaSkull extends CraftMetaItem implements SkullMeta {
@@ -72,9 +73,9 @@ class CraftMetaSkull extends CraftMetaItem implements SkullMeta {
         super(tag);
 
         if (tag.contains(SKULL_OWNER.NBT, CraftMagicNumbers.NBT.TAG_COMPOUND)) {
-            this.setProfile(GameProfileSerializer.readGameProfile(tag.getCompound(SKULL_OWNER.NBT)));
+            this.setProfile(NbtUtils.readGameProfile(tag.getCompound(SKULL_OWNER.NBT)));
         } else if (tag.contains(SKULL_OWNER.NBT, CraftMagicNumbers.NBT.TAG_STRING) && !tag.getString(SKULL_OWNER.NBT).isEmpty()) {
-            this.setProfile(new GameProfile(SystemUtils.NIL_UUID, tag.getString(SKULL_OWNER.NBT)));
+            this.setProfile(new GameProfile(Util.NIL_UUID, tag.getString(SKULL_OWNER.NBT)));
         }
 
         if (tag.contains(BLOCK_ENTITY_TAG.NBT, CraftMagicNumbers.NBT.TAG_COMPOUND)) {
@@ -116,7 +117,7 @@ class CraftMetaSkull extends CraftMetaItem implements SkullMeta {
                 skullTag.putUUID("Id", uuid);
             }
 
-            this.setProfile(GameProfileSerializer.readGameProfile(skullTag));
+            this.setProfile(NbtUtils.readGameProfile(skullTag));
         }
 
         if (tag.contains(BLOCK_ENTITY_TAG.NBT, CraftMagicNumbers.NBT.TAG_COMPOUND)) {
@@ -129,7 +130,7 @@ class CraftMetaSkull extends CraftMetaItem implements SkullMeta {
 
     private void setProfile(GameProfile profile) {
         this.profile = profile;
-        this.serializedProfile = (profile == null) ? null : GameProfileSerializer.writeGameProfile(new CompoundTag(), profile);
+        this.serializedProfile = (profile == null) ? null : NbtUtils.writeGameProfile(new CompoundTag(), profile);
     }
 
     @Override
@@ -190,7 +191,7 @@ class CraftMetaSkull extends CraftMetaItem implements SkullMeta {
     @Override
     public OfflinePlayer getOwningPlayer() {
         if (hasOwner()) {
-            if (!profile.getId().equals(SystemUtils.NIL_UUID)) {
+            if (!profile.getId().equals(Util.NIL_UUID)) {
                 return Bukkit.getOfflinePlayer(profile.getId());
             }
 
@@ -211,7 +212,7 @@ class CraftMetaSkull extends CraftMetaItem implements SkullMeta {
         if (name == null) {
             setProfile(null);
         } else {
-            setProfile(new GameProfile(SystemUtils.NIL_UUID, name));
+            setProfile(new GameProfile(Util.NIL_UUID, name));
         }
 
         return true;
@@ -315,7 +316,7 @@ class CraftMetaSkull extends CraftMetaItem implements SkullMeta {
                     Found inconsistent skull meta, this should normally not happen and is not a Bukkit / Spigot issue, but one from a plugin you are using.
                     Bukkit will attempt to fix it this time for you, but may not be able to do this every time.
                     If you see this message after typing a command from a plugin, please report this to the plugin developer, they should use the api instead of relying on reflection (and doing it the wrong way).""");
-            serializedProfile = GameProfileSerializer.writeGameProfile(new CompoundTag(), profile);
+            serializedProfile = NbtUtils.writeGameProfile(new CompoundTag(), profile);
         }
     }
 }

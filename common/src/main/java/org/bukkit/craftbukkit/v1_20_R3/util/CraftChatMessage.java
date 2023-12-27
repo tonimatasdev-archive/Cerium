@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
 import com.google.gson.JsonParseException;
 import dev.tonimatas.cerium.bridge.network.chat.ComponentBridge;
+import dev.tonimatas.cerium.bridge.network.chat.TextColorBridge;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.*;
 import net.minecraft.network.chat.contents.PlainTextContents;
@@ -295,8 +296,8 @@ public final class CraftChatMessage {
             TextColor color = modi.getColor();
             if (c.getContents() != PlainTextContents.LiteralContents.EMPTY || color != null) {
                 if (color != null) {
-                    if (color.format != null) {
-                        out.append(color.format);
+                    if (((TextColorBridge) (Object) color).bridge$getFormat() != null) {
+                        out.append(((TextColorBridge) (Object) color).bridge$getFormat());
                     } else {
                         out.append(ChatColor.COLOR_CHAR).append("x");
                         for (char magic : color.serialize().substring(1).toCharArray()) {

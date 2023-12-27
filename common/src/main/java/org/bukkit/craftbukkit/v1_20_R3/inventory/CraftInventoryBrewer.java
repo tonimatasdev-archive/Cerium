@@ -1,7 +1,7 @@
 package org.bukkit.craftbukkit.v1_20_R3.inventory;
 
+import dev.tonimatas.cerium.bridge.world.ContainerBridge;
 import net.minecraft.world.Container;
-import net.minecraft.world.IInventory;
 import org.bukkit.block.BrewingStand;
 import org.bukkit.inventory.BrewerInventory;
 import org.bukkit.inventory.ItemStack;
@@ -23,7 +23,7 @@ public class CraftInventoryBrewer extends CraftInventory implements BrewerInvent
 
     @Override
     public BrewingStand getHolder() {
-        return (BrewingStand) inventory.getOwner();
+        return (BrewingStand) ((ContainerBridge) inventory).getOwner();
     }
 
     @Override

@@ -1,6 +1,6 @@
 # Cerium
 - [x] Bukkit (5f027d2d1a2)
 - [ ] CraftBukkit (5876cca4429)
-  - [ ] Classes (2035 errors)
+  - [ ] Classes (700 errors)
   - [ ] Patches (Reaming 466)
 - [ ] Spigot (053fa2a9db1)

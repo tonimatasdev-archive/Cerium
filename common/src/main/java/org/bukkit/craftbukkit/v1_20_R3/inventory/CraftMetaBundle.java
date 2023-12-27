@@ -3,16 +3,17 @@ package org.bukkit.craftbukkit.v1_20_R3.inventory;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.ListTag;
 import org.bukkit.Material;
 import org.bukkit.configuration.serialization.DelegateDeserialization;
 import org.bukkit.craftbukkit.v1_20_R3.util.CraftMagicNumbers;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BundleMeta;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @DelegateDeserialization(CraftMetaItem.SerializableMeta.class)
 public class CraftMetaBundle extends CraftMetaItem implements BundleMeta {
@@ -39,7 +40,7 @@ public class CraftMetaBundle extends CraftMetaItem implements BundleMeta {
         super(tag);
 
         if (tag.contains(ITEMS.NBT, CraftMagicNumbers.NBT.TAG_LIST)) {
-            NBTTagList list = tag.getList(ITEMS.NBT, CraftMagicNumbers.NBT.TAG_COMPOUND);
+            ListTag list = tag.getList(ITEMS.NBT, CraftMagicNumbers.NBT.TAG_COMPOUND);
 
             if (list != null && !list.isEmpty()) {
                 items = new ArrayList<>();
@@ -74,7 +75,7 @@ public class CraftMetaBundle extends CraftMetaItem implements BundleMeta {
         super.applyToItem(tag);
 
         if (hasItems()) {
-            NBTTagList list = new NBTTagList();
+            ListTag list = new ListTag();
 
             for (ItemStack item : items) {
                 CompoundTag saved = new CompoundTag();

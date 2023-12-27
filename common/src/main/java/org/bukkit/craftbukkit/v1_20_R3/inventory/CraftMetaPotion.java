@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.ListTag;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -80,7 +80,7 @@ class CraftMetaPotion extends CraftMetaItem implements PotionMeta {
             }
         }
         if (tag.contains(POTION_EFFECTS.NBT)) {
-            NBTTagList list = tag.getList(POTION_EFFECTS.NBT, CraftMagicNumbers.NBT.TAG_COMPOUND);
+            ListTag list = tag.getList(POTION_EFFECTS.NBT, CraftMagicNumbers.NBT.TAG_COMPOUND);
             int length = list.size();
             customEffects = new ArrayList<>(length);
 
@@ -139,7 +139,7 @@ class CraftMetaPotion extends CraftMetaItem implements PotionMeta {
         }
 
         if (customEffects != null) {
-            NBTTagList effectList = new NBTTagList();
+            ListTag effectList = new ListTag();
             tag.put(POTION_EFFECTS.NBT, effectList);
 
             for (PotionEffect effect : customEffects) {

@@ -1,5 +1,6 @@
 package org.bukkit.craftbukkit.v1_20_R3.inventory;
 
+import dev.tonimatas.cerium.bridge.world.ContainerBridge;
 import net.minecraft.world.level.block.entity.ChiseledBookShelfBlockEntity;
 import org.bukkit.block.ChiseledBookshelf;
 import org.bukkit.inventory.ChiseledBookshelfInventory;
@@ -25,6 +26,6 @@ public class CraftInventoryChiseledBookshelf extends CraftInventory implements C
 
     @Override
     public ChiseledBookshelf getHolder() {
-        return (ChiseledBookshelf) inventory.getOwner();
+        return (ChiseledBookshelf) ((ContainerBridge) inventory).getOwner();
     }
 }

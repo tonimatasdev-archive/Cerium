@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.ListTag;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.serialization.DelegateDeserialization;
@@ -39,7 +39,7 @@ public class CraftMetaSuspiciousStew extends CraftMetaItem implements Suspicious
     CraftMetaSuspiciousStew(CompoundTag tag) {
         super(tag);
         if (tag.contains(EFFECTS.NBT)) {
-            NBTTagList list = tag.getList(EFFECTS.NBT, CraftMagicNumbers.NBT.TAG_COMPOUND);
+            ListTag list = tag.getList(EFFECTS.NBT, CraftMagicNumbers.NBT.TAG_COMPOUND);
             int length = list.size();
             customEffects = new ArrayList<>(length);
 
@@ -74,7 +74,7 @@ public class CraftMetaSuspiciousStew extends CraftMetaItem implements Suspicious
         super.applyToItem(tag);
 
         if (customEffects != null) {
-            NBTTagList effectList = new NBTTagList();
+            ListTag effectList = new ListTag();
             tag.put(EFFECTS.NBT, effectList);
 
             for (PotionEffect effect : customEffects) {

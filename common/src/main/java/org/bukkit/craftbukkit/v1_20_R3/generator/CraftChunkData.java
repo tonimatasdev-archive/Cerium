@@ -1,13 +1,12 @@
 package org.bukkit.craftbukkit.v1_20_R3.generator;
 
 import com.google.common.base.Preconditions;
-import java.lang.ref.WeakReference;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.IBlockEntity;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.chunk.IChunkAccess;
+import net.minecraft.world.level.chunk.ChunkAccess;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
@@ -18,28 +17,30 @@ import org.bukkit.craftbukkit.v1_20_R3.util.CraftMagicNumbers;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.material.MaterialData;
 
+import java.lang.ref.WeakReference;
+
 /**
  * Data to be used for the block types and data in a newly generated chunk.
  */
 public final class CraftChunkData implements ChunkGenerator.ChunkData {
     private final int maxHeight;
     private final int minHeight;
-    private final WeakReference<IChunkAccess> weakChunk;
+    private final WeakReference<ChunkAccess> weakChunk;
 
-    public CraftChunkData(World world, IChunkAccess chunkAccess) {
+    public CraftChunkData(World world, ChunkAccess chunkAccess) {
         this(world.getMaxHeight(), world.getMinHeight(), chunkAccess);
     }
 
-    CraftChunkData(int maxHeight, int minHeight, IChunkAccess chunkAccess) {
+    CraftChunkData(int maxHeight, int minHeight, ChunkAccess chunkAccess) {
         this.maxHeight = maxHeight;
         this.minHeight = minHeight;
         this.weakChunk = new WeakReference<>(chunkAccess);
     }
 
-    public IChunkAccess getHandle() {
-        IChunkAccess access = weakChunk.get();
+    public ChunkAccess getHandle() {
+        ChunkAccess access = weakChunk.get();
 
-        Preconditions.checkState(access != null, "IChunkAccess no longer present, are you using it in a different tick?");
+        Preconditions.checkState(access != null, "ChunkAccess no longer present, are you using it in a different tick?");
 
         return access;
     }
@@ -108,7 +109,7 @@ public final class CraftChunkData implements ChunkGenerator.ChunkData {
         return CraftBlockData.fromData(getTypeId(x, y, z));
     }
 
-    public void setRegion(int xMin, int yMin, int zMin, int xMax, int yMax, int zMax, IBlockData type) {
+    public void setRegion(int xMin, int yMin, int zMin, int xMax, int yMax, int zMax, BlockState type) {
         // Clamp to sane values.
         if (xMin > 0xf || yMin >= maxHeight || zMin > 0xf) {
             return;
@@ -143,12 +144,12 @@ public final class CraftChunkData implements ChunkGenerator.ChunkData {
         }
     }
 
-    public IBlockData getTypeId(int x, int y, int z) {
+    public BlockState getTypeId(int x, int y, int z) {
         if (x != (x & 0xf) || y < minHeight || y >= maxHeight || z != (z & 0xf)) {
             return Blocks.AIR.defaultBlockState();
         }
 
-        IChunkAccess access = getHandle();
+        ChunkAccess access = getHandle();
         return access.getBlockState(new BlockPos(access.getPos().getMinBlockX() + x, y, access.getPos().getMinBlockZ() + z));
     }
 
@@ -157,17 +158,17 @@ public final class CraftChunkData implements ChunkGenerator.ChunkData {
         return CraftMagicNumbers.toLegacyData(getTypeId(x, y, z));
     }
 
-    private void setBlock(int x, int y, int z, IBlockData type) {
+    private void setBlock(int x, int y, int z, BlockState type) {
         if (x != (x & 0xf) || y < minHeight || y >= maxHeight || z != (z & 0xf)) {
             return;
         }
 
-        IChunkAccess access = getHandle();
+        ChunkAccess access = getHandle();
         BlockPos blockPosition = new BlockPos(access.getPos().getMinBlockX() + x, y, access.getPos().getMinBlockZ() + z);
-        IBlockData oldBlockData = access.setBlockState(blockPosition, type, false);
+        BlockState oldBlockData = access.setBlockState(blockPosition, type, false);
 
         if (type.hasBlockEntity()) {
-            BlockEntity tileEntity = ((IBlockEntity) type.getBlock()).newBlockEntity(blockPosition, type);
+            BlockEntity tileEntity = ((EntityBlock) type.getBlock()).newBlockEntity(blockPosition, type);
 
             // createTile can return null, currently only the case with material MOVING_PISTON
             if (tileEntity == null) {

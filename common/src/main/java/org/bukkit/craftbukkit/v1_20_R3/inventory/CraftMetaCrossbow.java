@@ -3,17 +3,18 @@ package org.bukkit.craftbukkit.v1_20_R3.inventory;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.world.item.ItemArrow;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.world.item.ArrowItem;
 import org.bukkit.Material;
 import org.bukkit.configuration.serialization.DelegateDeserialization;
 import org.bukkit.craftbukkit.v1_20_R3.util.CraftMagicNumbers;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.CrossbowMeta;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @DelegateDeserialization(CraftMetaItem.SerializableMeta.class)
 public class CraftMetaCrossbow extends CraftMetaItem implements CrossbowMeta {
@@ -45,7 +46,7 @@ public class CraftMetaCrossbow extends CraftMetaItem implements CrossbowMeta {
         charged = tag.getBoolean(CHARGED.NBT);
 
         if (tag.contains(CHARGED_PROJECTILES.NBT, CraftMagicNumbers.NBT.TAG_LIST)) {
-            NBTTagList list = tag.getList(CHARGED_PROJECTILES.NBT, CraftMagicNumbers.NBT.TAG_COMPOUND);
+            ListTag list = tag.getList(CHARGED_PROJECTILES.NBT, CraftMagicNumbers.NBT.TAG_COMPOUND);
 
             if (list != null && !list.isEmpty()) {
                 chargedProjectiles = new ArrayList<>();
@@ -83,7 +84,7 @@ public class CraftMetaCrossbow extends CraftMetaItem implements CrossbowMeta {
 
         tag.putBoolean(CHARGED.NBT, charged);
         if (hasChargedProjectiles()) {
-            NBTTagList list = new NBTTagList();
+            ListTag list = new ListTag();
 
             for (ItemStack item : chargedProjectiles) {
                 CompoundTag saved = new CompoundTag();
@@ -136,7 +137,7 @@ public class CraftMetaCrossbow extends CraftMetaItem implements CrossbowMeta {
     @Override
     public void addChargedProjectile(ItemStack item) {
         Preconditions.checkArgument(item != null, "item");
-        Preconditions.checkArgument(item.getType() == Material.FIREWORK_ROCKET || CraftMagicNumbers.getItem(item.getType()) instanceof ItemArrow, "Item %s is not an arrow or firework rocket", item);
+        Preconditions.checkArgument(item.getType() == Material.FIREWORK_ROCKET || CraftMagicNumbers.getItem(item.getType()) instanceof ArrowItem, "Item %s is not an arrow or firework rocket", item);
 
         if (chargedProjectiles == null) {
             chargedProjectiles = new ArrayList<>();

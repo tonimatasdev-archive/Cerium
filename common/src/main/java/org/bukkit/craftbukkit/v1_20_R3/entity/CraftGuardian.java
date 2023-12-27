@@ -64,7 +64,7 @@ public class CraftGuardian extends CraftMonster implements Guardian {
     public void setLaserTicks(int ticks) {
         Preconditions.checkArgument(ticks >= MINIMUM_ATTACK_TICKS, "ticks must be >= %s. Given %s", MINIMUM_ATTACK_TICKS, ticks);
 
-        EntityGuardian.PathfinderGoalGuardianAttack goal = getHandle().guardianAttackGoal;
+        net.minecraft.world.entity.monster.Guardian.GuardianAttackGoal goal = getHandle().guardianAttackGoal;
         if (goal != null) {
             goal.attackTime = ticks;
         }
@@ -72,7 +72,7 @@ public class CraftGuardian extends CraftMonster implements Guardian {
 
     @Override
     public int getLaserTicks() {
-        EntityGuardian.PathfinderGoalGuardianAttack goal = getHandle().guardianAttackGoal;
+        net.minecraft.world.entity.monster.Guardian.GuardianAttackGoal goal = getHandle().guardianAttackGoal;
         return (goal != null) ? goal.attackTime : MINIMUM_ATTACK_TICKS;
     }
 

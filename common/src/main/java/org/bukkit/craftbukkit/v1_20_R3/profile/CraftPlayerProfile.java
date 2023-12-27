@@ -6,18 +6,7 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import com.mojang.authlib.properties.PropertyMap;
 import com.mojang.authlib.yggdrasil.ProfileResult;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import net.minecraft.SystemUtils;
+import net.minecraft.Util;
 import net.minecraft.server.dedicated.DedicatedServer;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
@@ -26,6 +15,12 @@ import org.bukkit.craftbukkit.v1_20_R3.CraftServer;
 import org.bukkit.craftbukkit.v1_20_R3.configuration.ConfigSerializationUtil;
 import org.bukkit.profile.PlayerProfile;
 import org.bukkit.profile.PlayerTextures;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 @SerializableAs("PlayerProfile")
 public final class CraftPlayerProfile implements PlayerProfile {
@@ -53,7 +48,7 @@ public final class CraftPlayerProfile implements PlayerProfile {
 
     public CraftPlayerProfile(UUID uniqueId, String name) {
         Preconditions.checkArgument((uniqueId != null) || !StringUtils.isBlank(name), "uniqueId is null or name is blank");
-        this.uniqueId = (uniqueId == null) ? SystemUtils.NIL_UUID : uniqueId;
+        this.uniqueId = (uniqueId == null) ? Util.NIL_UUID : uniqueId;
         this.name = (name == null) ? "" : name;
     }
 
@@ -72,7 +67,7 @@ public final class CraftPlayerProfile implements PlayerProfile {
 
     @Override
     public UUID getUniqueId() {
-        return (uniqueId.equals(SystemUtils.NIL_UUID)) ? null : uniqueId;
+        return (uniqueId.equals(Util.NIL_UUID)) ? null : uniqueId;
     }
 
     @Override
@@ -122,7 +117,7 @@ public final class CraftPlayerProfile implements PlayerProfile {
 
     @Override
     public CompletableFuture<PlayerProfile> update() {
-        return CompletableFuture.supplyAsync(this::getUpdatedProfile, SystemUtils.backgroundExecutor());
+        return CompletableFuture.supplyAsync(this::getUpdatedProfile, Util.backgroundExecutor());
     }
 
     private CraftPlayerProfile getUpdatedProfile() {
@@ -130,12 +125,12 @@ public final class CraftPlayerProfile implements PlayerProfile {
         GameProfile profile = this.buildGameProfile();
 
         // If missing, look up the uuid by name:
-        if (profile.getId().equals(SystemUtils.NIL_UUID)) {
+        if (profile.getId().equals(Util.NIL_UUID)) {
             profile = server.getProfileCache().get(profile.getName()).orElse(profile);
         }
 
         // Look up properties such as the textures:
-        if (!profile.getId().equals(SystemUtils.NIL_UUID)) {
+        if (!profile.getId().equals(Util.NIL_UUID)) {
             ProfileResult newProfile = server.getSessionService().fetchProfile(profile.getId(), true);
             if (newProfile != null) {
                 profile = newProfile.profile();

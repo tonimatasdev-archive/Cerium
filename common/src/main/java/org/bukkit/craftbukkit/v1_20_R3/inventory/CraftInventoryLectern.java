@@ -1,5 +1,6 @@
 package org.bukkit.craftbukkit.v1_20_R3.inventory;
 
+import dev.tonimatas.cerium.bridge.world.ContainerBridge;
 import net.minecraft.world.Container;
 import net.minecraft.world.level.block.entity.LecternBlockEntity;
 import org.bukkit.block.Lectern;
@@ -18,6 +19,6 @@ public class CraftInventoryLectern extends CraftInventory implements LecternInve
 
     @Override
     public Lectern getHolder() {
-        return (Lectern) inventory.getOwner();
+        return (Lectern) ((ContainerBridge) inventory).getOwner();
     }
 }

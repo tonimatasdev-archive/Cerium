@@ -118,6 +118,7 @@ accessible field net/minecraft/world/entity/decoration/ArmorStand rightLegPose L
 accessible field net/minecraft/world/entity/decoration/ArmorStand headPose Lnet/minecraft/core/Rotations;
 accessible method net/minecraft/world/entity/decoration/ArmorStand setSmall (Z)V
 accessible field net/minecraft/world/entity/decoration/ArmorStand disabledSlots I
+accessible method net/minecraft/world/entity/decoration/ArmorStand setMarker (Z)V
 accessible field net/minecraft/world/entity/projectile/AbstractArrow knockback I
 accessible field net/minecraft/world/entity/projectile/AbstractArrow inGround Z
 accessible field net/minecraft/world/entity/projectile/AbstractArrow life I
@@ -385,3 +386,48 @@ accessible field net/minecraft/world/entity/raid/Raid ticksActive J
 accessible field net/minecraft/world/entity/raid/Raid badOmenLevel I
 accessible field net/minecraft/world/entity/raid/Raid numGroups I
 accessible field net/minecraft/world/entity/raid/Raid heroesOfTheVillage Ljava/util/Set;
+accessible method net/minecraft/world/level/LevelReader getChunk (IILnet/minecraft/world/level/chunk/ChunkStatus;)Lnet/minecraft/world/level/chunk/ChunkAccess;
+accessible field net/minecraft/world/level/entity/PersistentEntitySectionManager permanentStorage Lnet/minecraft/world/level/entity/EntityPersistentStorage;
+accessible method net/minecraft/world/level/entity/PersistentEntitySectionManager ensureChunkQueuedForLoad (J)V
+accessible field net/minecraft/world/level/chunk/ChunkAccess blockEntities Ljava/util/Map;
+accessible field net/minecraft/world/level/chunk/storage/ChunkSerializer BLOCK_STATE_CODEC Lcom/mojang/serialization/Codec;
+accessible field net/minecraft/world/level/chunk/ChunkAccess heightmaps Ljava/util/Map;
+accessible field net/minecraft/world/inventory/AbstractContainerMenu lastSlots Lnet/minecraft/core/NonNullList;
+accessible field net/minecraft/world/inventory/AbstractContainerMenu remoteSlots Lnet/minecraft/core/NonNullList;
+accessible field net/minecraft/world/scores/criteria/ObjectiveCriteria CRITERIA_CACHE Ljava/util/Map;
+accessible method net/minecraft/world/entity/Display setTransformationInterpolationDelay (I)V
+accessible method net/minecraft/world/entity/Display setTransformationInterpolationDuration (I)V
+accessible field net/minecraft/world/entity/Entity portalCooldown I
+accessible method net/minecraft/world/entity/Entity getEncodeId ()Ljava/lang/String;
+accessible field net/minecraft/world/entity/Mob handDropChances [F
+accessible field net/minecraft/world/entity/Mob armorDropChances [F
+accessible field net/minecraft/world/flag/FeatureFlag universe Lnet/minecraft/world/flag/FeatureFlagUniverse;
+accessible field net/minecraft/world/flag/FeatureFlagRegistry names Ljava/util/Map;
+accessible class net/minecraft/world/entity/projectile/FishingHook$FishHookState
+accessible class net/minecraft/world/entity/monster/Guardian$GuardianAttackGoal
+accessible field net/minecraft/world/entity/monster/Guardian$GuardianAttackGoal attackTime I
+accessible field net/minecraft/world/inventory/AnvilMenu itemName Ljava/lang/String;
+accessible field net/minecraft/world/inventory/AnvilMenu repairItemCountCost I
+accessible field net/minecraft/world/inventory/AnvilMenu cost Lnet/minecraft/world/inventory/DataSlot;
+accessible field net/minecraft/world/inventory/MerchantContainer selectionHint I
+accessible field net/minecraft/world/entity/decoration/HangingEntity pos Lnet/minecraft/core/BlockPos;
+accessible method net/minecraft/world/level/saveddata/maps/MapItemSavedData setColorsDirty (II)V
+accessible field net/minecraft/world/level/saveddata/maps/MapItemSavedData decorations Ljava/util/Map;
+accessible field net/minecraft/world/level/saveddata/maps/MapItemSavedData trackingPosition Z
+accessible field net/minecraft/world/level/saveddata/maps/MapItemSavedData unlimitedTracking Z
+accessible field net/minecraft/world/item/trading/MerchantOffer result Lnet/minecraft/world/item/ItemStack;
+accessible field net/minecraft/world/item/trading/MerchantOffer baseCostA Lnet/minecraft/world/item/ItemStack;
+accessible field net/minecraft/world/item/trading/MerchantOffer costB Lnet/minecraft/world/item/ItemStack;
+accessible field net/minecraft/world/item/trading/MerchantOffer specialPriceDiff I
+accessible field net/minecraft/world/item/trading/MerchantOffer demand I
+accessible field net/minecraft/world/item/trading/MerchantOffer uses I
+accessible field net/minecraft/world/item/trading/MerchantOffer maxUses I
+accessible field net/minecraft/world/item/trading/MerchantOffer rewardExp Z
+accessible field net/minecraft/world/item/trading/MerchantOffer xp I
+accessible field net/minecraft/world/item/trading/MerchantOffer priceMultiplier F
+accessible class net/minecraft/world/item/crafting/Ingredient$ItemValue
+accessible method net/minecraft/server/players/PlayerList updateEntireScoreboard (Lnet/minecraft/server/ServerScoreboard;Lnet/minecraft/server/level/ServerPlayer;)V
+accessible method net/minecraft/server/MinecraftServer$ReloadableResources managers ()Lnet/minecraft/server/ReloadableServerResources;
+accessible field net/minecraft/world/level/block/SoundType hitSound Lnet/minecraft/sounds/SoundEvent;
+accessible field net/minecraft/world/level/block/SoundType breakSound Lnet/minecraft/sounds/SoundEvent;
+accessible class net/minecraft/world/level/biome/Biome$ClimateSettings

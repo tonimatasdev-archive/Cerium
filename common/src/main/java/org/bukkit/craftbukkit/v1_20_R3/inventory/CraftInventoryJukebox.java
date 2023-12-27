@@ -1,5 +1,6 @@
 package org.bukkit.craftbukkit.v1_20_R3.inventory;
 
+import dev.tonimatas.cerium.bridge.world.ContainerBridge;
 import net.minecraft.world.Container;
 import org.bukkit.block.Jukebox;
 import org.bukkit.inventory.ItemStack;
@@ -27,6 +28,6 @@ public class CraftInventoryJukebox extends CraftInventory implements JukeboxInve
 
     @Override
     public Jukebox getHolder() {
-        return (Jukebox) inventory.getOwner();
+        return (Jukebox) ((ContainerBridge) inventory).getOwner();
     }
 }

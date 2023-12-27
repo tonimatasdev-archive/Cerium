@@ -2,10 +2,7 @@ package org.bukkit.craftbukkit.v1_20_R3.scoreboard;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
-import java.util.Set;
-import net.minecraft.world.scores.ScoreboardTeam;
-import net.minecraft.world.scores.ScoreboardTeamBase;
-import net.minecraft.world.scores.ScoreboardTeamBase.EnumNameTagVisibility;
+import net.minecraft.world.scores.PlayerTeam;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -13,10 +10,12 @@ import org.bukkit.craftbukkit.v1_20_R3.util.CraftChatMessage;
 import org.bukkit.scoreboard.NameTagVisibility;
 import org.bukkit.scoreboard.Team;
 
-final class CraftTeam extends CraftScoreboardComponent implements Team {
-    private final ScoreboardTeam team;
+import java.util.Set;
 
-    CraftTeam(CraftScoreboard scoreboard, ScoreboardTeam team) {
+final class CraftTeam extends CraftScoreboardComponent implements Team {
+    private final PlayerTeam team;
+
+    CraftTeam(CraftScoreboard scoreboard, PlayerTeam team) {
         super(scoreboard);
         this.team = team;
     }
@@ -235,35 +234,35 @@ final class CraftTeam extends CraftScoreboardComponent implements Team {
 
         switch (option) {
             case NAME_TAG_VISIBILITY:
-                team.setNameTagVisibility(EnumNameTagVisibility.values()[status.ordinal()]);
+                team.setNameTagVisibility(net.minecraft.world.scores.Team.Visibility.values()[status.ordinal()]);
                 break;
             case DEATH_MESSAGE_VISIBILITY:
-                team.setDeathMessageVisibility(EnumNameTagVisibility.values()[status.ordinal()]);
+                team.setDeathMessageVisibility(net.minecraft.world.scores.Team.Visibility.values()[status.ordinal()]);
                 break;
             case COLLISION_RULE:
-                team.setCollisionRule(ScoreboardTeamBase.EnumTeamPush.values()[status.ordinal()]);
+                team.setCollisionRule(net.minecraft.world.scores.Team.CollisionRule.values()[status.ordinal()]);
                 break;
             default:
                 throw new IllegalArgumentException("Unrecognised option " + option);
         }
     }
 
-    public static EnumNameTagVisibility bukkitToNotch(NameTagVisibility visibility) {
+    public static net.minecraft.world.scores.Team.Visibility bukkitToNotch(NameTagVisibility visibility) {
         switch (visibility) {
             case ALWAYS:
-                return EnumNameTagVisibility.ALWAYS;
+                return net.minecraft.world.scores.Team.Visibility.ALWAYS;
             case NEVER:
-                return EnumNameTagVisibility.NEVER;
+                return net.minecraft.world.scores.Team.Visibility.NEVER;
             case HIDE_FOR_OTHER_TEAMS:
-                return EnumNameTagVisibility.HIDE_FOR_OTHER_TEAMS;
+                return net.minecraft.world.scores.Team.Visibility.HIDE_FOR_OTHER_TEAMS;
             case HIDE_FOR_OWN_TEAM:
-                return EnumNameTagVisibility.HIDE_FOR_OWN_TEAM;
+                return net.minecraft.world.scores.Team.Visibility.HIDE_FOR_OWN_TEAM;
             default:
                 throw new IllegalArgumentException("Unknown visibility level " + visibility);
         }
     }
 
-    public static NameTagVisibility notchToBukkit(EnumNameTagVisibility visibility) {
+    public static NameTagVisibility notchToBukkit(net.minecraft.world.scores.Team.Visibility visibility) {
         switch (visibility) {
             case ALWAYS:
                 return NameTagVisibility.ALWAYS;

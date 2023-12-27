@@ -41,7 +41,7 @@ public class CraftHorse extends CraftAbstractHorse implements Horse {
     @Override
     public void setStyle(Style style) {
         Preconditions.checkArgument(style != null, "Style cannot be null");
-        getHandle().setVariantAndMarkings(getHandle().getVariant(), net.minecraft.world.entity.animal.horse.Variant.byId(style.ordinal()));
+        getHandle().setVariantAndMarkings(net.minecraft.world.entity.animal.horse.Variant.byId(style.ordinal()), getHandle().getMarkings());
     }
 
     @Override

@@ -1,6 +1,5 @@
 package org.bukkit.craftbukkit.v1_20_R3.block;
 
-import net.minecraft.world.level.block.entity.BlockEntityBrewingStand;
 import net.minecraft.world.level.block.entity.BrewingStandBlockEntity;
 import org.bukkit.World;
 import org.bukkit.block.BrewingStand;

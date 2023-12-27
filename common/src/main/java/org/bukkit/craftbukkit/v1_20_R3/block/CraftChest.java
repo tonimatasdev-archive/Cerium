@@ -1,11 +1,8 @@
 package org.bukkit.craftbukkit.v1_20_R3.block;
 
-import net.minecraft.world.ITileInventory;
 import net.minecraft.world.MenuProvider;
-import net.minecraft.world.level.block.BlockChest;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChestBlock;
-import net.minecraft.world.level.block.entity.BlockEntityChest;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.bukkit.Material;

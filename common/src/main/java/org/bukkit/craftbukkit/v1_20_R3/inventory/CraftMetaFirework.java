@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.ListTag;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.FireworkEffect.Type;
@@ -84,7 +84,7 @@ class CraftMetaFirework extends CraftMetaItem implements FireworkMeta {
             return;
         }
 
-        NBTTagList fireworkEffects = fireworks.getList(EXPLOSIONS.NBT, CraftMagicNumbers.NBT.TAG_COMPOUND);
+        ListTag fireworkEffects = fireworks.getList(EXPLOSIONS.NBT, CraftMagicNumbers.NBT.TAG_COMPOUND);
         List<FireworkEffect> effects = this.effects = new ArrayList<FireworkEffect>(fireworkEffects.size());
 
         for (int i = 0; i < fireworkEffects.size(); i++) {
@@ -218,7 +218,7 @@ class CraftMetaFirework extends CraftMetaItem implements FireworkMeta {
         itemTag.put(FIREWORKS.NBT, fireworks);
 
         if (hasEffects()) {
-            NBTTagList effects = new NBTTagList();
+            ListTag effects = new ListTag();
             for (FireworkEffect effect : this.effects) {
                 effects.add(getExplosion(effect));
             }
