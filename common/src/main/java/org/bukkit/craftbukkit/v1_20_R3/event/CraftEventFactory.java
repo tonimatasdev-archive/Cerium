@@ -400,7 +400,7 @@ public class CraftEventFactory {
             clickedPos = CraftVector.toBukkit(targetPos.subtract(Vec3.atLowerCornerOf(position)));
         }
 
-        CraftWorld craftLevel = (CraftWorld) player.getLevel();
+        CraftWorld craftLevel = (CraftWorld) player.getWorld();
         CraftServer craftServer = (CraftServer) player.getServer();
 
         Block blockClicked = null;
@@ -457,7 +457,7 @@ public class CraftEventFactory {
      * EntityShootBowEvent
      */
     public static EntityShootBowEvent callEntityShootBowEvent(LivingEntity who, ItemStack bow, ItemStack consumableItem, Entity entityArrow, InteractionHand hand, float force, boolean consumeItem) {
-        LivingEntity shooter = (LivingEntity) who.getBukkitEntity();
+        org.bukkit.entity.LivingEntity shooter = (LivingEntity) who.getBukkitEntity();
         CraftItemStack itemInHand = CraftItemStack.asCraftMirror(bow);
         CraftItemStack itemConsumable = CraftItemStack.asCraftMirror(consumableItem);
         org.bukkit.entity.Entity arrow = ((EntityBridge) entityArrow).getBukkitEntity();

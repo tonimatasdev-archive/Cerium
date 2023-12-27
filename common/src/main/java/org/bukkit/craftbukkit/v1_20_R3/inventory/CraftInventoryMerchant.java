@@ -1,8 +1,6 @@
 package org.bukkit.craftbukkit.v1_20_R3.inventory;
 
-import net.minecraft.world.inventory.InventoryMerchant;
 import net.minecraft.world.inventory.MerchantContainer;
-import net.minecraft.world.item.trading.IMerchant;
 import org.bukkit.inventory.Merchant;
 import org.bukkit.inventory.MerchantInventory;
 import org.bukkit.inventory.MerchantRecipe;
