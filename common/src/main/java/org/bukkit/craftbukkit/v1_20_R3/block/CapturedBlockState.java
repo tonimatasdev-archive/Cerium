@@ -1,5 +1,6 @@
 package org.bukkit.craftbukkit.v1_20_R3.block;
 
+import dev.tonimatas.cerium.bridge.world.level.LevelAccessorBridge;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
@@ -45,7 +46,7 @@ public final class CapturedBlockState extends CraftBlockState {
                 int j = 2 + random.nextInt(2);
 
                 for (int k = 0; k < j; ++k) {
-                    Bee entitybee = new Bee(EntityType.BEE, generatoraccessseed.getMinecraftWorld());
+                    Bee entitybee = new Bee(EntityType.BEE, ((LevelAccessorBridge) generatoraccessseed).getMinecraftWorld());
 
                     tileentitybeehive.addOccupantWithPresetTicks(entitybee, false, random.nextInt(599));
                 }

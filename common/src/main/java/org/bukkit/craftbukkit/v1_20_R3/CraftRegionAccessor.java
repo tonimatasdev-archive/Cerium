@@ -1,6 +1,7 @@
 package org.bukkit.craftbukkit.v1_20_R3;
 
 import com.google.common.base.Preconditions;
+import dev.tonimatas.cerium.bridge.world.level.LevelAccessorBridge;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
@@ -157,7 +158,7 @@ public abstract class CraftRegionAccessor implements RegionAccessor {
     @Override
     public boolean generateTree(Location location, Random random, TreeType treeType) {
         BlockPos pos = CraftLocation.toBlockPos(location);
-        return generateTree(getHandle(), getHandle().getMinecraftWorld().getChunkSource().getGenerator(), pos, new RandomSourceWrapper(random), treeType);
+        return generateTree(getHandle(), ((LevelAccessorBridge) getHandle()).getMinecraftWorld().getChunkSource().getGenerator(), pos, new RandomSourceWrapper(random), treeType);
     }
 
     @Override
@@ -172,7 +173,7 @@ public abstract class CraftRegionAccessor implements RegionAccessor {
     public boolean generateTree(Location location, Random random, TreeType treeType, Predicate<? super org.bukkit.block.BlockState> predicate) {
         BlockPos pos = CraftLocation.toBlockPos(location);
         BlockStateListPopulator populator = new BlockStateListPopulator(getHandle());
-        boolean result = generateTree(populator, getHandle().getMinecraftWorld().getChunkSource().getGenerator(), pos, new RandomSourceWrapper(random), treeType);
+        boolean result = generateTree(populator, ((LevelAccessorBridge) getHandle()).getMinecraftWorld().getChunkSource().getGenerator(), pos, new RandomSourceWrapper(random), treeType);
         populator.refreshTiles();
 
         for (org.bukkit.block.BlockState blockState : populator.getList()) {
@@ -472,7 +473,7 @@ public abstract class CraftRegionAccessor implements RegionAccessor {
             throw new IllegalArgumentException("Cannot spawn an entity for " + clazz.getName());
         }
 
-        if (!entityTypeData.entityType().isEnabledByFeature(getHandle().getMinecraftWorld().getWorld())) {
+        if (!entityTypeData.entityType().isEnabledByFeature(((LevelAccessorBridge) getHandle()).getMinecraftWorld().getWorld())) {
             throw new IllegalArgumentException("Cannot spawn an entity for " + clazz.getName() + " because it is not an enabled feature");
         }
 

@@ -375,3 +375,4 @@ accessible method net/minecraft/server/Main forceUpgrade (Lnet/minecraft/world/l
 accessible field net/minecraft/world/inventory/CraftingMenu craftSlots Lnet/minecraft/world/inventory/CraftingContainer;
 accessible field net/minecraft/world/inventory/CraftingMenu resultSlots Lnet/minecraft/world/inventory/ResultContainer;
 accessible method net/minecraft/world/item/MapItem createNewSavedData (Lnet/minecraft/world/level/Level;IIIZZLnet/minecraft/resources/ResourceKey;)I
+accessible field net/minecraft/world/level/Explosion source Lnet/minecraft/world/entity/Entity;

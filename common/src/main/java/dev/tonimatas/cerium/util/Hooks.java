@@ -8,4 +8,14 @@ public class Hooks {
     public static boolean isFabric() {
         throw new NotImplementedException();
     }
+
+    @ExpectPlatform
+    public static boolean isForge() {
+        throw new NotImplementedException();
+    }
+
+    @ExpectPlatform
+    public static boolean isNeoForge() {
+        throw new NotImplementedException();
+    }
 }

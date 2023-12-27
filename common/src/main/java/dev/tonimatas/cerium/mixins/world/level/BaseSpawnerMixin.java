@@ -1,6 +1,6 @@
 package dev.tonimatas.cerium.mixins.world.level;
 
-import dev.tonimatas.cerium.util.ForgeEventFactory;
+import dev.tonimatas.cerium.util.CeriumEventFactory;
 import dev.tonimatas.cerium.util.Hooks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -113,17 +113,17 @@ public abstract class BaseSpawnerMixin {
                                     continue;
                                 }
                             } else {
-                                if (!ForgeEventFactory.checkSpawnPositionSpawner(mob, level, MobSpawnType.SPAWNER, spawnData, (BaseSpawner) (Object) this)) {
+                                if (!CeriumEventFactory.checkSpawnPositionSpawner(mob, level, MobSpawnType.SPAWNER, spawnData, (BaseSpawner) (Object) this)) {
                                     continue;
                                 }
                             }
 
-                            if (Hooks.isFabric()) {
+                            if (Hooks.isForge() || Hooks.isNeoForge()) {
                                 if (spawnData.getEntityToSpawn().size() == 1 && spawnData.getEntityToSpawn().contains("id", 8)) {
                                     ((Mob) entity).finalizeSpawn(level, level.getCurrentDifficultyAt(entity.blockPosition()), MobSpawnType.SPAWNER, (SpawnGroupData)null, (CompoundTag)null);
                                 }
                             } else {
-                                ForgeEventFactory.FinalizeSpawn event = ForgeEventFactory.onFinalizeSpawnSpawner(mob, level, level.getCurrentDifficultyAt(entity.blockPosition()), null, compoundtag, (BaseSpawner) (Object) this);
+                                CeriumEventFactory.FinalizeSpawn event = CeriumEventFactory.onFinalizeSpawnSpawner(mob, level, level.getCurrentDifficultyAt(entity.blockPosition()), null, compoundtag, (BaseSpawner) (Object) this);
                                 if (event != null && spawnData.getEntityToSpawn().size() == 1 && spawnData.getEntityToSpawn().contains("id", 8)) {
                                     ((Mob) entity).finalizeSpawn(level, event.difficulty(), event.spawnType(), event.spawnData(), event.spawnTag());
                                 }

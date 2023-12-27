@@ -1,6 +1,7 @@
 package org.bukkit.craftbukkit.v1_20_R3.entity;
 
 import com.google.common.base.Preconditions;
+import dev.tonimatas.cerium.bridge.world.level.LevelAccessorBridge;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.EntityAreaEffectCloud;
@@ -86,7 +87,7 @@ public final class CraftEntityTypes {
         }
 
         Level minecraftWorld() {
-            return world().getMinecraftWorld();
+            return ((LevelAccessorBridge) world()).getMinecraftWorld();
         }
     }
 

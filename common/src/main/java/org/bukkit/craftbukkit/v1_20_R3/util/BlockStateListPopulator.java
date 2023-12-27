@@ -1,5 +1,6 @@
 package org.bukkit.craftbukkit.v1_20_R3.util;
 
+import dev.tonimatas.cerium.bridge.world.level.LevelAccessorBridge;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.server.level.ServerLevel;
@@ -17,7 +18,7 @@ import org.bukkit.craftbukkit.v1_20_R3.block.CraftBlockState;
 import java.util.*;
 import java.util.function.Predicate;
 
-public class BlockStateListPopulator extends DummyGeneratorAccess {
+public class BlockStateListPopulator extends DummyGeneratorAccess implements LevelAccessorBridge {
     private final LevelAccessor world;
     private final Map<BlockPos, BlockState> dataMap = new HashMap<>();
     private final Map<BlockPos, BlockEntity> entityMap = new HashMap<>();
@@ -78,7 +79,7 @@ public class BlockStateListPopulator extends DummyGeneratorAccess {
 
     @Override
     public ServerLevel getMinecraftWorld() {
-        return world.getMinecraftWorld();
+        return ((LevelAccessorBridge) world).getMinecraftWorld();
     }
 
     public void refreshTiles() {

@@ -5,7 +5,7 @@
   "overwrites": {
     "conformVisibility": true
   },
-  "mixinPriority": 500,
+  "mixinPriority": 999,
   "injectors": {
     "defaultRequire": 1
   },
@@ -34,13 +34,18 @@
     "world.damagesource.DamageSourceMixin",
     "world.damagesource.DamageSourcesMixin",
     "world.item.ArmorStandItemMixin",
+    "world.item.BowItemMixin",
+    "world.item.ChorusFruitItemMixin",
     "world.item.EndCrystalItemMixin",
+    "world.item.ItemStackMixin",
     "world.item.MapItemMixin",
+    "world.item.MilkBucketItemMixin",
     "world.item.PotionItemMixin",
     "world.item.RecordItemMixin",
     "world.item.SpawnEggItemMixin",
     "world.level.BaseSpawnerMixin",
     "world.level.ContainerMixin",
+    "world.level.LevelAccessorMixin",
     "world.level.LevelWriterMixin",
     "world.level.block.AbstractCandleBlockMixin",
     "world.level.block.ChangeOverTimeBlockMixin",

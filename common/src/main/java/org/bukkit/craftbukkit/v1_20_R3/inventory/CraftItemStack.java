@@ -1,13 +1,12 @@
 package org.bukkit.craftbukkit.v1_20_R3.inventory;
 
-import static org.bukkit.craftbukkit.v1_20_R3.inventory.CraftMetaItem.*;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
-import java.util.Map;
+import dev.tonimatas.cerium.bridge.world.item.ItemStackBridge;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.enchantment.EnchantmentManager;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.serialization.DelegateDeserialization;
@@ -19,6 +18,10 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
+
+import java.util.Map;
+
+import static org.bukkit.craftbukkit.v1_20_R3.inventory.CraftMetaItem.*;
 
 @DelegateDeserialization(ItemStack.class)
 public final class CraftItemStack extends ItemStack {
@@ -126,7 +129,7 @@ public final class CraftItemStack extends ItemStack {
         } else if (handle == null) {
             handle = new net.minecraft.world.item.ItemStack(CraftMagicNumbers.getItem(type), 1);
         } else {
-            handle.setItem(CraftMagicNumbers.getItem(type));
+            ((ItemStackBridge) (Object) handle).bridge$setItem(CraftMagicNumbers.getItem(type));
             if (hasItemMeta()) {
                 // This will create the appropriate item meta, which will contain all the data we intend to keep
                 setItemMeta(handle, getItemMeta(handle));
@@ -181,9 +184,9 @@ public final class CraftItemStack extends ItemStack {
         if (!makeTag(handle)) {
             return;
         }
-        NBTTagList list = getEnchantmentList(handle);
+        ListTag list = getEnchantmentList(handle);
         if (list == null) {
-            list = new NBTTagList();
+            list = new ListTag();
             handle.getTag().put(ENCHANTMENTS.NBT, list);
         }
         int size = list.size();
@@ -225,14 +228,14 @@ public final class CraftItemStack extends ItemStack {
         if (handle == null) {
             return 0;
         }
-        return EnchantmentManager.getItemEnchantmentLevel(CraftEnchantment.bukkitToMinecraft(ench), handle);
+        return EnchantmentHelper.getItemEnchantmentLevel(CraftEnchantment.bukkitToMinecraft(ench), handle);
     }
 
     @Override
     public int removeEnchantment(Enchantment ench) {
         Preconditions.checkArgument(ench != null, "Enchantment cannot be null");
 
-        NBTTagList list = getEnchantmentList(handle), listCopy;
+        ListTag list = getEnchantmentList(handle), listCopy;
         if (list == null) {
             return 0;
         }
@@ -262,7 +265,7 @@ public final class CraftItemStack extends ItemStack {
         }
 
         // This is workaround for not having an index removal
-        listCopy = new NBTTagList();
+        listCopy = new ListTag();
         for (int i = 0; i < size; i++) {
             if (i != index) {
                 listCopy.add(list.get(i));
@@ -279,7 +282,7 @@ public final class CraftItemStack extends ItemStack {
     }
 
     static Map<Enchantment, Integer> getEnchantments(net.minecraft.world.item.ItemStack item) {
-        NBTTagList list = (item != null && item.isEnchanted()) ? item.getEnchantmentTags() : null;
+        ListTag list = (item != null && item.isEnchanted()) ? item.getEnchantmentTags() : null;
 
         if (list == null || list.size() == 0) {
             return ImmutableMap.of();
@@ -300,7 +303,7 @@ public final class CraftItemStack extends ItemStack {
         return result.build();
     }
 
-    static NBTTagList getEnchantmentList(net.minecraft.world.item.ItemStack item) {
+    static ListTag getEnchantmentList(net.minecraft.world.item.ItemStack item) {
         return (item != null && item.isEnchanted()) ? item.getEnchantmentTags() : null;
     }
 
@@ -654,14 +657,14 @@ public final class CraftItemStack extends ItemStack {
         Item oldItem = item.getItem();
         Item newItem = CraftMagicNumbers.getItem(CraftItemFactory.instance().updateMaterial(itemMeta, CraftMagicNumbers.getMaterial(oldItem)));
         if (oldItem != newItem) {
-            item.setItem(newItem);
+            ((ItemStackBridge) (Object) item).bridge$setItem(newItem);
         }
 
         CompoundTag tag = new CompoundTag();
         item.setTag(tag);
 
         ((CraftMetaItem) itemMeta).applyToItem(tag);
-        item.convertStack(((CraftMetaItem) itemMeta).getVersion());
+        ((ItemStackBridge) (Object) item).bridge$convertStack(((CraftMetaItem) itemMeta).getVersion());
         // SpigotCraft#463 this is required now by the Vanilla client, so mimic ItemStack constructor in ensuring it
         if (item.getItem() != null && item.getItem().canBeDepleted()) {
             item.setDamageValue(item.getDamageValue());
