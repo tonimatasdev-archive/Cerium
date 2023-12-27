@@ -1,5 +1,6 @@
 package org.bukkit.craftbukkit.v1_20_R3.entity;
 
+import dev.tonimatas.cerium.bridge.world.entity.EntityBridge;
 import net.minecraft.core.Holder;
 import net.minecraft.world.entity.decoration.PaintingVariant;
 import org.bukkit.Art;
@@ -30,7 +31,7 @@ public class CraftPainting extends CraftHanging implements Painting {
         Holder<PaintingVariant> oldArt = painting.getVariant();
         painting.setVariant(CraftArt.bukkitToMinecraftHolder(art));
         painting.setDirection(painting.getDirection());
-        if (!force && !getHandle().generation && !painting.survives()) {
+        if (!force && !((EntityBridge) getHandle()).bridge$getGeneration() && !painting.survives()) {
             // Revert painting since it doesn't fit
             painting.setVariant(oldArt);
             painting.setDirection(painting.getDirection());

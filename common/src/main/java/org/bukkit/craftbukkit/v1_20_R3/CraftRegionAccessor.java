@@ -363,7 +363,7 @@ public abstract class CraftRegionAccessor implements RegionAccessor {
         net.minecraft.world.entity.Entity entity = createEntity(location, clazz, true);
 
         if (!isNormalWorld()) {
-            entity.generation = true;
+            ((EntityBridge) entity).bridge$setGeneration(true);
         }
 
         return (T) ((EntityBridge) entity).getBukkitEntity();
@@ -404,7 +404,7 @@ public abstract class CraftRegionAccessor implements RegionAccessor {
         }
 
         addEntityWithPassengers(nmsEntity, CreatureSpawnEvent.SpawnReason.CUSTOM);
-        return (T) nmsEntity.getBukkitEntity();
+        return (T) ((EntityBridge) nmsEntity).getBukkitEntity();
     }
 
     @SuppressWarnings("unchecked")
@@ -421,7 +421,7 @@ public abstract class CraftRegionAccessor implements RegionAccessor {
         }
 
         if (!isNormalWorld()) {
-            entity.generation = true;
+            ((EntityBridge) entity).bridge$setGeneration(true);
         }
 
         if (function != null) {

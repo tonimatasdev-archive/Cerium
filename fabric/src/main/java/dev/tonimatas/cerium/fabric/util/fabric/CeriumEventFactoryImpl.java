@@ -13,23 +13,22 @@ import net.minecraft.world.level.BaseSpawner;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.SpawnData;
-import org.apache.commons.lang3.NotImplementedException;
 import org.jetbrains.annotations.Nullable;
 
 public class CeriumEventFactoryImpl {
     public static CeriumEventFactory.FinalizeSpawn onFinalizeSpawnSpawner(Mob mob, ServerLevelAccessor level, DifficultyInstance difficulty, @Nullable SpawnGroupData spawnData, @Nullable CompoundTag spawnTag, BaseSpawner spawner) {
-        throw new RuntimeException("Its Fabric");
+        throw new RuntimeException("Fabric incompatible cerium event.");
     }
 
     public static boolean checkSpawnPositionSpawner(Mob mob, ServerLevelAccessor level, MobSpawnType spawnType, SpawnData spawnData, BaseSpawner spawner) {
-        throw new RuntimeException("Its Fabric");
+        throw new RuntimeException("Fabric incompatible cerium event.");
     }
 
     public static CeriumEventFactory.ChorusFruit onChorusFruitTeleport(LivingEntity entity, double targetX, double targetY, double targetZ) {
-        throw new RuntimeException("Its Fabric");
+        throw new RuntimeException("Fabric incompatible cerium event.");
     }
 
     public static int onArrowLoose(ItemStack stack, Level level, Player player, int charge, boolean hasAmmo) {
-        throw new RuntimeException("Its Fabric");
+        throw new RuntimeException("Fabric incompatible cerium event.");
     }
 }

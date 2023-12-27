@@ -81,7 +81,7 @@ public class CraftStructureTransformer {
         if (region == null) {
             return true;
         }
-        entity.generation = true;
+        ((EntityBridge) entity).bridge$setGeneration(true);
         CraftEntity craftEntity = ((EntityBridge) entity).getBukkitEntity();
         int x = entity.getBlockX();
         int y = entity.getBlockY();

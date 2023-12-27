@@ -94,7 +94,7 @@ public class CraftVillager extends CraftAbstractVillager implements Villager {
         Preconditions.checkArgument(location != null, "Location cannot be null");
         Preconditions.checkArgument(location.getWorld() != null, "Location needs to be in a world");
         Preconditions.checkArgument(location.getWorld().equals(getWorld()), "Cannot sleep across worlds");
-        Preconditions.checkState(!getHandle().generation, "Cannot sleep during world generation");
+        Preconditions.checkState(!((EntityBridge) getHandle()).bridge$getGeneration(), "Cannot sleep during world generation");
 
         BlockPos position = CraftLocation.toBlockPos(location);
         BlockState iblockdata = getHandle().level().getBlockState(position);
@@ -109,7 +109,7 @@ public class CraftVillager extends CraftAbstractVillager implements Villager {
     @Override
     public void wakeup() {
         Preconditions.checkState(isSleeping(), "Cannot wakeup if not sleeping");
-        Preconditions.checkState(!getHandle().generation, "Cannot wakeup during world generation");
+        Preconditions.checkState(!((EntityBridge) getHandle()).bridge$getGeneration(), "Cannot wakeup during world generation");
 
         getHandle().stopSleeping();
     }

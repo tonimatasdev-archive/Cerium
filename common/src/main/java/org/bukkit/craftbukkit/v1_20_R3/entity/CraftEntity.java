@@ -188,8 +188,8 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
         // Let the server handle cross world teleports
         if (location.getWorld() != null && !location.getWorld().equals(getWorld())) {
             // Prevent teleportation to an other world during world generation
-            Preconditions.checkState(!entity.generation, "Cannot teleport entity to an other world during world generation");
-            entity.teleportTo(((CraftWorld) location.getWorld()).getHandle(), CraftLocation.toVec3(location));
+            Preconditions.checkState(!((EntityBridge) entity).bridge$getGeneration(), "Cannot teleport entity to an other world during world generation");
+            ((EntityBridge) entity).teleportTo(((CraftWorld) location.getWorld()).getHandle(), CraftLocation.toVec3(location));
             return true;
         }
 
@@ -213,7 +213,7 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
 
     @Override
     public List<org.bukkit.entity.Entity> getNearbyEntities(double x, double y, double z) {
-        Preconditions.checkState(!entity.generation, "Cannot get nearby entities during world generation");
+        Preconditions.checkState(!((EntityBridge) entity).bridge$getGeneration(), "Cannot get nearby entities during world generation");
 
         List<Entity> notchEntityList = entity.level().getEntities(entity, entity.getBoundingBox().inflate(x, y, z), Predicates.alwaysTrue());
         List<org.bukkit.entity.Entity> bukkitEntityList = new java.util.ArrayList<org.bukkit.entity.Entity>(notchEntityList.size());
@@ -415,7 +415,7 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
     @Override
     public void playEffect(EntityEffect type) {
         Preconditions.checkArgument(type != null, "Type cannot be null");
-        Preconditions.checkState(!entity.generation, "Cannot play effect during world generation");
+        Preconditions.checkState(!((EntityBridge) entity).bridge$getGeneration(), "Cannot play effect during world generation");
 
         if (type.getApplicable().isInstance(this)) {
             this.getHandle().level().broadcastEntityEvent(getHandle(), type.getData());
@@ -424,17 +424,17 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
 
     @Override
     public Sound getSwimSound() {
-        return CraftSound.minecraftToBukkit(getHandle().getSwimSound0());
+        return CraftSound.minecraftToBukkit(((EntityBridge) getHandle()).getSwimSound0());
     }
 
     @Override
     public Sound getSwimSplashSound() {
-        return CraftSound.minecraftToBukkit(getHandle().getSwimSplashSound0());
+        return CraftSound.minecraftToBukkit(((EntityBridge) getHandle()).getSwimSplashSound0());
     }
 
     @Override
     public Sound getSwimHighSpeedSplashSound() {
-        return CraftSound.minecraftToBukkit(getHandle().getSwimHighSpeedSplashSound0());
+        return CraftSound.minecraftToBukkit(((EntityBridge) getHandle()).getSwimHighSpeedSplashSound0());
     }
 
     public void setHandle(final Entity entity) {
@@ -566,7 +566,7 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
 
     @Override
     public Set<Player> getTrackedBy() {
-        Preconditions.checkState(!entity.generation, "Cannot get tracking players during world generation");
+        Preconditions.checkState(!((EntityBridge) entity).bridge$getGeneration(), "Cannot get tracking players during world generation");
         ImmutableSet.Builder<Player> players = ImmutableSet.builder();
 
         ServerLevel world = ((CraftWorld) getWorld()).getHandle();
@@ -793,7 +793,7 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
 
     private Entity copy(net.minecraft.world.level.Level level) {
         CompoundTag compoundTag = new CompoundTag();
-        getHandle().saveAsPassenger(compoundTag, false);
+        ((EntityBridge) getHandle()).saveAsPassenger(compoundTag, false);
 
         return net.minecraft.world.entity.EntityType.loadEntityRecursive(compoundTag, level, java.util.function.Function.identity());
     }

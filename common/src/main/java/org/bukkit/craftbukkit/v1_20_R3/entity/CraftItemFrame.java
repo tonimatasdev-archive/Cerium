@@ -2,6 +2,7 @@ package org.bukkit.craftbukkit.v1_20_R3.entity;
 
 import com.google.common.base.Preconditions;
 import dev.tonimatas.cerium.bridge.network.syncher.SynchedEntityDataBridge;
+import dev.tonimatas.cerium.bridge.world.entity.EntityBridge;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.decoration.HangingEntity;
 import net.minecraft.world.level.block.Blocks;
@@ -26,7 +27,7 @@ public class CraftItemFrame extends CraftHanging implements ItemFrame {
         Preconditions.checkArgument(newDir != null, "%s is not a valid facing direction", face);
 
         getHandle().setDirection(newDir);
-        if (!force && !getHandle().generation && !hanging.survives()) {
+        if (!force && !((EntityBridge) getHandle()).bridge$getGeneration() && !hanging.survives()) {
             hanging.setDirection(oldDir);
             return false;
         }
@@ -45,7 +46,7 @@ public class CraftItemFrame extends CraftHanging implements ItemFrame {
         ((SynchedEntityDataBridge) getHandle().getEntityData()).bridge$markDirty(net.minecraft.world.entity.decoration.ItemFrame.DATA_ROTATION);
 
         // update redstone
-        if (!getHandle().generation) {
+        if (!((EntityBridge) getHandle()).bridge$getGeneration()) {
             getHandle().level().updateNeighbourForOutputSignal(getHandle().pos, Blocks.AIR);
         }
     }
@@ -58,7 +59,7 @@ public class CraftItemFrame extends CraftHanging implements ItemFrame {
     @Override
     public void setItem(org.bukkit.inventory.ItemStack item, boolean playSound) {
         // only updated redstone and play sound when it is not in generation
-        getHandle().setItem(CraftItemStack.asNMSCopy(item), !getHandle().generation, !getHandle().generation && playSound);
+        getHandle().setItem(CraftItemStack.asNMSCopy(item), !((EntityBridge) getHandle()).bridge$getGeneration(), !((EntityBridge) getHandle()).bridge$getGeneration() && playSound);
     }
 
     @Override

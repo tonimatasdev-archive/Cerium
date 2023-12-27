@@ -1,5 +1,6 @@
 package org.bukkit.craftbukkit.v1_20_R3.entity;
 
+import dev.tonimatas.cerium.bridge.world.entity.EntityBridge;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.decoration.HangingEntity;
 import org.bukkit.block.BlockFace;
@@ -42,7 +43,7 @@ public class CraftHanging extends CraftEntity implements Hanging {
             default:
                 throw new IllegalArgumentException(String.format("%s is not a valid facing direction", face));
         }
-        if (!force && !getHandle().generation && !hanging.survives()) {
+        if (!force && !((EntityBridge) getHandle()).bridge$getGeneration() && !hanging.survives()) {
             // Revert since it doesn't fit
             hanging.setDirection(dir);
             return false;

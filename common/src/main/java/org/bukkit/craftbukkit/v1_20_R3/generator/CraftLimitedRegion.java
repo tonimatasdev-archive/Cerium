@@ -1,6 +1,7 @@
 package org.bukkit.craftbukkit.v1_20_R3.generator;
 
 import com.google.common.base.Preconditions;
+import dev.tonimatas.cerium.bridge.world.entity.EntityBridge;
 import dev.tonimatas.cerium.bridge.world.level.LevelAccessorBridge;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -83,7 +84,7 @@ public class CraftLimitedRegion extends CraftRegionAccessor implements LimitedRe
                 for (CompoundTag compound : chunk.getEntities()) {
                     EntityType.loadEntityRecursive(compound, ((LevelAccessorBridge) access).getMinecraftWorld(), (entity) -> {
                         if (region.contains(entity.getX(), entity.getY(), entity.getZ())) {
-                            entity.generation = true;
+                            ((EntityBridge) entity).bridge$setGeneration(true);
                             entities.add(entity);
                         } else {
                             outsideEntities.add(entity);
