@@ -451,3 +451,5 @@ mutable field net/minecraft/world/level/saveddata/maps/MapItemSavedData centerZ 
 mutable field net/minecraft/world/level/saveddata/maps/MapItemSavedData trackingPosition Z
 mutable field net/minecraft/world/level/saveddata/maps/MapItemSavedData unlimitedTracking Z
 mutable field net/minecraft/world/level/saveddata/maps/MapItemSavedData locked Z
+accessible field net/minecraft/world/level/block/DispenserBlock DISPENSER_REGISTRY Ljava/util/Map;
+accessible field net/minecraft/world/item/BucketItem content Lnet/minecraft/world/level/material/Fluid;
