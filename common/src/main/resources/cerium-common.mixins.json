@@ -21,6 +21,7 @@
     "commands.arguments.EntityArgumentMixin",
     "commands.arguments.selector.EntitySelectorMixin",
     "commands.arguments.selector.EntitySelectorParserMixin",
+    "core.cauldron.CauldronInteractionMixin",
     "core.dispenser.AbstractProjectileDispenseBehaviorMixin",
     "core.dispenser.BoatDispenseItemBehaviorMixin",
     "core.dispenser.DefaultDispenseItemBehaviorMixin",
