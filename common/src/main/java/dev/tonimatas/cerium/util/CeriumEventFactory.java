@@ -3,10 +3,7 @@ package dev.tonimatas.cerium.util;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BaseSpawner;
@@ -37,7 +34,14 @@ public class CeriumEventFactory {
         throw new NotImplementedException();
     }
 
+    @ExpectPlatform
+    public static TeleportCommand onEntityTeleportCommand(Entity entity, double x, double y, double z) {
+        throw new NotImplementedException();
+    }
+
     public record FinalizeSpawn(Mob entity, ServerLevelAccessor level, double x, double y, double z, DifficultyInstance difficulty, MobSpawnType spawnType, @Nullable SpawnGroupData spawnData, @Nullable CompoundTag spawnTag, @Nullable BaseSpawner spawner) { }
 
     public record ChorusFruit(LivingEntity entity, double targetX, double targetY, double targetZ, boolean cancelled) { }
+
+    public record TeleportCommand(double targetX, double targetY, double targetZ, boolean cancelled) { }
 }

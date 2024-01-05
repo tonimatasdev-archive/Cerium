@@ -14,9 +14,12 @@ import com.mojang.brigadier.tree.CommandNode;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import com.mojang.serialization.Dynamic;
 import com.mojang.serialization.Lifecycle;
+import dev.tonimatas.cerium.bridge.advancements.AdvancementHolderBridge;
 import dev.tonimatas.cerium.bridge.commands.arguments.EntityArgumentBridge;
+import dev.tonimatas.cerium.bridge.server.bossevents.CustomBossEventBridge;
 import dev.tonimatas.cerium.bridge.world.ContainerBridge;
 import dev.tonimatas.cerium.bridge.world.entity.EntityBridge;
+import dev.tonimatas.cerium.mixins.server.commands.ReloadCommandMixin;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import jline.console.ConsoleReader;
 import net.minecraft.advancements.AdvancementHolder;
@@ -43,6 +46,7 @@ import net.minecraft.server.dedicated.DedicatedServerSettings;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.TicketType;
+import net.minecraft.server.packs.repository.PackRepository;
 import net.minecraft.server.players.*;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.GsonHelper;
@@ -72,10 +76,7 @@ import net.minecraft.world.level.levelgen.WorldDimensions;
 import net.minecraft.world.level.levelgen.WorldOptions;
 import net.minecraft.world.level.saveddata.maps.MapDecoration;
 import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
-import net.minecraft.world.level.storage.LevelDataAndDimensions;
-import net.minecraft.world.level.storage.LevelStorageSource;
-import net.minecraft.world.level.storage.PlayerDataStorage;
-import net.minecraft.world.level.storage.PrimaryLevelData;
+import net.minecraft.world.level.storage.*;
 import net.minecraft.world.level.storage.loot.LootDataManager;
 import net.minecraft.world.level.validation.ContentValidationException;
 import net.minecraft.world.phys.Vec3;
@@ -855,7 +856,11 @@ public final class CraftServer implements Server {
 
     @Override
     public void reloadData() {
-        ReloadCommand.reload(console);
+        PackRepository resourcepackrepository = console.getPackRepository();
+        WorldData savedata = console.getWorldData();
+        Collection<String> collection = resourcepackrepository.getSelectedIds();
+        Collection<String> collection1 = ReloadCommand.discoverNewPacks(resourcepackrepository, savedata, collection);
+        console.reloadResources(collection1);
     }
 
     private void loadIcon() {
@@ -2160,7 +2165,7 @@ public final class CraftServer implements Server {
         return Iterators.unmodifiableIterator(Iterators.transform(getServer().getCustomBossEvents().getEvents().iterator(), new Function<CustomBossEvent, org.bukkit.boss.KeyedBossBar>() {
             @Override
             public org.bukkit.boss.KeyedBossBar apply(CustomBossEvent bossBattleCustom) {
-                return bossBattleCustom.getBukkitEntity();
+                return ((CustomBossEventBridge) bossBattleCustom).getBukkitEntity();
             }
         }));
     }
@@ -2170,7 +2175,7 @@ public final class CraftServer implements Server {
         Preconditions.checkArgument(key != null, "key");
         net.minecraft.server.bossevents.CustomBossEvent bossBattleCustom = getServer().getCustomBossEvents().get(CraftNamespacedKey.toMinecraft(key));
 
-        return (bossBattleCustom == null) ? null : bossBattleCustom.getBukkitEntity();
+        return (bossBattleCustom == null) ? null : ((CustomBossEventBridge) bossBattleCustom).getBukkitEntity();
     }
 
     @Override
@@ -2206,7 +2211,7 @@ public final class CraftServer implements Server {
         Preconditions.checkArgument(key != null, "NamespacedKey key cannot be null");
 
         AdvancementHolder advancement = console.getAdvancements().get(CraftNamespacedKey.toMinecraft(key));
-        return (advancement == null) ? null : advancement.toBukkit();
+        return (advancement == null) ? null : ((AdvancementHolderBridge) (Object) advancement).toBukkit();
     }
 
     @Override
@@ -2214,7 +2219,7 @@ public final class CraftServer implements Server {
         return Iterators.unmodifiableIterator(Iterators.transform(console.getAdvancements().getAllAdvancements().iterator(), new Function<AdvancementHolder, org.bukkit.advancement.Advancement>() {
             @Override
             public org.bukkit.advancement.Advancement apply(AdvancementHolder advancement) {
-                return advancement.toBukkit();
+                return ((AdvancementHolderBridge) (Object) advancement).toBukkit();
             }
         }));
     }

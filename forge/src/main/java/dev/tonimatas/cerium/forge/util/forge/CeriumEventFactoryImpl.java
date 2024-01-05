@@ -3,10 +3,7 @@ package dev.tonimatas.cerium.forge.util.forge;
 import dev.tonimatas.cerium.util.CeriumEventFactory;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BaseSpawner;
@@ -35,5 +32,10 @@ public class CeriumEventFactoryImpl {
 
     public static int onArrowLoose(ItemStack stack, Level level, Player player, int charge, boolean hasAmmo) {
         return ForgeEventFactory.onArrowLoose(stack, level, player, charge, hasAmmo);
+    }
+
+    public static CeriumEventFactory.TeleportCommand onEntityTeleportCommand(Entity entity, double x, double y, double z) {
+        EntityTeleportEvent.TeleportCommand teleportCommand = ForgeEventFactory.onEntityTeleportCommand(entity, x, y, z);
+        return new CeriumEventFactory.TeleportCommand(teleportCommand.getTargetX(), teleportCommand.getTargetY(), teleportCommand.getTargetZ(), teleportCommand.isCanceled());
     }
 }

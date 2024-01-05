@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(AdvancementHolder.class)
 public class AdvancementHolderMixin implements AdvancementHolderBridge {
     @Override
-    public final org.bukkit.advancement.Advancement bridge$toBukkit() {
+    public final org.bukkit.advancement.Advancement toBukkit() {
         return new CraftAdvancement((AdvancementHolder) (Object) this);
     }
 }

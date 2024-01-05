@@ -453,3 +453,9 @@ mutable field net/minecraft/world/level/saveddata/maps/MapItemSavedData unlimite
 mutable field net/minecraft/world/level/saveddata/maps/MapItemSavedData locked Z
 accessible field net/minecraft/world/level/block/DispenserBlock DISPENSER_REGISTRY Ljava/util/Map;
 accessible field net/minecraft/world/item/BucketItem content Lnet/minecraft/world/level/material/Fluid;
+accessible field net/minecraft/server/commands/DifficultyCommand ERROR_ALREADY_DIFFICULT Lcom/mojang/brigadier/exceptions/DynamicCommandExceptionType;
+accessible class net/minecraft/server/commands/LootCommand$Callback
+accessible method net/minecraft/server/commands/ReloadCommand discoverNewPacks (Lnet/minecraft/server/packs/repository/PackRepository;Lnet/minecraft/world/level/storage/WorldData;Ljava/util/Collection;)Ljava/util/Collection;
+accessible class net/minecraft/server/commands/TeleportCommand$LookAt
+accessible field net/minecraft/server/commands/TeleportCommand INVALID_POSITION Lcom/mojang/brigadier/exceptions/SimpleCommandExceptionType;
+accessible method net/minecraft/server/commands/TimeCommand getDayTime (Lnet/minecraft/server/level/ServerLevel;)I
