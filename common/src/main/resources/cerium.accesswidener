@@ -463,3 +463,6 @@ accessible method net/minecraft/world/item/Item getPlayerPOVHitResult (Lnet/mine
 accessible field net/minecraft/world/item/BoatItem ENTITY_PREDICATE Ljava/util/function/Predicate;
 accessible method net/minecraft/world/item/BlockItem updateState (Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/properties/Property;Ljava/lang/String;)Lnet/minecraft/world/level/block/state/BlockState;
 accessible class net/minecraft/server/PlayerAdvancements$Data
+accessible method net/minecraft/world/entity/ai/behavior/StopAttackingIfTargetInvalid isTiredOfTryingToReachTarget (Lnet/minecraft/world/entity/LivingEntity;Ljava/util/Optional;)Z
+accessible field net/minecraft/world/entity/ai/goal/DoorInteractGoal mob Lnet/minecraft/world/entity/Mob;
+accessible field net/minecraft/world/entity/ai/goal/DoorInteractGoal doorPos Lnet/minecraft/core/BlockPos;
