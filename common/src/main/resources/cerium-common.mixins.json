@@ -60,6 +60,7 @@
     "server.gui.MinecraftServerGuiMixin",
     "stats.ServerRecipeBookMixin",
     "stats.StatsCounterMixin",
+    "util.SpawnUtilMixin",
     "world.CompoundContainerMixin",
     "world.LockCodeMixin",
     "world.damagesource.DamageSourceMixin",
