@@ -462,3 +462,4 @@ accessible method net/minecraft/server/commands/TimeCommand getDayTime (Lnet/min
 accessible method net/minecraft/world/item/Item getPlayerPOVHitResult (Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/level/ClipContext$Fluid;)Lnet/minecraft/world/phys/BlockHitResult;
 accessible field net/minecraft/world/item/BoatItem ENTITY_PREDICATE Ljava/util/function/Predicate;
 accessible method net/minecraft/world/item/BlockItem updateState (Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/properties/Property;Ljava/lang/String;)Lnet/minecraft/world/level/block/state/BlockState;
+accessible class net/minecraft/server/PlayerAdvancements$Data
