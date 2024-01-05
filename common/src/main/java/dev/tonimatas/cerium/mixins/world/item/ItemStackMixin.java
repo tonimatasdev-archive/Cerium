@@ -2,6 +2,7 @@ package dev.tonimatas.cerium.mixins.world.item;
 
 import com.mojang.serialization.Dynamic;
 import dev.tonimatas.cerium.bridge.world.item.ItemStackBridge;
+import dev.tonimatas.cerium.util.CeriumValues;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -171,7 +172,7 @@ public abstract class ItemStackMixin implements ItemStackBridge {
                     player.awardStat(Stats.ITEM_USED.get(item)); // SPIGOT-7236 - award stat
                 }
 
-                SignItem.openSign = null; // SPIGOT-6758 - Reset on early return
+                CeriumValues.openSign = null; // SPIGOT-6758 - Reset on early return
                 return enuminteractionresult;
             }
             world.captureTreeGeneration = false;
@@ -203,7 +204,7 @@ public abstract class ItemStackMixin implements ItemStackBridge {
                     for (Direction dir : Direction.values()) {
                         ((ServerPlayer) player).connection.send(new ClientboundBlockUpdatePacket(world, placedPos.relative(dir)));
                     }
-                    SignItem.openSign = null; // SPIGOT-6758 - Reset on early return
+                    CeriumValues.openSign = null; // SPIGOT-6758 - Reset on early return
                 } else {
                     // Change the stack to its new contents if it hasn't been tampered with.
                     if (this.getCount() == oldCount && Objects.equals(this.tag, oldData)) {
@@ -268,15 +269,15 @@ public abstract class ItemStackMixin implements ItemStackBridge {
                     }
 
                     // SPIGOT-4678
-                    if (this.item instanceof SignItem && SignItem.openSign != null) {
+                    if (this.item instanceof SignItem && CeriumValues.openSign != null) {
                         try {
-                            if (world.getBlockEntity(SignItem.openSign) instanceof SignBlockEntity tileentitysign) {
-                                if (world.getBlockState(SignItem.openSign).getBlock() instanceof SignBlock blocksign) {
+                            if (world.getBlockEntity(CeriumValues.openSign) instanceof SignBlockEntity tileentitysign) {
+                                if (world.getBlockState(CeriumValues.openSign).getBlock() instanceof SignBlock blocksign) {
                                     blocksign.openTextEdit(player, tileentitysign, true, org.bukkit.event.player.PlayerSignOpenEvent.Cause.PLACE); // Craftbukkit
                                 }
                             }
                         } finally {
-                            SignItem.openSign = null;
+                            CeriumValues.openSign = null;
                         }
                     }
 
