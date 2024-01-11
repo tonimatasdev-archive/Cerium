@@ -466,3 +466,4 @@ accessible class net/minecraft/server/PlayerAdvancements$Data
 accessible method net/minecraft/world/entity/ai/behavior/StopAttackingIfTargetInvalid isTiredOfTryingToReachTarget (Lnet/minecraft/world/entity/LivingEntity;Ljava/util/Optional;)Z
 accessible field net/minecraft/world/entity/ai/goal/DoorInteractGoal mob Lnet/minecraft/world/entity/Mob;
 accessible field net/minecraft/world/entity/ai/goal/DoorInteractGoal doorPos Lnet/minecraft/core/BlockPos;
+accessible method net/minecraft/server/dedicated/Settings get (Ljava/lang/String;Z)Z
