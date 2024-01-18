@@ -6,6 +6,7 @@ import com.google.common.io.BaseEncoding;
 import com.mojang.authlib.GameProfile;
 import com.mojang.datafixers.util.Pair;
 import dev.tonimatas.cerium.bridge.world.entity.EntityBridge;
+import dev.tonimatas.cerium.bridge.world.entity.LivingEntityBridge;
 import it.unimi.dsi.fastutil.shorts.ShortArraySet;
 import it.unimi.dsi.fastutil.shorts.ShortSet;
 import net.minecraft.advancements.AdvancementProgress;
@@ -1538,7 +1539,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
                 handle.newExp = data.getInt("newExp");
                 handle.newTotalExp = data.getInt("newTotalExp");
                 handle.newLevel = data.getInt("newLevel");
-                handle.expToDrop = data.getInt("expToDrop");
+                ((LivingEntityBridge) handle).cerium$setExpToDrop(data.getInt("expToDrop"));
                 handle.keepLevel = data.getBoolean("keepLevel");
             }
         }
@@ -1554,7 +1555,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
         data.putInt("newExp", handle.newExp);
         data.putInt("newTotalExp", handle.newTotalExp);
         data.putInt("newLevel", handle.newLevel);
-        data.putInt("expToDrop", handle.expToDrop);
+        data.putInt("expToDrop", ((LivingEntityBridge) handle).cerium$getExpToDrop());
         data.putBoolean("keepLevel", handle.keepLevel);
         data.putLong("firstPlayed", getFirstPlayed());
         data.putLong("lastPlayed", System.currentTimeMillis());

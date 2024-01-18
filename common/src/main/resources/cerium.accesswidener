@@ -469,3 +469,4 @@ accessible field net/minecraft/world/entity/ai/goal/DoorInteractGoal doorPos Lne
 accessible method net/minecraft/server/dedicated/Settings get (Ljava/lang/String;Z)Z
 accessible method net/minecraft/server/rcon/thread/RconClient sendCmdResponse (ILjava/lang/String;)V
 accessible field net/minecraft/server/rcon/thread/RconClient serverInterface Lnet/minecraft/server/ServerInterface;
+accessible field net/minecraft/world/entity/Entity entityData Lnet/minecraft/network/syncher/SynchedEntityData;

@@ -8,6 +8,7 @@ import com.mojang.datafixers.util.Either;
 import dev.tonimatas.cerium.bridge.world.ContainerBridge;
 import dev.tonimatas.cerium.bridge.world.damagesource.DamageSourceBridge;
 import dev.tonimatas.cerium.bridge.world.entity.EntityBridge;
+import dev.tonimatas.cerium.bridge.world.entity.LivingEntityBridge;
 import dev.tonimatas.cerium.bridge.world.item.ItemStackBridge;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -751,7 +752,7 @@ public class CraftEventFactory {
         CraftWorld world = (CraftWorld) entity.getWorld();
         Bukkit.getServer().getPluginManager().callEvent(event);
 
-        victim.expToDrop = event.getDroppedExp();
+        ((LivingEntityBridge) victim).cerium$setExpToDrop(event.getDroppedExp());
 
         for (org.bukkit.inventory.ItemStack stack : event.getDrops()) {
             if (stack == null || stack.getType() == Material.AIR || stack.getAmount() == 0) continue;
@@ -773,7 +774,7 @@ public class CraftEventFactory {
         victim.keepWorld = event.getKeepLevel();
         victim.newWorld = event.getNewLevel();
         victim.newTotalExp = event.getNewTotalExp();
-        victim.expToDrop = event.getDroppedExp();
+        ((LivingEntityBridge) victim).cerium$setExpToDrop(event.getDroppedExp());
         victim.newExp = event.getNewExp();
 
         for (org.bukkit.inventory.ItemStack stack : event.getDrops()) {

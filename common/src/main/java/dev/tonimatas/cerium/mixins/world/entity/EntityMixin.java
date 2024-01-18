@@ -370,7 +370,7 @@ public abstract class EntityMixin implements EntityBridge {
      */
     @Overwrite
     public void lavaHurt() {
-        if ((Object) this instanceof LivingEntity && remainingFireTicks <= 0) {
+        if ((Object) this instanceof LivingEntityMixin && remainingFireTicks <= 0) {
             // not on fire yet
             Block damager = (lastLavaContact == null) ? null : CraftBlock.at(level, lastLavaContact);
             org.bukkit.entity.Entity damagee = this.getBukkitEntity();
@@ -412,8 +412,8 @@ public abstract class EntityMixin implements EntityBridge {
         }
 
         int j = i * 20;
-        if ((Object) this instanceof LivingEntity) {
-            j = ProtectionEnchantment.getFireAfterDampener((LivingEntity) (Object) this, j);
+        if ((Object) this instanceof LivingEntityMixin) {
+            j = ProtectionEnchantment.getFireAfterDampener((LivingEntityMixin) (Object) this, j);
         }
 
         if (this.remainingFireTicks < j) {
@@ -700,8 +700,8 @@ public abstract class EntityMixin implements EntityBridge {
         } else if (this.level().isClientSide) {
             return null;
         } else {
-            if ((Object) this instanceof LivingEntity && !((LivingEntity) (Object) this).forceDrops) {
-                ((LivingEntity) (Object) this).drops.add(CraftItemStack.asBukkitCopy(itemStack));
+            if ((Object) this instanceof LivingEntityMixin && !((LivingEntityMixin) (Object) this).forceDrops) {
+                ((LivingEntityMixin) (Object) this).drops.add(CraftItemStack.asBukkitCopy(itemStack));
                 return null;
             }
             ItemEntity itemEntity = new ItemEntity(this.level(), this.getX(), this.getY() + (double)f, this.getZ(), itemStack);
@@ -778,8 +778,8 @@ public abstract class EntityMixin implements EntityBridge {
 
     @Inject(method = "setSwimming", at = @At(value = "HEAD"), cancellable = true)
     private void cerium$setSwimming(boolean bl, CallbackInfo ci) {
-        if (valid && this.isSwimming() != bl && (Object) this instanceof LivingEntity) {
-            if (CraftEventFactory.callToggleSwimEvent((LivingEntity) (Object) this, bl).isCancelled()) {
+        if (valid && this.isSwimming() != bl && (Object) this instanceof LivingEntityMixin) {
+            if (CraftEventFactory.callToggleSwimEvent((LivingEntityMixin) (Object) this, bl).isCancelled()) {
                 ci.cancel();
             }
         }

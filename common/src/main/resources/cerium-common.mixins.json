@@ -77,6 +77,7 @@
     "world.effect.RegenerationMobEffectMixin",
     "world.effect.SaturationMobEffectMixin",
     "world.entity.EntityMixin",
+    "world.entity.LivingEntityMixin",
     "world.entity.ai.behavior.AssignProfessionFromJobSiteMixin",
     "world.entity.ai.behavior.PrepareRamNearestTargetMixin",
     "world.entity.ai.behavior.ResetProfessionMixin",

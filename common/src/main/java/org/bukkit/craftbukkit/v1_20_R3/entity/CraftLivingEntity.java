@@ -3,6 +3,7 @@ package org.bukkit.craftbukkit.v1_20_R3.entity;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 import dev.tonimatas.cerium.bridge.world.entity.EntityBridge;
+import dev.tonimatas.cerium.bridge.world.entity.LivingEntityBridge;
 import net.minecraft.network.protocol.game.ClientboundHurtAnimationPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -501,7 +502,7 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
         if (getHandle() instanceof Mob) {
             ((Mob) getHandle()).setCanPickUpLoot(pickup);
         } else {
-            getHandle().bukkitPickUpLoot = pickup;
+            ((LivingEntityBridge) getHandle()).cerium$setBukkitPickUpLoot(pickup);
         }
     }
 
@@ -510,7 +511,7 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
         if (getHandle() instanceof Mob) {
             return ((Mob) getHandle()).canPickUpLoot();
         } else {
-            return getHandle().bukkitPickUpLoot;
+            return ((LivingEntityBridge) getHandle()).cerium$getBukkitPickUpLoot();
         }
     }
 
@@ -603,7 +604,7 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
 
     @Override
     public AttributeInstance getAttribute(Attribute attribute) {
-        return getHandle().craftAttributes.getAttribute(attribute);
+        return ((LivingEntityBridge) getHandle()).cerium$getCraftAttributeMap().getAttribute(attribute);
     }
 
     @Override
@@ -660,17 +661,17 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
 
     @Override
     public void setCollidable(boolean collidable) {
-        getHandle().collides = collidable;
+        ((LivingEntityBridge) getHandle()).cerium$setCollides(collidable);
     }
 
     @Override
     public boolean isCollidable() {
-        return getHandle().collides;
+        return ((LivingEntityBridge) getHandle()).cerium$getCollides();
     }
 
     @Override
     public Set<UUID> getCollidableExemptions() {
-        return getHandle().collidableExemptions;
+        return ((LivingEntityBridge) getHandle()).cerium$getCollidableExemptions();
     }
 
     @Override
