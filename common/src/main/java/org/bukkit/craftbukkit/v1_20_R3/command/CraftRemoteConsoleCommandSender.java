@@ -1,5 +1,6 @@
 package org.bukkit.craftbukkit.v1_20_R3.command;
 
+import dev.tonimatas.cerium.bridge.server.rcon.RconConsoleSourceBridge;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.rcon.RconConsoleSource;
 import org.bukkit.command.RemoteConsoleCommandSender;
@@ -20,7 +21,7 @@ public class CraftRemoteConsoleCommandSender extends ServerCommandSender impleme
 
     @Override
     public SocketAddress getAddress() {
-       return listener.socketAddress;
+       return ((RconConsoleSourceBridge) listener).cerium$getSocketAddress();
     }
 
     @Override

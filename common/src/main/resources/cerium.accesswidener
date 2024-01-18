@@ -467,3 +467,5 @@ accessible method net/minecraft/world/entity/ai/behavior/StopAttackingIfTargetIn
 accessible field net/minecraft/world/entity/ai/goal/DoorInteractGoal mob Lnet/minecraft/world/entity/Mob;
 accessible field net/minecraft/world/entity/ai/goal/DoorInteractGoal doorPos Lnet/minecraft/core/BlockPos;
 accessible method net/minecraft/server/dedicated/Settings get (Ljava/lang/String;Z)Z
+accessible method net/minecraft/server/rcon/thread/RconClient sendCmdResponse (ILjava/lang/String;)V
+accessible field net/minecraft/server/rcon/thread/RconClient serverInterface Lnet/minecraft/server/ServerInterface;
