@@ -470,3 +470,7 @@ accessible method net/minecraft/server/dedicated/Settings get (Ljava/lang/String
 accessible method net/minecraft/server/rcon/thread/RconClient sendCmdResponse (ILjava/lang/String;)V
 accessible field net/minecraft/server/rcon/thread/RconClient serverInterface Lnet/minecraft/server/ServerInterface;
 accessible field net/minecraft/world/entity/Entity entityData Lnet/minecraft/network/syncher/SynchedEntityData;
+accessible method net/minecraft/world/level/storage/loot/LootDataManager castAndValidate (Lnet/minecraft/world/level/storage/loot/ValidationContext;Lnet/minecraft/world/level/storage/loot/LootDataId;Ljava/lang/Object;)V
+accessible method net/minecraft/world/level/storage/LevelStorageSource wrapWithRegistryOps (Lcom/mojang/serialization/Dynamic;Lnet/minecraft/core/RegistryAccess$Frozen;)Lcom/mojang/serialization/Dynamic;
+accessible field net/minecraft/world/level/LevelSettings levelName Ljava/lang/String;
+mutable field net/minecraft/world/level/LevelSettings levelName Ljava/lang/String;

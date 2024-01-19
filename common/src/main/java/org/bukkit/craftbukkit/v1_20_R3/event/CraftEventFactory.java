@@ -10,6 +10,7 @@ import dev.tonimatas.cerium.bridge.world.damagesource.DamageSourceBridge;
 import dev.tonimatas.cerium.bridge.world.entity.EntityBridge;
 import dev.tonimatas.cerium.bridge.world.entity.LivingEntityBridge;
 import dev.tonimatas.cerium.bridge.world.item.ItemStackBridge;
+import dev.tonimatas.cerium.bridge.world.level.storage.loot.LootTableBridge;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.protocol.game.ServerboundContainerClosePacket;
@@ -1649,7 +1650,7 @@ public class CraftEventFactory {
         Entity entity = lootInfo.getParamOrNull(LootContextParams.THIS_ENTITY);
         List<org.bukkit.inventory.ItemStack> bukkitLoot = loot.stream().map(CraftItemStack::asCraftMirror).collect(Collectors.toCollection(ArrayList::new));
 
-        LootGenerateEvent event = new LootGenerateEvent(world, (entity != null ? ((EntityBridge) entity).getBukkitEntity() : null), ((ContainerBridge) inventory).getOwner(), lootTable.craftLootTable, CraftLootTable.convertContext(lootInfo), bukkitLoot, plugin);
+        LootGenerateEvent event = new LootGenerateEvent(world, (entity != null ? ((EntityBridge) entity).getBukkitEntity() : null), ((ContainerBridge) inventory).getOwner(), ((LootTableBridge) lootTable).cerium$getCraftLootTable(), CraftLootTable.convertContext(lootInfo), bukkitLoot, plugin);
         Bukkit.getPluginManager().callEvent(event);
         return event;
     }

@@ -129,6 +129,16 @@
     "world.level.block.SculkSpreaderMixin",
     "world.level.block.SculkVeinBlockMixin",
     "world.level.block.WallHangingSignBlockMixin",
-    "world.level.border.WorldBorderMixin"
+    "world.level.border.WorldBorderMixin",
+    "world.level.redstone.NeighborUpdaterMixin",
+    "world.level.storage.LevelStorageAccessMixin",
+    "world.level.storage.LevelStorageSourceMixin",
+    "world.level.storage.PlayerDataStorageMixin",
+    "world.level.storage.PrimaryLevelDataMixin",
+    "world.level.storage.loot.LootDataManagerMixin",
+    "world.level.storage.loot.LootTableMixin",
+    "world.level.storage.loot.functions.LootingEnchantFunctionMixin",
+    "world.level.storage.loot.predicates.ExplosionConditionMixin",
+    "world.level.storage.loot.predicates.LootItemRandomChanceWithLootingConditionMixin"
   ]
 }

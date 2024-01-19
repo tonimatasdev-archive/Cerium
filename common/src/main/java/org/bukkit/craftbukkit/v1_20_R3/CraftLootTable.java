@@ -2,6 +2,8 @@ package org.bukkit.craftbukkit.v1_20_R3;
 
 import com.google.common.base.Preconditions;
 import dev.tonimatas.cerium.bridge.world.entity.EntityBridge;
+import dev.tonimatas.cerium.bridge.world.level.storage.loot.LootTableBridge;
+import dev.tonimatas.cerium.util.CeriumValues;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
@@ -68,7 +70,7 @@ public class CraftLootTable implements org.bukkit.loot.LootTable {
         Container handle = craftInventory.getInventory();
 
         // TODO: When events are added, call event here w/ custom reason?
-        getHandle().fillInventory(handle, nmsContext, random.nextLong(), true);
+        ((LootTableBridge) getHandle()).fillInventory(handle, nmsContext, random.nextLong(), true);
     }
 
     @Override
@@ -108,7 +110,7 @@ public class CraftLootTable implements org.bukkit.loot.LootTable {
 
             // SPIGOT-5603 - Use LootContext#lootingModifier
             if (context.getLootingModifier() != LootContext.DEFAULT_LOOT_MODIFIER) {
-                setMaybe(builder, LootContextParams.LOOTING_MOD, context.getLootingModifier());
+                setMaybe(builder, CeriumValues.LOOTING_MOD, context.getLootingModifier());
             }
         }
 
@@ -122,7 +124,7 @@ public class CraftLootTable implements org.bukkit.loot.LootTable {
                 nmsBuilder.optional(param);
             }
         }
-        nmsBuilder.optional(LootContextParams.LOOTING_MOD);
+        nmsBuilder.optional(CeriumValues.LOOTING_MOD);
 
         return builder.create(getHandle().getParamSet());
     }
@@ -152,8 +154,8 @@ public class CraftLootTable implements org.bukkit.loot.LootTable {
             contextBuilder.lootedEntity(((EntityBridge) info.getParamOrNull(LootContextParams.THIS_ENTITY)).getBukkitEntity());
         }
 
-        if (info.hasParam(LootContextParams.LOOTING_MOD)) {
-            contextBuilder.lootingModifier(info.getParamOrNull(LootContextParams.LOOTING_MOD));
+        if (info.hasParam(CeriumValues.LOOTING_MOD)) {
+            contextBuilder.lootingModifier(info.getParamOrNull(CeriumValues.LOOTING_MOD));
         }
 
         contextBuilder.luck(info.getLuck());

@@ -84,6 +84,8 @@ public abstract class ItemStackMixin implements ItemStackBridge {
 
     @Shadow public abstract void shrink(int i);
 
+    @Shadow public abstract ItemStack copy();
+
     @Override
     public void convertStack(int version) {
         if (0 < version && version < CraftMagicNumbers.INSTANCE.getDataVersion()) {

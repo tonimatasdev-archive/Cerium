@@ -1,6 +1,7 @@
 package org.bukkit.craftbukkit.v1_20_R3;
 
 import com.mojang.authlib.GameProfile;
+import dev.tonimatas.cerium.bridge.world.level.storage.PlayerDataStorageBridge;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
@@ -188,7 +189,7 @@ public class CraftOfflinePlayer implements OfflinePlayer, ConfigurationSerializa
     }
 
     private CompoundTag getData() {
-        return storage.getPlayerData(getUniqueId().toString());
+        return ((PlayerDataStorageBridge) storage).getPlayerData(getUniqueId().toString());
     }
 
     private CompoundTag getBukkitData() {
@@ -205,7 +206,7 @@ public class CraftOfflinePlayer implements OfflinePlayer, ConfigurationSerializa
     }
 
     private File getDataFile() {
-        return new File(storage.getPlayerDir(), getUniqueId() + ".dat");
+        return new File(((PlayerDataStorageBridge) storage).getPlayerDir(), getUniqueId() + ".dat");
     }
 
     @Override

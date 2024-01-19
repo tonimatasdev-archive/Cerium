@@ -19,6 +19,9 @@ import dev.tonimatas.cerium.bridge.commands.arguments.EntityArgumentBridge;
 import dev.tonimatas.cerium.bridge.server.bossevents.CustomBossEventBridge;
 import dev.tonimatas.cerium.bridge.world.ContainerBridge;
 import dev.tonimatas.cerium.bridge.world.entity.EntityBridge;
+import dev.tonimatas.cerium.bridge.world.level.storage.LevelStorageSourceBridge;
+import dev.tonimatas.cerium.bridge.world.level.storage.PlayerDataStorageBridge;
+import dev.tonimatas.cerium.bridge.world.level.storage.PrimaryLevelDataBridge;
 import dev.tonimatas.cerium.mixins.server.commands.ReloadCommandMixin;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import jline.console.ConsoleReader;
@@ -987,7 +990,7 @@ public final class CraftServer implements Server {
 
         LevelStorageSource.LevelStorageAccess worldSession;
         try {
-            worldSession = LevelStorageSource.createDefault(getWorldContainer().toPath()).validateAndCreateAccess(name, actualDimension);
+            worldSession = ((LevelStorageSourceBridge) LevelStorageSource.createDefault(getWorldContainer().toPath())).validateAndCreateAccess(name, actualDimension);
         } catch (IOException | ContentValidationException ex) {
             throw new RuntimeException(ex);
         }
@@ -1056,8 +1059,8 @@ public final class CraftServer implements Server {
             worlddata = new PrimaryLevelData(worldsettings, worldoptions, worlddimensions_b.specialWorldProperty(), lifecycle);
             iregistry = worlddimensions_b.dimensions();
         }
-        worlddata.customDimensions = iregistry;
-        worlddata.checkName(name);
+        ((PrimaryLevelDataBridge) worlddata).cerium$setCustomDimension(iregistry);
+        ((PrimaryLevelDataBridge) worlddata).checkName(name);
         worlddata.setModdedInfo(console.getServerModName(), console.getModdedStatus().shouldReportAsModified());
 
         if (console.options.has("forceUpgrade")) {
@@ -1853,7 +1856,7 @@ public final class CraftServer implements Server {
     @Override
     public OfflinePlayer[] getOfflinePlayers() {
         PlayerDataStorage storage = console.playerDataStorage;
-        String[] files = storage.getPlayerDir().list(new DatFileFilter());
+        String[] files = ((PlayerDataStorageBridge) storage).getPlayerDir().list(new DatFileFilter());
         Set<OfflinePlayer> players = new HashSet<OfflinePlayer>();
 
         for (String file : files) {
