@@ -7,7 +7,6 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.ParseResults;
 import com.mojang.brigadier.tree.CommandNode;
 import com.mojang.brigadier.tree.RootCommandNode;
-import dev.tonimatas.cerium.bridge.brigadier.CommandNodeBridge;
 import dev.tonimatas.cerium.bridge.commands.CommandSourceStackBridge;
 import dev.tonimatas.cerium.bridge.commands.CommandsBridge;
 import dev.tonimatas.cerium.util.CommandHelper;
@@ -148,7 +147,7 @@ public abstract class CommandsMixin implements CommandsBridge {
         // Remove labels that were removed during the event
         for (String orig : bukkit) {
             if (!event.getCommands().contains(orig)) {
-                ((CommandNodeBridge) rootcommandnode).bridge$removeCommand(orig);
+                rootcommandnode.removeCommand(orig);
             }
         }
         // CraftBukkit end

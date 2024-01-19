@@ -25,11 +25,16 @@ public abstract class CommandSourceStackMixin implements CommandSourceStackBridg
 
     @Shadow @Final public CommandSource source;
 
-    @Unique public volatile CommandNode cerium$currentCommand;
+    @Unique public volatile CommandNode currentCommand;
+
+    @Override
+    public void cerium$setCurrentCommand(CommandNode value) {
+        this.currentCommand = value;
+    }
 
     @Inject(method = "hasPermission", at = @At(value = "HEAD"), cancellable = true)
     private void cerium$hasPermission(int i, CallbackInfoReturnable<Boolean> cir) {
-        CommandNode currentCommand = this.cerium$currentCommand;
+        CommandNode currentCommand = this.currentCommand;
         if (currentCommand != null) {
             cir.setReturnValue(bridge$hasPermission(i, org.bukkit.craftbukkit.v1_20_R3.command.VanillaCommandWrapper.getPermission(currentCommand)));
             cir.cancel();
