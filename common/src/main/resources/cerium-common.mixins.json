@@ -108,6 +108,7 @@
     "world.level.BaseSpawnerMixin",
     "world.level.ContainerMixin",
     "world.level.LevelAccessorMixin",
+    "world.level.LevelMixin",
     "world.level.LevelWriterMixin",
     "world.level.block.AbstractCandleBlockMixin",
     "world.level.block.ChangeOverTimeBlockMixin",

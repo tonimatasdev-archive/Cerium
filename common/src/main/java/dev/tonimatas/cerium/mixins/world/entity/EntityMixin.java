@@ -2,6 +2,7 @@ package dev.tonimatas.cerium.mixins.world.entity;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import dev.tonimatas.cerium.bridge.world.entity.EntityBridge;
+import dev.tonimatas.cerium.bridge.world.level.LevelBridge;
 import net.minecraft.BlockUtil;
 import net.minecraft.CrashReport;
 import net.minecraft.CrashReportCategory;
@@ -922,7 +923,7 @@ public abstract class EntityMixin implements EntityBridge {
         if (serverLevel == null) {
             return null;
         }
-        boolean bl = this.level().getTypeKey() == LevelStem.END && serverLevel.getTypeKey() == LevelStem.OVERWORLD;
+        boolean bl = ((LevelBridge) this.level()).getTypeKey() == LevelStem.END && serverLevel.getTypeKey() == LevelStem.OVERWORLD;
         boolean bl2 = serverLevel.getTypeKey() == LevelStem.END;
         if (!bl && !bl2) {
             boolean bl3 = serverLevel.getTypeKey() == LevelStem.NETHER;

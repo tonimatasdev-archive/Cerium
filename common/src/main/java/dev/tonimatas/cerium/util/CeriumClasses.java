@@ -4,6 +4,9 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
+import org.bukkit.World;
+import org.bukkit.generator.BiomeProvider;
+import org.bukkit.generator.ChunkGenerator;
 import org.jetbrains.annotations.NotNull;
 
 public class CeriumClasses {
@@ -25,4 +28,8 @@ public class CeriumClasses {
         }
     }
     // CraftBukkit end
+
+    public record WorldInfo(ChunkGenerator gen, BiomeProvider biomeProvider, World.Environment env) {
+        
+    }
 }
