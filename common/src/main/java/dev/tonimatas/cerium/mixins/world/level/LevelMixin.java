@@ -75,10 +75,12 @@ public abstract class LevelMixin implements LevelBridge {
     @Unique public final it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap<SpawnCategory> ticksPerSpawnCategory = new it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap<>();
     @Unique public boolean populating;
 
+    @Override
     public CraftWorld getWorld() {
         return this.world;
     }
 
+    @Override
     public CraftServer getCraftServer() {
         return (CraftServer) Bukkit.getServer();
     }
