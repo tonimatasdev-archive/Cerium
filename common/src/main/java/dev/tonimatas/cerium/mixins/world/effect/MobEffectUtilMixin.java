@@ -1,5 +1,6 @@
 package dev.tonimatas.cerium.mixins.world.effect;
 
+import dev.tonimatas.cerium.bridge.world.entity.LivingEntityBridge;
 import dev.tonimatas.cerium.util.CeriumValues;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -28,7 +29,7 @@ public class MobEffectUtilMixin {
             return serverPlayer.gameMode.isSurvival() && (entity == null || !entity.isAlliedTo(serverPlayer)) && vec3.closerThan(serverPlayer.position(), d) && (!serverPlayer.hasEffect(mobEffect) || serverPlayer.getEffect(mobEffect).getAmplifier() < mobEffectInstance.getAmplifier() || serverPlayer.getEffect(mobEffect).endsWithin(i - 1));
         });
         list.forEach((serverPlayer) -> {
-            serverPlayer.addEffectCause(CeriumValues.potionEffectCause.getAndSet(EntityPotionEffectEvent.Cause.UNKNOWN));
+            ((LivingEntityBridge) serverPlayer).cerium$addEffectCause(CeriumValues.potionEffectCause.getAndSet(EntityPotionEffectEvent.Cause.UNKNOWN));
             serverPlayer.addEffect(new MobEffectInstance(mobEffectInstance));
         });
         return list;

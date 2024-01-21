@@ -474,3 +474,6 @@ accessible method net/minecraft/world/level/storage/loot/LootDataManager castAnd
 accessible method net/minecraft/world/level/storage/LevelStorageSource wrapWithRegistryOps (Lcom/mojang/serialization/Dynamic;Lnet/minecraft/core/RegistryAccess$Frozen;)Lcom/mojang/serialization/Dynamic;
 accessible field net/minecraft/world/level/LevelSettings levelName Ljava/lang/String;
 mutable field net/minecraft/world/level/LevelSettings levelName Ljava/lang/String;
+accessible field net/minecraft/world/entity/LivingEntity DATA_EFFECT_COLOR_ID Lnet/minecraft/network/syncher/EntityDataAccessor;
+accessible field net/minecraft/world/entity/LivingEntity DATA_EFFECT_AMBIENCE_ID Lnet/minecraft/network/syncher/EntityDataAccessor;
+accessible method net/minecraft/world/effect/MobEffect <init> (Lnet/minecraft/world/effect/MobEffectCategory;I)V

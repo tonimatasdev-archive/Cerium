@@ -13,7 +13,6 @@
   "mixins": [
     "CrashReportMixin",
     "advancements.AdvancementHolderMixin",
-    "brigadier.CommandNodeMixin",
     "commands.CommandsMixin",
     "commands.CommandSource1Mixin",
     "commands.CommandSourceMixin",
@@ -105,6 +104,7 @@
     "world.item.SpawnEggItemMixin",
     "world.item.StandingAndWallBlockItemMixin",
     "world.item.TridentItemMixin",
+    "world.item.enchantment.DamageEnchantmentMixin",
     "world.level.BaseSpawnerMixin",
     "world.level.ContainerMixin",
     "world.level.LevelAccessorMixin",
