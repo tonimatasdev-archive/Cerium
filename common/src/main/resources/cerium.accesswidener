@@ -477,3 +477,6 @@ mutable field net/minecraft/world/level/LevelSettings levelName Ljava/lang/Strin
 accessible field net/minecraft/world/entity/LivingEntity DATA_EFFECT_COLOR_ID Lnet/minecraft/network/syncher/EntityDataAccessor;
 accessible field net/minecraft/world/entity/LivingEntity DATA_EFFECT_AMBIENCE_ID Lnet/minecraft/network/syncher/EntityDataAccessor;
 accessible method net/minecraft/world/effect/MobEffect <init> (Lnet/minecraft/world/effect/MobEffectCategory;I)V
+accessible method net/minecraft/world/entity/ai/behavior/InteractWithDoor rememberDoorToClose (Lnet/minecraft/world/entity/ai/behavior/declarative/MemoryAccessor;Ljava/util/Optional;Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/core/BlockPos;)Ljava/util/Optional;
+accessible field net/minecraft/world/entity/ai/goal/target/TargetGoal mob Lnet/minecraft/world/entity/Mob;
+accessible method net/minecraft/world/entity/ai/goal/Goal adjustedTickDelay (I)I
