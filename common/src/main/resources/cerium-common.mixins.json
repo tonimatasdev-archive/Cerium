@@ -67,6 +67,7 @@
     "util.SpawnUtilMixin",
     "world.CompoundContainerMixin",
     "world.LockCodeMixin",
+    "world.SimpleContainerMixin",
     "world.damagesource.DamageSourceMixin",
     "world.damagesource.DamageSourcesMixin",
     "world.effect.HealOfHarmMobEffectMixin",

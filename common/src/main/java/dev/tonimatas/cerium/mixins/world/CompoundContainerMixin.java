@@ -9,10 +9,7 @@ import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_20_R3.entity.CraftHumanEntity;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.InventoryHolder;
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +18,7 @@ import java.util.List;
 public abstract class CompoundContainerMixin implements ContainerBridge, Container {
     @Shadow @Final private Container container1;
     @Shadow @Final private Container container2;
-    @Unique private List<HumanEntity> transactions = new ArrayList<>();
+    @Unique private List<HumanEntity> transactions = new ArrayList<>(); // CraftBukkit
 
     @Override
     public List<ItemStack> getContents() {
@@ -53,11 +50,18 @@ public abstract class CompoundContainerMixin implements ContainerBridge, Contain
     }
 
     @Override
-    public InventoryHolder getOwner() { return null; }
+    public InventoryHolder getOwner() { 
+        return null;  // This method won't be called since CraftInventoryDoubleChest doesn't defer to here
+    }
 
+    /**
+     * @author TonimatasDEV
+     * @reason CraftBukkit
+     */
+    @Overwrite
     @Override
     public int getMaxStackSize() {
-        return Math.min(this.container1.getMaxStackSize(), this.container2.getMaxStackSize());
+        return Math.min(this.container1.getMaxStackSize(), this.container2.getMaxStackSize()); // CraftBukkit - check both sides
     }
 
     @Override
