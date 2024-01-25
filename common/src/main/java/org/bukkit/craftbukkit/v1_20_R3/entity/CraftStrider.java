@@ -1,6 +1,7 @@
 package org.bukkit.craftbukkit.v1_20_R3.entity;
 
 import com.google.common.base.Preconditions;
+import dev.tonimatas.cerium.bridge.world.entity.ItemBasedSteeringBridge;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_20_R3.CraftServer;
 import org.bukkit.entity.Strider;
@@ -40,7 +41,7 @@ public class CraftStrider extends CraftAnimals implements Strider {
     public void setBoostTicks(int ticks) {
         Preconditions.checkArgument(ticks >= 0, "ticks must be >= 0");
 
-        getHandle().steering.setBoostTicks(ticks);
+        ((ItemBasedSteeringBridge) getHandle().steering).setBoostTicks(ticks);
     }
 
     @Override
