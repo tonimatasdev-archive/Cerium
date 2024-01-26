@@ -1,6 +1,8 @@
 package dev.tonimatas.cerium.forge;
 
 import dev.tonimatas.cerium.Cerium;
+import dev.tonimatas.cerium.mixins.world.entity.item.FallingBlockEntityMixin;
+import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -11,5 +13,6 @@ public class CeriumForge {
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
         Cerium.init();
         eventBus.register(this);
+        FallingBlockEntity
     }
 }

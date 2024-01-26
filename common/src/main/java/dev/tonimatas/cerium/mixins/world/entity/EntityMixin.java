@@ -70,6 +70,7 @@ import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -135,8 +136,6 @@ public abstract class EntityMixin implements EntityBridge {
 
     @Shadow protected abstract void removePassenger(Entity entity);
 
-    @Shadow @org.jetbrains.annotations.Nullable public abstract Entity changeDimension(ServerLevel serverLevel);
-
     @Shadow public abstract boolean isSwimming();
 
     @Shadow public abstract void setSharedFlag(int i, boolean bl);
@@ -146,8 +145,6 @@ public abstract class EntityMixin implements EntityBridge {
     @Shadow public abstract boolean fireImmune();
 
     @Shadow public abstract boolean isRemoved();
-
-    @Shadow @org.jetbrains.annotations.Nullable protected abstract PortalInfo findDimensionEntryPoint(ServerLevel serverLevel);
 
     @Shadow public abstract void moveTo(Vec3 vec3);
 
@@ -313,7 +310,7 @@ public abstract class EntityMixin implements EntityBridge {
         if (pose == this.getPose()) {
             return;
         }
-        this.level.getCraftServer().getPluginManager().callEvent(new EntityPoseChangeEvent(this.getBukkitEntity(), org.bukkit.entity.Pose.values()[pose.ordinal()]));
+        ((LevelBridge) this.level).getCraftServer().getPluginManager().callEvent(new EntityPoseChangeEvent(this.getBukkitEntity(), org.bukkit.entity.Pose.values()[pose.ordinal()]));
     }
 
     @Inject(method = "setRot", at = @At(value = "HEAD"))
@@ -324,7 +321,7 @@ public abstract class EntityMixin implements EntityBridge {
 
         if (f == Float.POSITIVE_INFINITY || f == Float.NEGATIVE_INFINITY) {
             if ((Object) this instanceof ServerPlayer) {
-                this.level.getCraftServer().getLogger().warning(this.getScoreboardName() + " was caught trying to crash the server with an invalid yaw");
+                ((LevelBridge) this.level).getCraftServer().getLogger().warning(this.getScoreboardName() + " was caught trying to crash the server with an invalid yaw");
                 ((CraftPlayer) this.getBukkitEntity()).kickPlayer("Infinite yaw (Hacking?)");
             }
             f = 0;
@@ -337,7 +334,7 @@ public abstract class EntityMixin implements EntityBridge {
 
         if (g == Float.POSITIVE_INFINITY || g == Float.NEGATIVE_INFINITY) {
             if ((Object) this instanceof ServerPlayer) {
-                this.level.getCraftServer().getLogger().warning(this.getScoreboardName() + " was caught trying to crash the server with an invalid pitch");
+                ((LevelBridge) this.level).getCraftServer().getLogger().warning(this.getScoreboardName() + " was caught trying to crash the server with an invalid pitch");
                 ((CraftPlayer) this.getBukkitEntity()).kickPlayer("Infinite pitch (Hacking?)");
             }
             g = 0;
@@ -371,12 +368,12 @@ public abstract class EntityMixin implements EntityBridge {
      */
     @Overwrite
     public void lavaHurt() {
-        if ((Object) this instanceof LivingEntityMixin && remainingFireTicks <= 0) {
+        if ((Object) this instanceof LivingEntity && remainingFireTicks <= 0) {
             // not on fire yet
             Block damager = (lastLavaContact == null) ? null : CraftBlock.at(level, lastLavaContact);
             org.bukkit.entity.Entity damagee = this.getBukkitEntity();
             EntityCombustEvent combustEvent = new org.bukkit.event.entity.EntityCombustByBlockEvent(damager, damagee, 15);
-            this.level.getCraftServer().getPluginManager().callEvent(combustEvent);
+            ((LevelBridge) this.level).getCraftServer().getPluginManager().callEvent(combustEvent);
 
             if (!combustEvent.isCancelled()) {
                 this.setSecondsOnFire(combustEvent.getDuration(), false);
@@ -403,7 +400,7 @@ public abstract class EntityMixin implements EntityBridge {
     public void setSecondsOnFire(int i) {
         if (cerium$setSecondsOnFire$callEvent) {
             EntityCombustEvent event = new EntityCombustEvent(this.getBukkitEntity(), i);
-            this.level.getCraftServer().getPluginManager().callEvent(event);
+            ((LevelBridge) this.level).getCraftServer().getPluginManager().callEvent(event);
 
             if (event.isCancelled()) {
                 return;
@@ -413,8 +410,8 @@ public abstract class EntityMixin implements EntityBridge {
         }
 
         int j = i * 20;
-        if ((Object) this instanceof LivingEntityMixin) {
-            j = ProtectionEnchantment.getFireAfterDampener((LivingEntityMixin) (Object) this, j);
+        if ((Object) this instanceof LivingEntity) {
+            j = ProtectionEnchantment.getFireAfterDampener((LivingEntity) (Object) this, j);
         }
 
         if (this.remainingFireTicks < j) {
@@ -429,25 +426,25 @@ public abstract class EntityMixin implements EntityBridge {
         this.setSecondsOnFire(i);
     }
 
-    @Inject(method = "move", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;onGround()Z", ordinal = 0, shift = At.Shift.BEFORE))
-    private void cerium$move(MoverType moverType, Vec3 vec3, CallbackInfo ci, @Local Vec3 vec32) {
+    @Inject(method = "move", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;onGround()Z", ordinal = 0, shift = At.Shift.BEFORE), locals = LocalCapture.CAPTURE_FAILHARD)
+    private void cerium$move(MoverType moverType, Vec3 vec3, CallbackInfo ci, Vec3 vec32, double d, boolean bl, boolean bl2, BlockPos blockPos, BlockState blockState) {
         if (horizontalCollision && getBukkitEntity() instanceof Vehicle) {
             Vehicle vehicle = (Vehicle) this.getBukkitEntity();
-            org.bukkit.block.Block bl = this.level.getWorld().getBlockAt(Mth.floor(this.getX()), Mth.floor(this.getY()), Mth.floor(this.getZ()));
+            org.bukkit.block.Block block = ((LevelBridge) this.level).getWorld().getBlockAt(Mth.floor(this.getX()), Mth.floor(this.getY()), Mth.floor(this.getZ()));
 
             if (vec3.x > vec32.x) {
-                bl = bl.getRelative(BlockFace.EAST);
+                block = block.getRelative(BlockFace.EAST);
             } else if (vec3.x < vec32.x) {
-                bl = bl.getRelative(BlockFace.WEST);
+                block = block.getRelative(BlockFace.WEST);
             } else if (vec3.z > vec32.z) {
-                bl = bl.getRelative(BlockFace.SOUTH);
+                block = block.getRelative(BlockFace.SOUTH);
             } else if (vec3.z < vec32.z) {
-                bl = bl.getRelative(BlockFace.NORTH);
+                block = block.getRelative(BlockFace.NORTH);
             }
 
-            if (!bl.getType().isAir()) {
+            if (!block.getType().isAir()) {
                 VehicleBlockCollisionEvent event = new VehicleBlockCollisionEvent(vehicle, bl);
-                level.getCraftServer().getPluginManager().callEvent(event);
+                ((LevelBridge) level).getCraftServer().getPluginManager().callEvent(event);
             }
         }
     }
@@ -542,8 +539,8 @@ public abstract class EntityMixin implements EntityBridge {
 
             if (cerium$saveWithoutId$includeAll) {
                 compoundTag.putUUID("UUID", this.getUUID());
-                compoundTag.putLong("WorldUUIDLeast", ((ServerLevel) this.level).getWorld().getUID().getLeastSignificantBits());
-                compoundTag.putLong("WorldUUIDMost", ((ServerLevel) this.level).getWorld().getUID().getMostSignificantBits());
+                compoundTag.putLong("WorldUUIDLeast", ((LevelBridge) this.level).getWorld().getUID().getLeastSignificantBits());
+                compoundTag.putLong("WorldUUIDMost", ((LevelBridge) this.level).getWorld().getUID().getMostSignificantBits());
             }
 
             compoundTag.putInt("Bukkit.updateLevel", CURRENT_LEVEL);
@@ -672,7 +669,7 @@ public abstract class EntityMixin implements EntityBridge {
             }
 
             if (bworld == null) {
-                bworld = ((CraftServer) server).getServer().getLevel(Level.OVERWORLD).getWorld();
+                bworld = ((LevelBridge) ((CraftServer) server).getServer().getLevel(Level.OVERWORLD)).getWorld();
             }
 
             ((ServerPlayer) (Object) this).setLevel(bworld == null ? null : ((CraftWorld) bworld).getHandle());
@@ -701,8 +698,8 @@ public abstract class EntityMixin implements EntityBridge {
         } else if (this.level().isClientSide) {
             return null;
         } else {
-            if ((Object) this instanceof LivingEntityMixin && !((LivingEntityMixin) (Object) this).forceDrops) {
-                ((LivingEntityMixin) (Object) this).drops.add(CraftItemStack.asBukkitCopy(itemStack));
+            if ((Object) this instanceof LivingEntity && !((LivingEntity) (Object) this).forceDrops) {
+                ((LivingEntity) (Object) this).drops.add(CraftItemStack.asBukkitCopy(itemStack));
                 return null;
             }
             ItemEntity itemEntity = new ItemEntity(this.level(), this.getX(), this.getY() + (double)f, this.getZ(), itemStack);
@@ -779,8 +776,8 @@ public abstract class EntityMixin implements EntityBridge {
 
     @Inject(method = "setSwimming", at = @At(value = "HEAD"), cancellable = true)
     private void cerium$setSwimming(boolean bl, CallbackInfo ci) {
-        if (valid && this.isSwimming() != bl && (Object) this instanceof LivingEntityMixin) {
-            if (CraftEventFactory.callToggleSwimEvent((LivingEntityMixin) (Object) this, bl).isCancelled()) {
+        if (valid && this.isSwimming() != bl && (Object) this instanceof LivingEntity) {
+            if (CraftEventFactory.callToggleSwimEvent((LivingEntity) (Object) this, bl).isCancelled()) {
                 ci.cancel();
             }
         }
@@ -915,8 +912,8 @@ public abstract class EntityMixin implements EntityBridge {
     }
 
     /**
-     * @author
-     * @reason
+     * @author TonimatasDEV
+     * @reason CraftBukkit
      */
     @Overwrite
     protected PortalInfo findDimensionEntryPoint(ServerLevel serverLevel) {
