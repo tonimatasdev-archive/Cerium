@@ -120,6 +120,7 @@
     "world.entity.monster.SpiderMixin",
     "world.entity.monster.WitchMixin",
     "world.entity.monster.WitherSkeletonMixin",
+    "world.food.FoodDataMixin",
     "world.inventory.ItemCombinerMenuMixin",
     "world.item.ArmorItemMixin",
     "world.item.ArmorStandItemMixin",
