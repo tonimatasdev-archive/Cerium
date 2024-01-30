@@ -489,3 +489,4 @@ accessible method net/minecraft/world/entity/Entity updateInWaterStateAndDoFluid
 accessible method net/minecraft/world/entity/Interaction$PlayerAction <init> (Ljava/util/UUID;J)V
 accessible field net/minecraft/server/players/StoredUserEntry user Ljava/lang/Object;
 mutable field net/minecraft/server/players/StoredUserEntry user Ljava/lang/Object;
+accessible method net/minecraft/world/entity/npc/AbstractVillager addOffersFromItemListings (Lnet/minecraft/world/item/trading/MerchantOffers;[Lnet/minecraft/world/entity/npc/VillagerTrades$ItemListing;I)V

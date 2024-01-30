@@ -10,6 +10,7 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParam;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityExhaustionEvent;
 import org.bukkit.event.entity.EntityPotionEffectEvent;
+import org.spongepowered.asm.mixin.Unique;
 
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -23,4 +24,6 @@ public class CeriumValues {
     public static ResourceKey<LevelStem> dimensionType = null;
     public static InteractionHand hand = null;
     public static AtomicReference<CreatureSpawnEvent.SpawnReason> spawnReason = new AtomicReference<>(CreatureSpawnEvent.SpawnReason.DEFAULT);
+    @Unique
+    public static AtomicReference<CreatureSpawnEvent.SpawnReason> spawnReason$trySpawnMob = new AtomicReference<>(CreatureSpawnEvent.SpawnReason.DEFAULT);
 }
