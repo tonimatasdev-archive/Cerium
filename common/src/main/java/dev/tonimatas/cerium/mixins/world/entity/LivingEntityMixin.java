@@ -1,8 +1,11 @@
 package dev.tonimatas.cerium.mixins.world.entity;
 
 import com.google.common.collect.Lists;
+import com.llamalad7.mixinextras.injector.WrapWithCondition;
 import com.llamalad7.mixinextras.sugar.Local;
+import dev.tonimatas.cerium.bridge.world.entity.EntityBridge;
 import dev.tonimatas.cerium.bridge.world.entity.LivingEntityBridge;
+import dev.tonimatas.cerium.bridge.world.level.LevelBridge;
 import dev.tonimatas.cerium.util.CeriumClasses;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
@@ -13,7 +16,8 @@ import net.minecraft.nbt.IntTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
@@ -22,10 +26,14 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.bukkit.craftbukkit.v1_20_R3.attribute.CraftAttributeMap;
+import org.bukkit.craftbukkit.v1_20_R3.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_20_R3.event.CraftEventFactory;
 import org.bukkit.event.entity.EntityPotionEffectEvent;
+import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.*;
@@ -33,8 +41,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Mixin(LivingEntity.class)
@@ -59,14 +69,22 @@ public abstract class LivingEntityMixin implements LivingEntityBridge {
 
     @Shadow public abstract boolean addEffect(MobEffectInstance arg);
 
-    @Shadow public abstract boolean removeEffect(MobEffect arg);
-
     @Shadow public abstract boolean removeAllEffects();
 
     @Shadow protected abstract void onEffectAdded(MobEffectInstance arg, @Nullable Entity arg2);
 
     @Shadow public abstract boolean canBeAffected(MobEffectInstance arg);
-    
+
+    @Shadow public abstract void remove(Entity.RemovalReason arg);
+
+    @Shadow public abstract boolean removeEffect(MobEffect arg);
+
+    @Shadow public abstract float getHealth();
+
+    @Shadow public abstract void setHealth(float f);
+
+    @Shadow public abstract boolean canAttack(LivingEntity arg);
+
     @Unique public int expToDrop;
 
     @Override
@@ -132,6 +150,12 @@ public abstract class LivingEntityMixin implements LivingEntityBridge {
     }
     
     // TODO: @@ -672,13 +718,19 @@
+    
+    @Unique public AtomicBoolean cerium$atomicBoolean = new AtomicBoolean(false);
+    @WrapWithCondition(method = "onEquipItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;playSound(Lnet/minecraft/world/entity/player/Player;DDDLnet/minecraft/sounds/SoundEvent;Lnet/minecraft/sounds/SoundSource;FF)V"))
+    private boolean cerium$onEquipItem(Level instance, Player arg, double d, double e, double f, SoundEvent arg2, SoundSource arg3, float g, float h) {
+        return cerium$atomicBoolean.getAndSet(true);
+    }
     
     @Inject(method = "readAdditionalSaveData", at = @At(value = "HEAD"))
     private void cerium$readAdditionalSaveData(CompoundTag compoundTag, CallbackInfo ci) {
@@ -237,27 +261,25 @@ public abstract class LivingEntityMixin implements LivingEntityBridge {
     private void cerium$tickEffects$event(CallbackInfo ci, @Local MobEffectInstance mobeffect) {
         
     }
-    
-    // TODO @@ -811,6 +903,17 @@
 
-    @Unique private final AtomicReference<EntityPotionEffectEvent.Cause> cerium$removeEffectCause = new AtomicReference<>(EntityPotionEffectEvent.Cause.UNKNOWN);
+    @Unique private final AtomicReference<EntityPotionEffectEvent.Cause> cerium$removeAllEffectCause = new AtomicReference<>(EntityPotionEffectEvent.Cause.UNKNOWN);
 
     @Override
     @Unique
     public void cerium$addRemoveAllEffects(EntityPotionEffectEvent.Cause cause) {
-        this.cerium$removeEffectCause.set(cause);
+        this.cerium$removeAllEffectCause.set(cause);
     }
     
     @Unique
     public boolean removeAllEffects(LivingEntity instance, EntityPotionEffectEvent.Cause cause) {
-        this.cerium$removeEffectCause.set(cause);
+        this.cerium$removeAllEffectCause.set(cause);
         return this.removeAllEffects();
     }
     
     @Redirect(method = "removeAllEffects", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;onEffectRemoved(Lnet/minecraft/world/effect/MobEffectInstance;)V"))
     private void cerium$removeAllEffects(LivingEntity instance, MobEffectInstance effect) {
         // CraftBukkit start
-        EntityPotionEffectEvent event = CraftEventFactory.callEntityPotionEffectChangeEvent((LivingEntity) (Object) this, effect, null, cerium$removeEffectCause.getAndSet(EntityPotionEffectEvent.Cause.UNKNOWN), EntityPotionEffectEvent.Action.CLEARED);
+        EntityPotionEffectEvent event = CraftEventFactory.callEntityPotionEffectChangeEvent((LivingEntity) (Object) this, effect, null, cerium$removeAllEffectCause.getAndSet(EntityPotionEffectEvent.Cause.UNKNOWN), EntityPotionEffectEvent.Action.CLEARED);
         if (event.isCancelled()) {
             // TODO: continue;
         }
@@ -300,7 +322,7 @@ public abstract class LivingEntityMixin implements LivingEntityBridge {
         if (!this.canBeAffected(mobEffectInstance)) {
             return false;
         } else {
-            MobEffectInstance mobEffectInstance2 = (MobEffectInstance)this.activeEffects.get(mobEffectInstance.getEffect());
+            MobEffectInstance mobEffectInstance2 = (MobEffectInstance) this.activeEffects.get(mobEffectInstance.getEffect());
             boolean bl = false;
 
             // CraftBukkit start
@@ -330,5 +352,109 @@ public abstract class LivingEntityMixin implements LivingEntityBridge {
             mobEffectInstance.onEffectStarted((LivingEntity) (Object) this);
             return bl;
         }
+    }
+    
+    @Unique public AtomicReference<EntityPotionEffectEvent.Cause> cerium$removeEffectCause = new AtomicReference<>(EntityPotionEffectEvent.Cause.UNKNOWN);
+
+    @Override
+    public void cerium$addRemoveEffectCause(EntityPotionEffectEvent.Cause cause) {
+        cerium$removeEffectCause.set(cause);
+    }
+
+    /**
+     * @author TonimatasDEV
+     * @reason CraftBukkit
+     */
+    @Overwrite
+    @Nullable
+    public MobEffectInstance removeEffectNoUpdate(@Nullable MobEffect mobEffect) {
+        EntityPotionEffectEvent.Cause cause = cerium$removeEffectCause.getAndSet(EntityPotionEffectEvent.Cause.UNKNOWN);
+        if (isTickingEffects) {
+            effectsToProcess.add(new CeriumClasses.ProcessableEffect(mobEffect, cause));
+            return null;
+        }
+
+        MobEffectInstance effect = this.activeEffects.get(mobEffect);
+        if (effect == null) {
+            return null;
+        }
+
+        EntityPotionEffectEvent event = CraftEventFactory.callEntityPotionEffectChangeEvent((LivingEntity) (Object) this, effect, null, cause);
+        if (event.isCancelled()) {
+            return null;
+        }
+
+        return (MobEffectInstance) this.activeEffects.remove(mobEffect);
+    }
+    
+    @Unique
+    @Nullable
+    public MobEffectInstance c(@Nullable MobEffect mobEffect, EntityPotionEffectEvent.Cause cause) {
+        cerium$removeEffectCause.set(cause);
+        return removeEffectNoUpdate(mobEffect);
+    }
+    
+    @Unique
+    public boolean removeEffect(MobEffect mobeffectlist, EntityPotionEffectEvent.Cause cause) {
+        cerium$removeEffectCause.set(cause);
+        return removeEffect(mobeffectlist);
+    }
+    
+    @Unique public AtomicReference<EntityRegainHealthEvent.RegainReason> cerium$regainReason = new AtomicReference<>(EntityRegainHealthEvent.RegainReason.CUSTOM);
+    
+    /**
+     * @author TonimatasDEV
+     * @reason CraftBukkit
+     */
+    @Overwrite
+    public void heal(float f) {
+        float g = this.getHealth();
+        if (g > 0.0F) {
+            EntityRegainHealthEvent event = new EntityRegainHealthEvent(this.getBukkitEntity(), f, cerium$regainReason.getAndSet(EntityRegainHealthEvent.RegainReason.CUSTOM));
+            // Suppress during worldgen
+            if (((EntityBridge) this).bridge$getValid()) {
+                ((LevelBridge) ((LivingEntity) (Object) this).level()).getCraftServer().getPluginManager().callEvent(event);
+            }
+
+            if (!event.isCancelled()) {
+                this.setHealth((float) (this.getHealth() + event.getAmount()));
+            }
+            // CraftBukkit end
+        }
+    }
+
+    @Unique
+    public void heal(float f, EntityRegainHealthEvent.RegainReason regainReason) {
+        cerium$regainReason.set(regainReason);
+        heal(f);
+    }
+    
+    @Inject(method = "getHealth", at = @At(value = "HEAD"), cancellable = true)
+    private void cerium$getHealth(CallbackInfoReturnable<Float> cir) {
+        // CraftBukkit start - Use unscaled health
+        if ((Object) this instanceof ServerPlayer) {
+            cir.setReturnValue((float) ((ServerPlayer) (Object) this).getBukkitEntity().getHealth());
+        }
+        // CraftBukkit end
+    }
+    
+    @Inject(method = "setHealth", at = @At(value = "HEAD"))
+    private void cerium$setHealth(float f, CallbackInfo ci) {
+        // CraftBukkit start - Handle scaled health
+        if ((Object) this instanceof ServerPlayer) {
+            CraftPlayer player = ((ServerPlayer) (Object) this).getBukkitEntity();
+            // Squeeze
+            if (f < 0.0F) {
+                player.setRealHealth(0.0D);
+            } else if (f > player.getMaxHealth()) {
+                player.setRealHealth(player.getMaxHealth());
+            } else {
+                player.setRealHealth(f);
+            }
+
+            player.updateScaledHealth(false);
+            return;
+        }
+        // CraftBukkit end
     }
 }

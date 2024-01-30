@@ -364,7 +364,8 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
 
     @Override
     public void removePotionEffect(PotionEffectType type) {
-        getHandle().removeEffect(CraftPotionEffectType.bukkitToMinecraft(type), EntityPotionEffectEvent.Cause.PLUGIN);
+        ((LivingEntityBridge) getHandle()).cerium$addRemoveEffectCause(EntityPotionEffectEvent.Cause.PLUGIN);
+        getHandle().removeEffect(CraftPotionEffectType.bukkitToMinecraft(type));
     }
 
     @Override

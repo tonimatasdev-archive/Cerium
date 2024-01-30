@@ -30,6 +30,7 @@ public class EffectCommandsMixin {
 
     @Redirect(method = "clearEffect", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;removeEffect(Lnet/minecraft/world/effect/MobEffect;)Z"))
     private static boolean cerium$giveEffect(LivingEntity instance, MobEffect mobeffectinstance) {
-        return instance.removeEffect(mobeffectinstance, org.bukkit.event.entity.EntityPotionEffectEvent.Cause.COMMAND); // CraftBukkit;
+        ((LivingEntityBridge) instance).cerium$addRemoveEffectCause(org.bukkit.event.entity.EntityPotionEffectEvent.Cause.COMMAND);
+        return instance.removeEffect(mobeffectinstance); // CraftBukkit;
     }
 }

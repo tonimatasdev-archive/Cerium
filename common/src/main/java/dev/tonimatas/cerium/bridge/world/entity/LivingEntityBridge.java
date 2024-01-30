@@ -27,4 +27,6 @@ public interface LivingEntityBridge {
     void cerium$addRemoveAllEffects(EntityPotionEffectEvent.Cause cause);
 
     void cerium$addEffectCause(EntityPotionEffectEvent.Cause cause);
+    
+    void cerium$addRemoveEffectCause(EntityPotionEffectEvent.Cause cause);
 }

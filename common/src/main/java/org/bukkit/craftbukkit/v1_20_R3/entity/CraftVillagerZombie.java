@@ -1,12 +1,14 @@
 package org.bukkit.craftbukkit.v1_20_R3.entity;
 
 import com.google.common.base.Preconditions;
+import dev.tonimatas.cerium.bridge.world.entity.LivingEntityBridge;
 import net.minecraft.world.effect.MobEffects;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.craftbukkit.v1_20_R3.CraftServer;
 import org.bukkit.entity.Villager;
 import org.bukkit.entity.ZombieVillager;
+import org.bukkit.event.entity.EntityPotionEffectEvent;
 
 public class CraftVillagerZombie extends CraftZombie implements ZombieVillager {
 
@@ -64,7 +66,8 @@ public class CraftVillagerZombie extends CraftZombie implements ZombieVillager {
             getHandle().villagerConversionTime = -1;
             getHandle().getEntityData().set(net.minecraft.world.entity.monster.ZombieVillager.DATA_CONVERTING_ID, false);
             getHandle().conversionStarter = null;
-            getHandle().removeEffect(MobEffects.DAMAGE_BOOST, org.bukkit.event.entity.EntityPotionEffectEvent.Cause.CONVERSION);
+            ((LivingEntityBridge) getHandle()).cerium$addRemoveEffectCause(org.bukkit.event.entity.EntityPotionEffectEvent.Cause.CONVERSION);
+            getHandle().removeEffect(MobEffects.DAMAGE_BOOST);
         } else {
             getHandle().startConverting(null, time);
         }
