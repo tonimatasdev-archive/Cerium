@@ -1,5 +1,7 @@
 package org.bukkit.craftbukkit.v1_20_R3.inventory;
 
+import dev.tonimatas.cerium.bridge.world.item.trading.MerchantBridge;
+import dev.tonimatas.cerium.bridge.world.item.trading.MerchantOfferBridge;
 import net.minecraft.world.inventory.MerchantContainer;
 import org.bukkit.inventory.Merchant;
 import org.bukkit.inventory.MerchantInventory;
@@ -22,7 +24,7 @@ public class CraftInventoryMerchant extends CraftInventory implements MerchantIn
     @Override
     public MerchantRecipe getSelectedRecipe() {
         net.minecraft.world.item.trading.MerchantOffer nmsRecipe = getInventory().getActiveOffer();
-        return (nmsRecipe == null) ? null : nmsRecipe.asBukkit();
+        return (nmsRecipe == null) ? null : ((MerchantOfferBridge) nmsRecipe).asBukkit();
     }
 
     @Override
@@ -32,6 +34,6 @@ public class CraftInventoryMerchant extends CraftInventory implements MerchantIn
 
     @Override
     public Merchant getMerchant() {
-        return merchant.getCraftMerchant();
+        return ((MerchantBridge) merchant).getCraftMerchant();
     }
 }

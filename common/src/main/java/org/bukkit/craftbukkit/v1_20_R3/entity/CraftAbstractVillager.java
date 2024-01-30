@@ -1,5 +1,6 @@
 package org.bukkit.craftbukkit.v1_20_R3.entity;
 
+import dev.tonimatas.cerium.bridge.world.item.trading.MerchantBridge;
 import net.minecraft.world.entity.npc.Villager;
 import org.bukkit.craftbukkit.v1_20_R3.CraftServer;
 import org.bukkit.craftbukkit.v1_20_R3.inventory.CraftInventory;
@@ -34,7 +35,7 @@ public class CraftAbstractVillager extends CraftAgeable implements AbstractVilla
     }
 
     private CraftMerchant getMerchant() {
-        return getHandle().getCraftMerchant();
+        return ((MerchantBridge) getHandle()).getCraftMerchant();
     }
 
     @Override

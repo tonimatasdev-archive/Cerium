@@ -1,6 +1,7 @@
 package org.bukkit.craftbukkit.v1_20_R3.inventory;
 
 import com.google.common.base.Preconditions;
+import dev.tonimatas.cerium.bridge.world.item.trading.MerchantBridge;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -27,7 +28,7 @@ public class CraftMerchantCustom extends CraftMerchant {
         return (MinecraftMerchant) super.getMerchant();
     }
 
-    public static class MinecraftMerchant implements net.minecraft.world.item.trading.Merchant {
+    public static class MinecraftMerchant implements net.minecraft.world.item.trading.Merchant, MerchantBridge {
 
         private final Component title;
         private final MerchantOffers trades = new MerchantOffers();
