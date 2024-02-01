@@ -125,6 +125,7 @@
     "world.entity.npc.InventoryCarrierMixin",
     "world.entity.npc.VillagerMixin",
     "world.entity.npc.WanderingTraderMixin",
+    "world.entity.vehicle.MinecartCommandBaseMixin",
     "world.food.FoodDataMixin",
     "world.inventory.FurnaceResultSlotMixin",
     "world.inventory.ItemCombinerMenuMixin",
