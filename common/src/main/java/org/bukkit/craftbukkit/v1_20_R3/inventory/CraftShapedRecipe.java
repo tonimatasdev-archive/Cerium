@@ -16,13 +16,13 @@ import java.util.Optional;
 
 public class CraftShapedRecipe extends ShapedRecipe implements CraftRecipe {
     // TODO: Could eventually use this to add a matches() method or some such
-    private ShapedRecipe recipe;
+    private net.minecraft.world.item.crafting.ShapedRecipe recipe;
 
     public CraftShapedRecipe(NamespacedKey key, ItemStack result) {
         super(key, result);
     }
 
-    public CraftShapedRecipe(NamespacedKey key, ItemStack result, ShapedRecipe recipe) {
+    public CraftShapedRecipe(NamespacedKey key, ItemStack result, net.minecraft.world.item.crafting.ShapedRecipe recipe) {
         this(key, result);
         this.recipe = recipe;
     }

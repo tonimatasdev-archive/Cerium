@@ -490,3 +490,13 @@ accessible method net/minecraft/world/entity/Interaction$PlayerAction <init> (Lj
 accessible field net/minecraft/server/players/StoredUserEntry user Ljava/lang/Object;
 mutable field net/minecraft/server/players/StoredUserEntry user Ljava/lang/Object;
 accessible method net/minecraft/world/entity/npc/AbstractVillager addOffersFromItemListings (Lnet/minecraft/world/item/trading/MerchantOffers;[Lnet/minecraft/world/entity/npc/VillagerTrades$ItemListing;I)V
+accessible field net/minecraft/world/item/crafting/AbstractCookingRecipe result Lnet/minecraft/world/item/ItemStack;
+accessible field net/minecraft/world/item/crafting/AbstractCookingRecipe type Lnet/minecraft/world/item/crafting/RecipeType;
+accessible field net/minecraft/world/item/crafting/AbstractCookingRecipe ingredient Lnet/minecraft/world/item/crafting/Ingredient;
+accessible field net/minecraft/world/item/crafting/AbstractCookingRecipe experience F
+accessible field net/minecraft/world/item/crafting/AbstractCookingRecipe cookingTime I
+accessible field net/minecraft/world/item/crafting/AbstractCookingRecipe group Ljava/lang/String;
+accessible method net/minecraft/world/item/crafting/AbstractCookingRecipe category ()Lnet/minecraft/world/item/crafting/CookingBookCategory;
+accessible field net/minecraft/world/item/crafting/SingleItemRecipe ingredient Lnet/minecraft/world/item/crafting/Ingredient;
+accessible field net/minecraft/world/item/crafting/SingleItemRecipe result Lnet/minecraft/world/item/ItemStack;
+accessible field net/minecraft/world/item/crafting/SingleItemRecipe group Ljava/lang/String;
