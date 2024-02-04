@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Predicates;
 import com.mojang.serialization.Codec;
 import dev.tonimatas.cerium.bridge.world.entity.EntityBridge;
+import dev.tonimatas.cerium.bridge.world.level.entity.PersistentEntitySectionManagerBridge;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
@@ -122,7 +123,7 @@ public class CraftChunk implements Chunk {
         long pair = ChunkPos.asLong(x, z);
 
         if (entityManager.areEntitiesLoaded(pair)) {
-            return entityManager.getEntities(new ChunkPos(x, z)).stream()
+            return ((PersistentEntitySectionManagerBridge) entityManager).getEntities(new ChunkPos(x, z)).stream()
                     .map(entity -> ((EntityBridge) entity).getBukkitEntity())
                     .filter(Objects::nonNull).toArray(Entity[]::new);
         }
@@ -137,7 +138,7 @@ public class CraftChunk implements Chunk {
                 return true;
             }
 
-            if (!entityManager.isPending(pair)) {
+            if (!((PersistentEntitySectionManagerBridge) entityManager).isPending(pair)) {
                 // Our entities got unloaded, this should normally not happen.
                 entityManager.ensureChunkQueuedForLoad(pair); // Re-start entity loading
             }
@@ -160,7 +161,7 @@ public class CraftChunk implements Chunk {
             }
         }
 
-        return entityManager.getEntities(new ChunkPos(x, z)).stream()
+        return ((PersistentEntitySectionManagerBridge) entityManager).getEntities(new ChunkPos(x, z)).stream()
                 .map(entity -> ((EntityBridge) entity).getBukkitEntity())
                 .filter(Objects::nonNull).toArray(Entity[]::new);
     }

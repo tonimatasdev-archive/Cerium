@@ -207,6 +207,7 @@
     "world.level.block.WallHangingSignBlockMixin",
     "world.level.block.WitherRoseBlockMixin",
     "world.level.border.WorldBorderMixin",
+    "world.level.entity.PersistentEntitySectionManagerMixin",
     "world.level.redstone.NeighborUpdaterMixin",
     "world.level.storage.LevelStorageAccessMixin",
     "world.level.storage.LevelStorageSourceMixin",
