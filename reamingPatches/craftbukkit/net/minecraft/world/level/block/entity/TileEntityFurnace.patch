@@ -21,15 +21,6 @@
  public abstract class TileEntityFurnace extends TileEntityContainer implements IWorldInventory, RecipeCraftingHolder, AutoRecipeOutput {
  
      protected static final int SLOT_INPUT = 0;
-@@ -115,7 +129,7 @@
-             }
-         };
-         this.recipesUsed = new Object2IntOpenHashMap();
--        this.quickCheck = CraftingManager.createCheck(recipes);
-+        this.quickCheck = CraftingManager.createCheck((Recipes<RecipeCooking>) recipes); // CraftBukkit - decompile error // Eclipse fail
-     }
- 
-     public static Map<Item, Integer> getFuel() {
 @@ -183,6 +197,40 @@
          return map;
      }
@@ -71,15 +62,6 @@
      private static boolean isNeverAFurnaceFuel(Item item) {
          return item.builtInRegistryHolder().is(TagsItem.NON_FLAMMABLE_WOOD);
      }
-@@ -271,7 +319,7 @@
-             RecipeHolder recipeholder;
- 
-             if (flag2) {
--                recipeholder = (RecipeHolder) tileentityfurnace.quickCheck.getRecipeFor(tileentityfurnace, world).orElse((Object) null);
-+                recipeholder = (RecipeHolder) tileentityfurnace.quickCheck.getRecipeFor(tileentityfurnace, world).orElse(null); // CraftBukkit - decompile error
-             } else {
-                 recipeholder = null;
-             }
 @@ -279,9 +327,20 @@
              int i = tileentityfurnace.getMaxStackSize();
  

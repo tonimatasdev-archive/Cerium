@@ -21,16 +21,6 @@
  public abstract class EntityHuman extends EntityLiving {
  
      private static final Logger LOGGER = LogUtils.getLogger();
-@@ -127,7 +141,8 @@
-     public static final float SWIMMING_BB_HEIGHT = 0.6F;
-     public static final float DEFAULT_EYE_HEIGHT = 1.62F;
-     public static final EntitySize STANDING_DIMENSIONS = EntitySize.scalable(0.6F, 1.8F);
--    private static final Map<EntityPose, EntitySize> POSES = ImmutableMap.builder().put(EntityPose.STANDING, EntityHuman.STANDING_DIMENSIONS).put(EntityPose.SLEEPING, EntityHuman.SLEEPING_DIMENSIONS).put(EntityPose.FALL_FLYING, EntitySize.scalable(0.6F, 0.6F)).put(EntityPose.SWIMMING, EntitySize.scalable(0.6F, 0.6F)).put(EntityPose.SPIN_ATTACK, EntitySize.scalable(0.6F, 0.6F)).put(EntityPose.CROUCHING, EntitySize.scalable(0.6F, 1.5F)).put(EntityPose.DYING, EntitySize.fixed(0.2F, 0.2F)).build();
-+    // CraftBukkit - decompile error
-+    private static final Map<EntityPose, EntitySize> POSES = ImmutableMap.<EntityPose, EntitySize>builder().put(EntityPose.STANDING, EntityHuman.STANDING_DIMENSIONS).put(EntityPose.SLEEPING, EntityHuman.SLEEPING_DIMENSIONS).put(EntityPose.FALL_FLYING, EntitySize.scalable(0.6F, 0.6F)).put(EntityPose.SWIMMING, EntitySize.scalable(0.6F, 0.6F)).put(EntityPose.SPIN_ATTACK, EntitySize.scalable(0.6F, 0.6F)).put(EntityPose.CROUCHING, EntitySize.scalable(0.6F, 1.5F)).put(EntityPose.DYING, EntitySize.fixed(0.2F, 0.2F)).build();
-     private static final DataWatcherObject<Float> DATA_PLAYER_ABSORPTION_ID = DataWatcher.defineId(EntityHuman.class, DataWatcherRegistry.FLOAT);
-     private static final DataWatcherObject<Integer> DATA_SCORE_ID = DataWatcher.defineId(EntityHuman.class, DataWatcherRegistry.INT);
-     protected static final DataWatcherObject<Byte> DATA_PLAYER_MODE_CUSTOMISATION = DataWatcher.defineId(EntityHuman.class, DataWatcherRegistry.BYTE);
 @@ -136,10 +151,10 @@
      protected static final DataWatcherObject<NBTTagCompound> DATA_SHOULDER_RIGHT = DataWatcher.defineId(EntityHuman.class, DataWatcherRegistry.COMPOUND_TAG);
      private long timeEntitySatOnShoulder;
@@ -145,24 +135,6 @@
              return entityitem;
          }
      }
-@@ -789,7 +855,7 @@
-         }
- 
-         if (nbttagcompound.contains("LastDeathLocation", 10)) {
--            DataResult dataresult = GlobalPos.CODEC.parse(DynamicOpsNBT.INSTANCE, nbttagcompound.get("LastDeathLocation"));
-+            DataResult<GlobalPos> dataresult = GlobalPos.CODEC.parse(DynamicOpsNBT.INSTANCE, nbttagcompound.get("LastDeathLocation")); // CraftBukkit - decompile error
-             Logger logger = EntityHuman.LOGGER;
- 
-             Objects.requireNonNull(logger);
-@@ -822,7 +888,7 @@
-         }
- 
-         this.getLastDeathLocation().flatMap((globalpos) -> {
--            DataResult dataresult = GlobalPos.CODEC.encodeStart(DynamicOpsNBT.INSTANCE, globalpos);
-+            DataResult<NBTBase> dataresult = GlobalPos.CODEC.encodeStart(DynamicOpsNBT.INSTANCE, globalpos); // CraftBukkit - decompile error
-             Logger logger = EntityHuman.LOGGER;
- 
-             Objects.requireNonNull(logger);
 @@ -849,12 +915,12 @@
                  return false;
              } else {

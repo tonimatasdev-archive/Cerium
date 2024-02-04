@@ -9,24 +9,6 @@
          ChunkCoordIntPair chunkcoordintpair = ichunkaccess.getPos();
  
          if (!SharedConstants.debugVoidTerrain(chunkcoordintpair)) {
-@@ -328,7 +328,7 @@
- 
-                 for (int k = 0; k < j; ++k) {
-                     ChunkSection chunksection = achunksection[k];
--                    PalettedContainerRO palettedcontainerro = chunksection.getBiomes();
-+                    PalettedContainerRO<Holder<BiomeBase>> palettedcontainerro = chunksection.getBiomes(); // CraftBukkit - decompile error
- 
-                     Objects.requireNonNull(set);
-                     palettedcontainerro.getAll(set::add);
-@@ -354,7 +354,7 @@
-                             Structure structure = (Structure) iterator.next();
- 
-                             seededrandom.setFeatureSeed(i, i1, l);
--                            Supplier supplier = () -> {
-+                            Supplier<String> supplier = () -> { // CraftBukkit - decompile error
-                                 Optional optional = iregistry.getResourceKey(structure).map(Object::toString);
- 
-                                 Objects.requireNonNull(structure);
 @@ -439,6 +439,33 @@
          }
      }

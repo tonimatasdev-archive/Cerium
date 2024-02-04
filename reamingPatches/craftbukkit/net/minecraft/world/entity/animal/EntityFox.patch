@@ -57,13 +57,3 @@
 +            // CraftBukkit end
              int j = 1 + EntityFox.this.level().random.nextInt(2) + (i == 3 ? 1 : 0);
              ItemStack itemstack = EntityFox.this.getItemBySlot(EnumItemSlot.MAINHAND);
- 
-@@ -1451,7 +1469,7 @@
-         private EntityLiving trustedLastHurt;
-         private int timestamp;
- 
--        public a(Class oclass, boolean flag, boolean flag1, @Nullable Predicate predicate) {
-+        public a(Class oclass, boolean flag, boolean flag1, @Nullable Predicate<EntityLiving> predicate) { // CraftBukkit - decompile error
-             super(EntityFox.this, oclass, 10, flag, flag1, predicate);
-         }
- 

@@ -12,8 +12,7 @@
      }
  
      public void dispenseFrom(WorldServer worldserver, IBlockData iblockdata, BlockPosition blockposition) {
--        TileEntityDispenser tileentitydispenser = (TileEntityDispenser) worldserver.getBlockEntity(blockposition, TileEntityTypes.DISPENSER).orElse((Object) null);
-+        TileEntityDispenser tileentitydispenser = (TileEntityDispenser) worldserver.getBlockEntity(blockposition, TileEntityTypes.DISPENSER).orElse(null); // CraftBukkit - decompile error
+         TileEntityDispenser tileentitydispenser = (TileEntityDispenser) worldserver.getBlockEntity(blockposition, TileEntityTypes.DISPENSER).orElse((Object) null);
  
          if (tileentitydispenser == null) {
              BlockDispenser.LOGGER.warn("Ignoring dispensing attempt for Dispenser without matching block entity at {}", blockposition);

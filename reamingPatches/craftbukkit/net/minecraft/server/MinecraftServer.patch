@@ -62,8 +62,7 @@
              thread.setPriority(8);
          }
  
--        S s0 = (MinecraftServer) function.apply(thread);
-+        S s0 = function.apply(thread); // CraftBukkit - decompile error
+         S s0 = (MinecraftServer) function.apply(thread);
  
          atomicreference.set(s0);
          thread.start();
@@ -552,15 +551,6 @@
          }
  
          MinecraftServer.LOGGER.info("Saving worlds");
-@@ -696,7 +981,7 @@
-             }
- 
-             this.nextTickTimeNanos = SystemUtils.getNanos();
--            this.statusIcon = (ServerPing.a) this.loadStatusIcon().orElse((Object) null);
-+            this.statusIcon = (ServerPing.a) this.loadStatusIcon().orElse(null); // CraftBukkit - decompile error
-             this.status = this.buildServerStatus();
- 
-             while (this.running) {
 @@ -713,6 +998,7 @@
                      if (j > MinecraftServer.OVERLOADED_THRESHOLD_NANOS + 20L * i && this.nextTickTimeNanos - this.lastOverloadWarningNanos >= MinecraftServer.OVERLOADED_WARNING_INTERVAL_NANOS + 100L * i) {
                          long k = j / i;
@@ -606,15 +596,6 @@
      }
  
      protected void waitUntilNextTick() {
-@@ -850,7 +1150,7 @@
-         }
-     }
- 
--    protected void doRunTask(TickTask ticktask) {
-+    public void doRunTask(TickTask ticktask) { // CraftBukkit - decompile error
-         this.getProfiler().incrementCounter("runTask");
-         super.doRunTask(ticktask);
-     }
 @@ -909,8 +1209,10 @@
          }
  
@@ -700,20 +681,6 @@
      }
  
      public SystemReport fillSystemReport(SystemReport systemreport) {
-@@ -1466,11 +1801,11 @@
-     public CompletableFuture<Void> reloadResources(Collection<String> collection) {
-         IRegistryCustom.Dimension iregistrycustom_dimension = this.registries.getAccessForLoading(RegistryLayer.RELOADABLE);
-         CompletableFuture<Void> completablefuture = CompletableFuture.supplyAsync(() -> {
--            Stream stream = collection.stream();
-+            Stream<String> stream = collection.stream(); // CraftBukkit - decompile error
-             ResourcePackRepository resourcepackrepository = this.packRepository;
- 
-             Objects.requireNonNull(this.packRepository);
--            return (ImmutableList) stream.map(resourcepackrepository::getPack).filter(Objects::nonNull).map(ResourcePackLoader::open).collect(ImmutableList.toImmutableList());
-+            return stream.map(resourcepackrepository::getPack).filter(Objects::nonNull).map(ResourcePackLoader::open).collect(ImmutableList.toImmutableList()); // CraftBukkit - decompile error
-         }, this).thenCompose((immutablelist) -> {
-             ResourceManager resourcemanager = new ResourceManager(EnumResourcePackType.SERVER_DATA, immutablelist);
- 
 @@ -1485,6 +1820,7 @@
          }).thenAcceptAsync((minecraftserver_reloadableresources) -> {
              this.resources.close();
@@ -722,15 +689,6 @@
              this.packRepository.setSelected(collection);
              WorldDataConfiguration worlddataconfiguration = new WorldDataConfiguration(getSelectedPacks(this.packRepository), this.worldData.enabledFeatures());
  
-@@ -1853,7 +2189,7 @@
-             try {
-                 label51:
-                 {
--                    ArrayList arraylist;
-+                    ArrayList<NativeModuleLister.a> arraylist; // CraftBukkit - decompile error
- 
-                     try {
-                         arraylist = Lists.newArrayList(NativeModuleLister.listModules());
 @@ -1903,6 +2239,22 @@
  
      }

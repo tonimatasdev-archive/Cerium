@@ -254,15 +254,6 @@
          }
  
      }
-@@ -480,7 +651,7 @@
-     @Override
-     public void handleRecipeBookSeenRecipePacket(PacketPlayInRecipeDisplayed packetplayinrecipedisplayed) {
-         PlayerConnectionUtils.ensureRunningOnSameThread(packetplayinrecipedisplayed, this, this.player.serverLevel());
--        Optional optional = this.server.getRecipeManager().byKey(packetplayinrecipedisplayed.getRecipe());
-+        Optional<? extends RecipeHolder<?>> optional = this.server.getRecipeManager().byKey(packetplayinrecipedisplayed.getRecipe()); // CraftBukkit - decompile error
-         RecipeBookServer recipebookserver = this.player.getRecipeBook();
- 
-         Objects.requireNonNull(recipebookserver);
 @@ -490,6 +661,7 @@
      @Override
      public void handleRecipeBookChangeSettingsPacket(PacketPlayInRecipeSettings packetplayinrecipesettings) {
@@ -324,8 +315,7 @@
  
              Objects.requireNonNull(list);
              optional.ifPresent(list::add);
--            Stream stream = packetplayinbedit.getPages().stream().limit(100L);
-+            Stream<String> stream = packetplayinbedit.getPages().stream().limit(100L); // CraftBukkit - decompile error
+             Stream stream = packetplayinbedit.getPages().stream().limit(100L);
  
              Objects.requireNonNull(list);
              stream.forEach(list::add);
@@ -354,8 +344,7 @@
          NBTTagList nbttaglist = new NBTTagList();
  
          if (this.player.isTextFilteringEnabled()) {
--            Stream stream = list.stream().map((filteredtext) -> {
-+            Stream<NBTTagString> stream = list.stream().map((filteredtext) -> { // CraftBukkit - decompile error
+             Stream stream = list.stream().map((filteredtext) -> {
                  return NBTTagString.valueOf((String) unaryoperator.apply(filteredtext.filteredOrEmpty()));
              });
  
@@ -883,8 +872,7 @@
  
          CommandSigningContext.a commandsigningcontext_a = new CommandSigningContext.a(map);
  
--        parseresults = CommandDispatcher.mapSource(parseresults, (commandlistenerwrapper) -> {
-+        parseresults = CommandDispatcher.<CommandListenerWrapper>mapSource(parseresults, (commandlistenerwrapper) -> { // CraftBukkit - decompile error
+         parseresults = CommandDispatcher.mapSource(parseresults, (commandlistenerwrapper) -> {
              return commandlistenerwrapper.withSigningContext(commandsigningcontext_a, this.chatMessageChain);
          });
 -        this.server.getCommands().performCommand(parseresults, serverboundchatcommandpacket.command());

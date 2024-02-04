@@ -9,12 +9,3 @@
                      world.playSound((EntityHuman) null, (double) blockposition.getX() + 0.5D, (double) blockposition.getY() + 0.5D, (double) blockposition.getZ() + 0.5D, SoundEffects.RESPAWN_ANCHOR_SET_SPAWN, SoundCategory.BLOCKS, 1.0F, 1.0F);
                      return EnumInteractionResult.SUCCESS;
                  }
-@@ -127,7 +127,7 @@
- 
-     private void explode(IBlockData iblockdata, World world, final BlockPosition blockposition) {
-         world.removeBlock(blockposition, false);
--        Stream stream = EnumDirection.EnumDirectionLimit.HORIZONTAL.stream();
-+        Stream<EnumDirection> stream = EnumDirection.EnumDirectionLimit.HORIZONTAL.stream(); // CraftBukkit - decompile error
- 
-         Objects.requireNonNull(blockposition);
-         boolean flag = stream.map(blockposition::relative).anyMatch((blockposition1) -> {

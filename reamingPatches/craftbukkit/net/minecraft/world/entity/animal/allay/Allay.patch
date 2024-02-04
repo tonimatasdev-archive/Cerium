@@ -21,15 +21,6 @@
      @Override
      protected BehaviorController.b<Allay> brainProvider() {
          return BehaviorController.provider(Allay.MEMORY_TYPES, Allay.SENSOR_TYPES);
-@@ -122,7 +129,7 @@
- 
-     @Override
-     public BehaviorController<Allay> getBrain() {
--        return super.getBrain();
-+        return (BehaviorController<Allay>) super.getBrain(); // CraftBukkit - decompile error
-     }
- 
-     public static AttributeProvider.Builder createAttributes() {
 @@ -229,7 +236,7 @@
      public void aiStep() {
          super.aiStep();
@@ -53,15 +44,6 @@
              this.level().broadcastEntityEvent(this, (byte) 18);
              this.level().playSound(entityhuman, (Entity) this, SoundEffects.AMETHYST_BLOCK_CHIME, SoundCategory.NEUTRAL, 2.0F, 1.0F);
              this.removeInteractionItem(entityhuman, itemstack);
-@@ -310,7 +322,7 @@
-             this.setItemInHand(EnumHand.MAIN_HAND, itemstack2);
-             this.removeInteractionItem(entityhuman, itemstack);
-             this.level().playSound(entityhuman, (Entity) this, SoundEffects.ALLAY_ITEM_GIVEN, SoundCategory.NEUTRAL, 2.0F, 1.0F);
--            this.getBrain().setMemory(MemoryModuleType.LIKED_PLAYER, (Object) entityhuman.getUUID());
-+            this.getBrain().setMemory(MemoryModuleType.LIKED_PLAYER, entityhuman.getUUID()); // CraftBukkit - decompile error
-             return EnumInteractionResult.SUCCESS;
-         } else if (!itemstack1.isEmpty() && enumhand == EnumHand.MAIN_HAND && itemstack.isEmpty()) {
-             this.setItemSlot(EnumItemSlot.MAINHAND, ItemStack.EMPTY);
 @@ -427,6 +439,7 @@
      }
  
@@ -70,24 +52,6 @@
          return this.jukeboxPos == null || !this.jukeboxPos.closerToCenterThan(this.position(), (double) GameEvent.JUKEBOX_PLAY.getNotificationRadius()) || !this.level().getBlockState(this.jukeboxPos).is(Blocks.JUKEBOX);
      }
  
-@@ -471,7 +484,7 @@
-     public void addAdditionalSaveData(NBTTagCompound nbttagcompound) {
-         super.addAdditionalSaveData(nbttagcompound);
-         this.writeInventoryToTag(nbttagcompound);
--        DataResult dataresult = VibrationSystem.a.CODEC.encodeStart(DynamicOpsNBT.INSTANCE, this.vibrationData);
-+        DataResult<net.minecraft.nbt.NBTBase> dataresult = VibrationSystem.a.CODEC.encodeStart(DynamicOpsNBT.INSTANCE, this.vibrationData); // CraftBukkit - decompile error
-         Logger logger = Allay.LOGGER;
- 
-         Objects.requireNonNull(logger);
-@@ -487,7 +500,7 @@
-         super.readAdditionalSaveData(nbttagcompound);
-         this.readInventoryFromTag(nbttagcompound);
-         if (nbttagcompound.contains("listener", 10)) {
--            DataResult dataresult = VibrationSystem.a.CODEC.parse(new Dynamic(DynamicOpsNBT.INSTANCE, nbttagcompound.getCompound("listener")));
-+            DataResult<VibrationSystem.a> dataresult = VibrationSystem.a.CODEC.parse(new Dynamic(DynamicOpsNBT.INSTANCE, nbttagcompound.getCompound("listener"))); // CraftBukkit - decompile error
-             Logger logger = Allay.LOGGER;
- 
-             Objects.requireNonNull(logger);
 @@ -520,7 +533,7 @@
          return Allay.DUPLICATION_ITEM.test(itemstack);
      }

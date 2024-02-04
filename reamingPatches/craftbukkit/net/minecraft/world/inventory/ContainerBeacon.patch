@@ -39,17 +39,6 @@
          return stillValid(this.access, entityhuman, Blocks.BEACON);
      }
  
-@@ -163,8 +174,8 @@
- 
-     public void updateEffects(Optional<MobEffectList> optional, Optional<MobEffectList> optional1) {
-         if (this.paymentSlot.hasItem()) {
--            this.beaconData.set(1, encodeEffect((MobEffectList) optional.orElse((Object) null)));
--            this.beaconData.set(2, encodeEffect((MobEffectList) optional1.orElse((Object) null)));
-+            this.beaconData.set(1, encodeEffect((MobEffectList) optional.orElse(null))); // CraftBukkit - decompile error
-+            this.beaconData.set(2, encodeEffect((MobEffectList) optional1.orElse(null))); // CraftBukkit - decompile error
-             this.paymentSlot.remove(1);
-             this.access.execute(World::blockEntityChanged);
-         }
 @@ -191,4 +202,17 @@
              return 1;
          }

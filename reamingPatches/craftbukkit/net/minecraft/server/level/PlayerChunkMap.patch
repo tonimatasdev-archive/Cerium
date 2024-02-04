@@ -57,9 +57,8 @@
              CompletableFuture<List<Either<IChunkAccess, PlayerChunk.Failure>>> completablefuture1 = SystemUtils.sequence(list);
              CompletableFuture<Either<List<IChunkAccess>, PlayerChunk.Failure>> completablefuture2 = completablefuture1.thenApply((list2) -> {
                  List<IChunkAccess> list3 = Lists.newArrayList();
--                final int l1 = 0;
-+                // CraftBukkit start - decompile error
-+                int cnt = 0;
+                 final int l1 = 0;
+
  
 -                for (Iterator iterator = list2.iterator(); iterator.hasNext(); ++l1) {
 +                for (Iterator iterator = list2.iterator(); iterator.hasNext(); ++cnt) {
@@ -68,27 +67,6 @@
                      final Either<IChunkAccess, PlayerChunk.Failure> either = (Either) iterator.next();
  
                      if (either == null) {
-@@ -540,7 +575,7 @@
- 
-     private void scheduleUnload(long i, PlayerChunk playerchunk) {
-         CompletableFuture<IChunkAccess> completablefuture = playerchunk.getChunkToSave();
--        Consumer consumer = (ichunkaccess) -> {
-+        Consumer<IChunkAccess> consumer = (ichunkaccess) -> { // CraftBukkit - decompile error
-             CompletableFuture<IChunkAccess> completablefuture1 = playerchunk.getChunkToSave();
- 
-             if (completablefuture1 != completablefuture) {
-@@ -631,9 +666,9 @@
-                 ProtoChunk protochunk = ChunkRegionLoader.read(this.level, this.poiManager, chunkcoordintpair, (NBTTagCompound) optional.get());
- 
-                 this.markPosition(chunkcoordintpair, protochunk.getStatus().getChunkType());
--                return Either.left(protochunk);
-+                return Either.<IChunkAccess, PlayerChunk.Failure>left(protochunk); // CraftBukkit - decompile error
-             } else {
--                return Either.left(this.createEmptyChunk(chunkcoordintpair));
-+                return Either.<IChunkAccess, PlayerChunk.Failure>left(this.createEmptyChunk(chunkcoordintpair)); // CraftBukkit - decompile error
-             }
-         }, this.mainThreadExecutor).exceptionallyAsync((throwable) -> {
-             return this.handleChunkLoadFailure(throwable, chunkcoordintpair);
 @@ -748,7 +783,21 @@
  
      private static void postLoadProtoChunk(WorldServer worldserver, List<NBTTagCompound> list) {
@@ -112,34 +90,6 @@
          }
  
      }
-@@ -860,7 +909,7 @@
-         if (!playerchunk.wasAccessibleSinceLastSave()) {
-             return false;
-         } else {
--            IChunkAccess ichunkaccess = (IChunkAccess) playerchunk.getChunkToSave().getNow((Object) null);
-+            IChunkAccess ichunkaccess = (IChunkAccess) playerchunk.getChunkToSave().getNow(null); // CraftBukkit - decompile error
- 
-             if (!(ichunkaccess instanceof ProtoChunkExtension) && !(ichunkaccess instanceof Chunk)) {
-                 return false;
-@@ -1017,7 +1066,8 @@
-                 return ichunkaccess instanceof Chunk ? Optional.of((Chunk) ichunkaccess) : Optional.empty();
-             });
- 
--            csvwriter.writeRow(chunkcoordintpair.x, chunkcoordintpair.z, playerchunk.getTicketLevel(), optional.isPresent(), optional.map(IChunkAccess::getStatus).orElse((Object) null), optional1.map(Chunk::getFullStatus).orElse((Object) null), printFuture(playerchunk.getFullChunkFuture()), printFuture(playerchunk.getTickingChunkFuture()), printFuture(playerchunk.getEntityTickingChunkFuture()), this.distanceManager.getTicketDebugString(i), this.anyPlayerCloseEnoughForSpawning(chunkcoordintpair), optional1.map((chunk) -> {
-+            // CraftBukkit - decompile error
-+            csvwriter.writeRow(chunkcoordintpair.x, chunkcoordintpair.z, playerchunk.getTicketLevel(), optional.isPresent(), optional.map(IChunkAccess::getStatus).orElse(null), optional1.map(Chunk::getFullStatus).orElse(null), printFuture(playerchunk.getFullChunkFuture()), printFuture(playerchunk.getTickingChunkFuture()), printFuture(playerchunk.getEntityTickingChunkFuture()), this.distanceManager.getTicketDebugString(i), this.anyPlayerCloseEnoughForSpawning(chunkcoordintpair), optional1.map((chunk) -> {
-                 return chunk.getBlockEntities().size();
-             }).orElse(0), tickingtracker.getTicketDebugString(i), tickingtracker.getLevel(i), optional1.map((chunk) -> {
-                 return chunk.getBlockTicks().count();
-@@ -1030,7 +1080,7 @@
- 
-     private static String printFuture(CompletableFuture<Either<Chunk, PlayerChunk.Failure>> completablefuture) {
-         try {
--            Either<Chunk, PlayerChunk.Failure> either = (Either) completablefuture.getNow((Object) null);
-+            Either<Chunk, PlayerChunk.Failure> either = (Either) completablefuture.getNow(null); // CraftBukkit - decompile error
- 
-             return either != null ? (String) either.map((chunk) -> {
-                 return "done";
 @@ -1046,12 +1096,14 @@
  
      private CompletableFuture<Optional<NBTTagCompound>> readChunk(ChunkCoordIntPair chunkcoordintpair) {

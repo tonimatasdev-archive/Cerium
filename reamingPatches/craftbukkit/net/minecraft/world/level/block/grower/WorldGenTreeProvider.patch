@@ -14,38 +14,12 @@
  
      private static final Map<String, WorldGenTreeProvider> GROWERS = new Object2ObjectArrayMap();
 @@ -75,21 +81,22 @@
-             }
-         }
- 
--        return flag && this.flowers.isPresent() ? (ResourceKey) this.flowers.get() : (ResourceKey) this.tree.orElse((Object) null);
-+        return flag && this.flowers.isPresent() ? (ResourceKey) this.flowers.get() : (ResourceKey) this.tree.orElse(null); // CraftBukkit - decompile error
-     }
- 
-     @Nullable
-     private ResourceKey<WorldGenFeatureConfigured<?, ?>> getConfiguredMegaFeature(RandomSource randomsource) {
--        return this.secondaryMegaTree.isPresent() && randomsource.nextFloat() < this.secondaryChance ? (ResourceKey) this.secondaryMegaTree.get() : (ResourceKey) this.megaTree.orElse((Object) null);
-+        return this.secondaryMegaTree.isPresent() && randomsource.nextFloat() < this.secondaryChance ? (ResourceKey) this.secondaryMegaTree.get() : (ResourceKey) this.megaTree.orElse(null); // CraftBukkit - decompile error
-     }
- 
-     public boolean growTree(WorldServer worldserver, ChunkGenerator chunkgenerator, BlockPosition blockposition, IBlockData iblockdata, RandomSource randomsource) {
-         ResourceKey<WorldGenFeatureConfigured<?, ?>> resourcekey = this.getConfiguredMegaFeature(randomsource);
- 
-         if (resourcekey != null) {
--            Holder<WorldGenFeatureConfigured<?, ?>> holder = (Holder) worldserver.registryAccess().registryOrThrow(Registries.CONFIGURED_FEATURE).getHolder(resourcekey).orElse((Object) null);
-+            Holder<WorldGenFeatureConfigured<?, ?>> holder = (Holder) worldserver.registryAccess().registryOrThrow(Registries.CONFIGURED_FEATURE).getHolder(resourcekey).orElse(null); // CraftBukkit - decompile error
- 
              if (holder != null) {
 +                setTreeType(holder); // CraftBukkit
                  for (int i = 0; i >= -1; --i) {
                      for (int j = 0; j >= -1; --j) {
                          if (isTwoByTwoSapling(iblockdata, worldserver, blockposition, i, j)) {
 @@ -120,11 +127,12 @@
-         if (resourcekey1 == null) {
-             return false;
-         } else {
--            Holder<WorldGenFeatureConfigured<?, ?>> holder1 = (Holder) worldserver.registryAccess().registryOrThrow(Registries.CONFIGURED_FEATURE).getHolder(resourcekey1).orElse((Object) null);
-+            Holder<WorldGenFeatureConfigured<?, ?>> holder1 = (Holder) worldserver.registryAccess().registryOrThrow(Registries.CONFIGURED_FEATURE).getHolder(resourcekey1).orElse(null); // CraftBukkit - decompile error
- 
              if (holder1 == null) {
                  return false;
              } else {
@@ -108,13 +82,3 @@
 +    }
 +    // CraftBukkit end
 +
-     static {
--        Function function = (worldgentreeprovider) -> {
-+        Function<WorldGenTreeProvider, String> function = (worldgentreeprovider) -> { // CraftBukkit - decompile error
-             return worldgentreeprovider.name;
-         };
--        Map map = WorldGenTreeProvider.GROWERS;
-+        Map<String, WorldGenTreeProvider> map = WorldGenTreeProvider.GROWERS; // CraftBukkit - decompile error
- 
-         Objects.requireNonNull(map);
-         CODEC = ExtraCodecs.stringResolverCodec(function, map::get);

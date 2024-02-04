@@ -19,24 +19,6 @@
  
      private static final Logger LOGGER = LogUtils.getLogger();
      private static final int MAX_TEXT_LINE_WIDTH = 90;
-@@ -98,7 +108,7 @@
-     @Override
-     protected void saveAdditional(NBTTagCompound nbttagcompound) {
-         super.saveAdditional(nbttagcompound);
--        DataResult dataresult = SignText.DIRECT_CODEC.encodeStart(DynamicOpsNBT.INSTANCE, this.frontText);
-+        DataResult<NBTBase> dataresult = SignText.DIRECT_CODEC.encodeStart(DynamicOpsNBT.INSTANCE, this.frontText); // CraftBukkit - decompile error
-         Logger logger = TileEntitySign.LOGGER;
- 
-         Objects.requireNonNull(logger);
-@@ -117,7 +127,7 @@
-     @Override
-     public void load(NBTTagCompound nbttagcompound) {
-         super.load(nbttagcompound);
--        DataResult dataresult;
-+        DataResult<SignText> dataresult; // CraftBukkit - decompile error
-         Logger logger;
- 
-         if (nbttagcompound.contains("front_text")) {
 @@ -171,12 +181,13 @@
      public void updateSignText(EntityHuman entityhuman, boolean flag, List<FilteredText> list) {
          if (!this.isWaxed() && entityhuman.getUUID().equals(this.getPlayerWhoMayEdit()) && this.level != null) {

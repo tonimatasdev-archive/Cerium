@@ -502,3 +502,6 @@ accessible field net/minecraft/world/item/crafting/SingleItemRecipe result Lnet/
 accessible field net/minecraft/world/item/crafting/SingleItemRecipe group Ljava/lang/String;
 accessible class net/minecraft/world/level/entity/PersistentEntitySectionManager$ChunkLoadStatus
 accessible field net/minecraft/world/level/chunk/storage/EntityStorage level Lnet/minecraft/server/level/ServerLevel;
+accessible method net/minecraft/world/level/GameRules$BooleanValue deserialize (Ljava/lang/String;)V
+accessible method net/minecraft/world/level/GameRules$IntegerValue deserialize (Ljava/lang/String;)V
+accessible method net/minecraft/server/MinecraftServer doRunTask (Lnet/minecraft/server/TickTask;)V

@@ -78,8 +78,7 @@
  
      @Override
      public NBTTagCompound save(NBTTagCompound nbttagcompound) {
--        DataResult dataresult = MinecraftKey.CODEC.encodeStart(DynamicOpsNBT.INSTANCE, this.dimension.location());
-+        DataResult<NBTBase> dataresult = MinecraftKey.CODEC.encodeStart(DynamicOpsNBT.INSTANCE, this.dimension.location()); // CraftBukkit - decompile error
+         DataResult dataresult = MinecraftKey.CODEC.encodeStart(DynamicOpsNBT.INSTANCE, this.dimension.location());
          Logger logger = WorldMap.LOGGER;
  
          Objects.requireNonNull(logger);

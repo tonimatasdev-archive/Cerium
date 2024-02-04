@@ -4,8 +4,7 @@
  
                      NetworkManager.configureSerialization(channelpipeline, EnumProtocolDirection.SERVERBOUND, (BandwidthDebugMonitor) null);
                      int j = ServerConnection.this.server.getRateLimitPacketsPerSecond();
--                    Object object = j > 0 ? new NetworkManagerServer(j) : new NetworkManager(EnumProtocolDirection.SERVERBOUND);
-+                    NetworkManager object = j > 0 ? new NetworkManagerServer(j) : new NetworkManager(EnumProtocolDirection.SERVERBOUND); // CraftBukkit - decompile error
+                     Object object = j > 0 ? new NetworkManagerServer(j) : new NetworkManager(EnumProtocolDirection.SERVERBOUND);
  
                      ServerConnection.this.connections.add(object);
                      ((NetworkManager) object).configurePacketHandler(channelpipeline);

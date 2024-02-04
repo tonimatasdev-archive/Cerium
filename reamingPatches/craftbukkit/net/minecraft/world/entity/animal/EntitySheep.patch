@@ -50,15 +50,6 @@
          super.ate();
          this.setSheared(false);
          if (this.isBaby()) {
-@@ -379,7 +400,7 @@
-         EnumColor enumcolor = ((EntitySheep) entityanimal).getColor();
-         EnumColor enumcolor1 = ((EntitySheep) entityanimal1).getColor();
-         InventoryCrafting inventorycrafting = makeContainer(enumcolor, enumcolor1);
--        Optional optional = this.level().getRecipeManager().getRecipeFor(Recipes.CRAFTING, inventorycrafting, this.level()).map((recipeholder) -> {
-+        Optional<Item> optional = this.level().getRecipeManager().getRecipeFor(Recipes.CRAFTING, inventorycrafting, this.level()).map((recipeholder) -> { // CraftBukkit - decompile error
-             return ((RecipeCrafting) recipeholder.value()).assemble(inventorycrafting, this.level().registryAccess());
-         }).map(ItemStack::getItem);
- 
 @@ -402,10 +423,18 @@
              public boolean stillValid(EntityHuman entityhuman) {
                  return false;

@@ -35,17 +35,3 @@
              }
  
          }
-@@ -648,10 +656,10 @@
-         private final EntityCat cat;
- 
-         public a(EntityCat entitycat, Class<T> oclass, float f, double d0, double d1) {
--            Predicate predicate = IEntitySelector.NO_CREATIVE_OR_SPECTATOR;
-+            // Predicate predicate = IEntitySelector.NO_CREATIVE_OR_SPECTATOR; // CraftBukkit - decompile error
- 
--            Objects.requireNonNull(predicate);
--            super(entitycat, oclass, f, d0, d1, predicate::test);
-+            // Objects.requireNonNull(predicate); // CraftBukkit - decompile error
-+            super(entitycat, oclass, f, d0, d1, IEntitySelector.NO_CREATIVE_OR_SPECTATOR::test); // CraftBukkit - decompile error
-             this.cat = entitycat;
-         }
- 

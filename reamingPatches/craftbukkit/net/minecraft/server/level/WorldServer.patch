@@ -158,15 +158,6 @@
                          entity.discard();
                      } else if (!tickratemanager.isEntityFrozen(entity)) {
                          gameprofilerfiller.push("checkDespawn");
-@@ -432,7 +495,7 @@
- 
-     private void wakeUpAllPlayers() {
-         this.sleepStatus.removeAllSleepers();
--        ((List) this.players.stream().filter(EntityLiving::isSleeping).collect(Collectors.toList())).forEach((entityplayer) -> {
-+        (this.players.stream().filter(EntityLiving::isSleeping).collect(Collectors.toList())).forEach((entityplayer) -> { // CraftBukkit - decompile error
-             entityplayer.stopSleepInBed(false, false);
-         });
-     }
 @@ -459,7 +522,7 @@
                          entityhorseskeleton.setTrap(true);
                          entityhorseskeleton.setAge(0);
@@ -555,24 +546,6 @@
      }
  
      @Nullable
-@@ -1621,7 +1831,7 @@
-     private static <T> String getTypeCount(Iterable<T> iterable, Function<T, String> function) {
-         try {
-             Object2IntOpenHashMap<String> object2intopenhashmap = new Object2IntOpenHashMap();
--            Iterator iterator = iterable.iterator();
-+            Iterator<T> iterator = iterable.iterator(); // CraftBukkit - decompile error
- 
-             while (iterator.hasNext()) {
-                 T t0 = iterator.next();
-@@ -1630,7 +1840,7 @@
-                 object2intopenhashmap.addTo(s, 1);
-             }
- 
--            return (String) object2intopenhashmap.object2IntEntrySet().stream().sorted(Comparator.comparing(Entry::getIntValue).reversed()).limit(5L).map((entry) -> {
-+            return (String) object2intopenhashmap.object2IntEntrySet().stream().sorted(Comparator.comparing(Entry<String>::getIntValue).reversed()).limit(5L).map((entry) -> { // CraftBukkit - decompile error
-                 String s1 = (String) entry.getKey();
- 
-                 return s1 + ":" + entry.getIntValue();
 @@ -1641,17 +1851,33 @@
      }
  

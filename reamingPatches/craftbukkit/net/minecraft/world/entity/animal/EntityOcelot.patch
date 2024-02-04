@@ -9,17 +9,4 @@
                      this.setTrusting(true);
                      this.spawnTrustingParticles(true);
                      this.level().broadcastEntityEvent(this, (byte) 41);
-@@ -315,10 +315,10 @@
-         private final EntityOcelot ocelot;
- 
-         public a(EntityOcelot entityocelot, Class<T> oclass, float f, double d0, double d1) {
--            Predicate predicate = IEntitySelector.NO_CREATIVE_OR_SPECTATOR;
-+            // Predicate predicate = IEntitySelector.NO_CREATIVE_OR_SPECTATOR; // CraftBukkit - decompile error
- 
--            Objects.requireNonNull(predicate);
--            super(entityocelot, oclass, f, d0, d1, predicate::test);
-+            // Objects.requireNonNull(predicate); // CraftBukkit - decompile error
-+            super(entityocelot, oclass, f, d0, d1, IEntitySelector.NO_CREATIVE_OR_SPECTATOR::test); // CraftBukkit - decompile error
-             this.ocelot = entityocelot;
-         }
  

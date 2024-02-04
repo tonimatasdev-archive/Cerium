@@ -65,15 +65,6 @@
      @Override
      public MapCodec<? extends BlockChest> codec() {
          return BlockChest.CODEC;
-@@ -278,7 +293,7 @@
- 
-     @Override
-     public DoubleBlockFinder.Result<? extends TileEntityChest> combine(IBlockData iblockdata, World world, BlockPosition blockposition, boolean flag) {
--        BiPredicate bipredicate;
-+        BiPredicate<GeneratorAccess, BlockPosition> bipredicate; // CraftBukkit - decompile error
- 
-         if (flag) {
-             bipredicate = (generatoraccess, blockposition1) -> {
 @@ -294,7 +309,14 @@
      @Nullable
      @Override

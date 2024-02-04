@@ -9,12 +9,3 @@
  
          if (entitypigzombie != null) {
              entitypigzombie.addEffect(new MobEffect(MobEffects.CONFUSION, 200, 0));
-@@ -132,7 +132,7 @@
-     @Nullable
-     @Override
-     public EntityLiving getTarget() {
--        return (EntityLiving) this.brain.getMemory(MemoryModuleType.ATTACK_TARGET).orElse((Object) null);
-+        return (EntityLiving) this.brain.getMemory(MemoryModuleType.ATTACK_TARGET).orElse(null); // CraftBukkit - decompile error
-     }
- 
-     protected boolean isHoldingMeleeWeapon() {

@@ -25,15 +25,6 @@
      public DefinedStructure() {
          this.size = BaseBlockPosition.ZERO;
          this.author = "?";
-@@ -143,7 +154,7 @@
-     }
- 
-     private static List<DefinedStructure.BlockInfo> buildInfoList(List<DefinedStructure.BlockInfo> list, List<DefinedStructure.BlockInfo> list1, List<DefinedStructure.BlockInfo> list2) {
--        Comparator<DefinedStructure.BlockInfo> comparator = Comparator.comparingInt((definedstructure_blockinfo) -> {
-+        Comparator<DefinedStructure.BlockInfo> comparator = Comparator.<DefinedStructure.BlockInfo>comparingInt((definedstructure_blockinfo) -> { // CraftBukkit - decompile error
-             return definedstructure_blockinfo.pos.getY();
-         }).thenComparingInt((definedstructure_blockinfo) -> {
-             return definedstructure_blockinfo.pos.getX();
 @@ -229,6 +240,19 @@
          if (this.palettes.isEmpty()) {
              return false;
@@ -136,12 +127,3 @@
      }
  
      private void loadPalette(HolderGetter<Block> holdergetter, NBTTagList nbttaglist, NBTTagList nbttaglist1) {
-@@ -858,7 +909,7 @@
-         public IBlockData stateFor(int i) {
-             IBlockData iblockdata = (IBlockData) this.ids.byId(i);
- 
--            return iblockdata == null ? DefinedStructure.b.DEFAULT_BLOCK_STATE : iblockdata;
-+            return iblockdata == null ? DEFAULT_BLOCK_STATE : iblockdata; // CraftBukkit - decompile error
-         }
- 
-         public Iterator<IBlockData> iterator() {

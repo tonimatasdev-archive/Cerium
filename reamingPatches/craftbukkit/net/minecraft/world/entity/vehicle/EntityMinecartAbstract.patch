@@ -33,15 +33,6 @@
      protected EntityMinecartAbstract(EntityTypes<?> entitytypes, World world) {
          super(entitytypes, world);
          this.targetDeltaMovement = Vec3D.ZERO;
-@@ -128,7 +147,7 @@
-                 object = new EntityMinecartRideable(worldserver, d0, d1, d2);
-         }
- 
--        Object object1 = object;
-+        EntityMinecartAbstract object1 = (EntityMinecartAbstract) object; // CraftBukkit- decompile error
- 
-         EntityTypes.createDefaultStackConfig(worldserver, itemstack, entityhuman).accept(object1);
-         return (EntityMinecartAbstract) object1;
 @@ -267,6 +286,14 @@
  
      @Override

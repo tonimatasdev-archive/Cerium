@@ -127,15 +127,6 @@
              int i = Math.max(0, this.server.getSpawnRadius(worldserver));
              int j = MathHelper.floor(worldserver.getWorldBorder().getDistanceToBorder((double) blockposition.getX(), (double) blockposition.getZ()));
  
-@@ -337,7 +427,7 @@
-     public void readAdditionalSaveData(NBTTagCompound nbttagcompound) {
-         super.readAdditionalSaveData(nbttagcompound);
-         if (nbttagcompound.contains("warden_spawn_tracker", 10)) {
--            DataResult dataresult = WardenSpawnTracker.CODEC.parse(new Dynamic(DynamicOpsNBT.INSTANCE, nbttagcompound.get("warden_spawn_tracker")));
-+            DataResult<WardenSpawnTracker> dataresult = WardenSpawnTracker.CODEC.parse(new Dynamic(DynamicOpsNBT.INSTANCE, nbttagcompound.get("warden_spawn_tracker"))); // CraftBukkit - decompile error
-             Logger logger = EntityPlayer.LOGGER;
- 
-             Objects.requireNonNull(logger);
 @@ -356,17 +446,26 @@
          if (nbttagcompound.contains("recipeBook", 10)) {
              this.recipeBook.fromNbt(nbttagcompound.getCompound("recipeBook"), this.server.getRecipeManager());
@@ -159,20 +150,10 @@
              this.respawnForced = nbttagcompound.getBoolean("SpawnForced");
              this.respawnAngle = nbttagcompound.getFloat("SpawnAngle");
              if (nbttagcompound.contains("SpawnDimension")) {
--                DataResult dataresult1 = World.RESOURCE_KEY_CODEC.parse(DynamicOpsNBT.INSTANCE, nbttagcompound.get("SpawnDimension"));
-+                DataResult<ResourceKey<World>> dataresult1 = World.RESOURCE_KEY_CODEC.parse(DynamicOpsNBT.INSTANCE, nbttagcompound.get("SpawnDimension")); // CraftBukkit - decompile error
+                 DataResult dataresult1 = World.RESOURCE_KEY_CODEC.parse(DynamicOpsNBT.INSTANCE, nbttagcompound.get("SpawnDimension"));
                  Logger logger1 = EntityPlayer.LOGGER;
  
                  Objects.requireNonNull(logger1);
-@@ -379,7 +478,7 @@
-     @Override
-     public void addAdditionalSaveData(NBTTagCompound nbttagcompound) {
-         super.addAdditionalSaveData(nbttagcompound);
--        DataResult dataresult = WardenSpawnTracker.CODEC.encodeStart(DynamicOpsNBT.INSTANCE, this.wardenSpawnTracker);
-+        DataResult<NBTBase> dataresult = WardenSpawnTracker.CODEC.encodeStart(DynamicOpsNBT.INSTANCE, this.wardenSpawnTracker); // CraftBukkit - decompile error
-         Logger logger = EntityPlayer.LOGGER;
- 
-         Objects.requireNonNull(logger);
 @@ -400,7 +499,20 @@
          Entity entity = this.getRootVehicle();
          Entity entity1 = this.getVehicle();

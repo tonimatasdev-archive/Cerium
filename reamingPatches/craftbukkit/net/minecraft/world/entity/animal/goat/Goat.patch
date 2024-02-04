@@ -13,15 +13,6 @@
  public class Goat extends EntityAnimal {
  
      public static final EntitySize LONG_JUMPING_DIMENSIONS = EntitySize.scalable(0.9F, 1.3F).scale(0.7F);
-@@ -182,7 +188,7 @@
- 
-     @Override
-     public BehaviorController<Goat> getBrain() {
--        return super.getBrain();
-+        return (BehaviorController<Goat>) super.getBrain(); // CraftBukkit - decompile error
-     }
- 
-     @Override
 @@ -220,8 +226,15 @@
          ItemStack itemstack = entityhuman.getItemInHand(enumhand);
  

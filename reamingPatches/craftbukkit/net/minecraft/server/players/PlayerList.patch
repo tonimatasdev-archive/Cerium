@@ -85,8 +85,7 @@
 +        // CraftBukkit end
  
          if (nbttagcompound != null) {
--            DataResult dataresult = DimensionManager.parseLegacy(new Dynamic(DynamicOpsNBT.INSTANCE, nbttagcompound.get("Dimension")));
-+            DataResult<ResourceKey<World>> dataresult = DimensionManager.parseLegacy(new Dynamic(DynamicOpsNBT.INSTANCE, nbttagcompound.get("Dimension"))); // CraftBukkit - decompile error
+             DataResult dataresult = DimensionManager.parseLegacy(new Dynamic(DynamicOpsNBT.INSTANCE, nbttagcompound.get("Dimension")));
              Logger logger = PlayerList.LOGGER;
  
              Objects.requireNonNull(logger);
@@ -644,15 +643,6 @@
      public void broadcastAll(Packet<?> packet, ResourceKey<World> resourcekey) {
          Iterator iterator = this.players.iterator();
  
-@@ -665,7 +949,7 @@
-     }
- 
-     public void deop(GameProfile gameprofile) {
--        this.ops.remove((Object) gameprofile);
-+        this.ops.remove(gameprofile); // CraftBukkit - decompile error
-         EntityPlayer entityplayer = this.getPlayer(gameprofile.getId());
- 
-         if (entityplayer != null) {
 @@ -689,6 +973,7 @@
              entityplayer.connection.send(new PacketPlayOutEntityStatus(entityplayer, b0));
          }

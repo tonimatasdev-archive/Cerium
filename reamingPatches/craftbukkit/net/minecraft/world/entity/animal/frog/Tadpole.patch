@@ -1,14 +1,5 @@
 --- a/net/minecraft/world/entity/animal/frog/Tadpole.java
 +++ b/net/minecraft/world/entity/animal/frog/Tadpole.java
-@@ -68,7 +68,7 @@
- 
-     @Override
-     public BehaviorController<Tadpole> getBrain() {
--        return super.getBrain();
-+        return (BehaviorController<Tadpole>) super.getBrain(); // CraftBukkit - decompile error
-     }
- 
-     @Override
 @@ -233,8 +233,14 @@
                  }
  

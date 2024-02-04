@@ -97,12 +97,3 @@
              }
  
          }
-@@ -1298,7 +1314,7 @@
-     private static class c extends PathfinderGoalNearestAttackableTarget<EntityHuman> {
- 
-         c(EntityBee entitybee) {
--            Objects.requireNonNull(entitybee);
-+            // Objects.requireNonNull(entitybee); // CraftBukkit - decompile error
-             super(entitybee, EntityHuman.class, 10, true, false, entitybee::isAngryAt);
-         }
- 

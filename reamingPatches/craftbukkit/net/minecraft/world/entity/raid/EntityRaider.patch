@@ -9,15 +9,6 @@
                      }
                  }
              }
-@@ -305,7 +305,7 @@
- 
-         private final T mob;
- 
--        public b(EntityRaider entityraider) {
-+        public b(T entityraider) { // CraftBukkit - decompile error
-             this.mob = entityraider;
-             this.setFlags(EnumSet.of(PathfinderGoal.Type.MOVE));
-         }
 @@ -521,7 +521,7 @@
              while (iterator.hasNext()) {
                  EntityRaider entityraider = (EntityRaider) iterator.next();
