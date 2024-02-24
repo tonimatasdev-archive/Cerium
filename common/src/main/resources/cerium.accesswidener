@@ -505,3 +505,4 @@ accessible field net/minecraft/world/level/chunk/storage/EntityStorage level Lne
 accessible method net/minecraft/world/level/GameRules$BooleanValue deserialize (Ljava/lang/String;)V
 accessible method net/minecraft/world/level/GameRules$IntegerValue deserialize (Ljava/lang/String;)V
 accessible method net/minecraft/server/MinecraftServer doRunTask (Lnet/minecraft/server/TickTask;)V
+accessible method net/minecraft/world/entity/monster/AbstractSkeleton getArrow (Lnet/minecraft/world/item/ItemStack;F)Lnet/minecraft/world/entity/projectile/AbstractArrow;
