@@ -52,7 +52,7 @@ public class InteractWithDoorMixin {
                         BlockPos blockPos = node.asBlockPos();
                         BlockState blockState = serverLevel.getBlockState(blockPos);
                         if (blockState.is(BlockTags.WOODEN_DOORS, (blockStateBase) -> {
-                            return blockStateBase.getBlock() instanceof DoorBlock;net.minecraft.world.entity.ai.behavior.HarvestFarmland
+                            return blockStateBase.getBlock() instanceof DoorBlock;
                         })) {
                             DoorBlock doorBlock = (DoorBlock)blockState.getBlock();
                             if (!doorBlock.isOpen(blockState)) {
